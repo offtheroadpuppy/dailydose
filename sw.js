@@ -5,7 +5,6 @@ const ASSETS = [
 ];
 
 // 1. Install Event: Cache essential assets locally
-
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -16,7 +15,6 @@ self.addEventListener('install', (event) => {
 
 
 // 2. Fetch Event: Intercept network calls to serve cached files when offline
-
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {

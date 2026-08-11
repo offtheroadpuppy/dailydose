@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <link rel="manifest" href="manifest.json">
   <title>Daily Dose · Routine, Habits and Schedule · v6</title>
-  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover" />
   <link rel="stylesheet" href="style/main.css" />
   <link rel="stylesheet" href="style/banners.css" />
@@ -3199,6 +3199,7 @@
     // 1. Intercept the browser's automatic installation prompt
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
+        console.log('[InstallBanner] Before installation');
         console.log(deferredPrompt);
         deferredPrompt = e;
         if (installBanner) {
@@ -3210,6 +3211,7 @@
     // 2. User clicks the "Install" action button inside our banner
     if (btnTriggerInstall) {
         btnTriggerInstall.addEventListener('click', async () => {
+          console.log('[InstallBanner] Installation');
           console.log(deferredPrompt);
             if (!deferredPrompt) return;
             if (typeof triggerHaptic === 'function') triggerHaptic(15);
