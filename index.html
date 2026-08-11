@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- <link rel="manifest" href="manifest.json"> -->
+  <link rel="manifest" href="manifest.json">
   <title>Daily Dose · Routine, Habits and Schedule · v6</title>
   <link rel="icon" type="image/x-icon" href="./favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover" />
@@ -89,7 +89,7 @@
         </div> -->
 
         <!-- Immersive Android-style Install Banner -->
-        <!-- <div class="card d-none" id="installBanner" style="background-color: var(--active-blue-bg); border-color: #0b57d0;">
+        <div class="card d-none" id="installBanner" style="background-color: var(--active-blue-bg); border-color: #0b57d0;">
             <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
                 <h3 style="color: var(--active-blue-text); font-size: 16px;">Add to Home Screen</h3>
                 <p style="color: var(--active-blue-text); font-size: 13px; opacity: 0.9;">
@@ -100,7 +100,7 @@
                 <button class="android-btn" id="btnDismissInstall" style="background: none; color: #0b57d0; font-weight: 600;">Not Now</button>
                 <button class="android-btn" id="btnTriggerInstall" style="background-color: #0b57d0; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">Install</button>
             </div>
-        </div> -->
+        </div>
 
         <!-- PAGE 1: HOME / TODAY -->
         <div class="screen app-page d-none" id="page-daily">
@@ -2772,18 +2772,7 @@
 
 
     /* ---------------------------------------------------------------------*/
-
-
     /* ---------------------------------------------------------------------*/
-
-
-    /* ---------------------------------------------------------------------
-       Notifications: ask permission, poll every 20s for matching times
-    --------------------------------------------------------------------- */
-
-
-
-
 
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
@@ -2845,18 +2834,6 @@
 
       }
     }
-
-    // function updateTabPosition() {
-    //   const offset = currentIndex * -100; // Shift left by 100% per active index
-    //   container.style.transform = `translateX(${offset / totalTabs}%)`;
-    // }
-    // function showScreen(index) {
-    //   if (index >= 0 && index < screens.length) {
-    //     screens[currentScreen].classList.add('d-none');
-    //     currentScreen = index;
-    //     screens[currentScreen].classList.remove('d-none');
-    //   }
-    // }
 
 
     /* ---------------------------------------------------------------------*/
@@ -3201,16 +3178,6 @@
 
 
 
-    /* ---------------------------------------------------------------------*/
-
-
-
-
-
-
-
-
-
 
     /* ---------------------------------------------------------------------*/
     // Register Service Worker to enable PWA installation capabilities
@@ -3225,19 +3192,14 @@
 
     // Native PWA Installation Capture Framework
     let deferredPrompt;
-    const installBanner = document.getElementById('installBanner');
-    const btnTriggerInstall = document.getElementById('btnTriggerInstall');
-    const btnDismissInstall = document.getElementById('btnDismissInstall');
+    const installBanner = $('installBanner');
+    const btnTriggerInstall = $('btnTriggerInstall');
+    const btnDismissInstall = $('btnDismissInstall');
 
     // 1. Intercept the browser's automatic installation prompt
     window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent default mobile Chrome bottom sheet from showing instantly
         e.preventDefault();
-
-        // Store the trigger execution context event locally
         deferredPrompt = e;
-
-        // Unhide our custom native Material card layout banner
         if (installBanner) {
             installBanner.classList.remove('d-none');
         }
@@ -3248,21 +3210,11 @@
     if (btnTriggerInstall) {
         btnTriggerInstall.addEventListener('click', async () => {
             if (!deferredPrompt) return;
-
-            // Fire native click tap haptic feedback vibration
             if (typeof triggerHaptic === 'function') triggerHaptic(15);
-
-            // Show the real mobile operating system confirmation sheet
             deferredPrompt.prompt();
-
-            // Wait for user choice evaluation feedback response
             const { outcome } = await deferredPrompt.userChoice;
             console.log(`User installation resolution choice: ${outcome}`);
-
-            // Clean up memory space tracking
             deferredPrompt = null;
-
-            // Hide our app banner since the flow is complete
             installBanner.classList.add('d-none');
         });
     }
@@ -3271,7 +3223,6 @@
     if (btnDismissInstall) {
         btnDismissInstall.addEventListener('click', () => {
             if (typeof triggerHaptic === 'function') triggerHaptic(10);
-            // Safely hide banner from sight
             installBanner.classList.add('d-none');
         });
     }
