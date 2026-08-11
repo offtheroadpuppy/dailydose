@@ -361,6 +361,18 @@
               <option value="other">📌 Other</option>
             </select>
           </div>
+          <div class="field">
+            <label>Context</label>
+            <select id="f_context">
+              <option value="Здоровье">🏃 Здоровье</option>
+              <option value="Работа">💻 Работа</option>
+              <option value="Быт">🏠 Быт</option>
+              <option value="Отдых">🛋️ Отдых</option>
+              <option value="Развитие">🚀 Развитие</option>
+              <option value="Достижение">🏆 Достижение</option>
+              <option value="Другое">📌 Другое</option>
+            </select>
+          </div>
 
           <div class="section-label">Time of day</div>
           <div class="field">
@@ -407,7 +419,10 @@
                 <div class="hint" id="windowPreview"></div>
               </div>
 
-
+          <div class="section-label">Duration</div>
+          <div class="field">
+            <input type="time" id="f_duration" value="00:10" />
+          </div>
 
           <div class="section-label">Repeats</div>
           <div class="field">
@@ -568,6 +583,7 @@
 
     const pad = (n) => String(n).padStart(2,'0');
     const dateStr = (d) => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    const dateStrView = (d) => `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`;
     const todayStr = () => dateStr(new Date());
     const isValidDate = (date) => date instanceof Date && !isNaN(date);
 
@@ -1106,7 +1122,7 @@
         // logger.warn(`[DEBUG] Stage: ${debugStage++} in switchDateAndRender()`);
 
         if ( isValidDate(viewDate) ) {
-          logger.info(`[CALENDAR] Rendering ${dateStr(viewDate)}`);
+          logger.info(`[CALENDAR] Rendering ${dateStrView(viewDate)}`);
         }
         else {
           viewDate = new Date();
@@ -1468,7 +1484,7 @@
     function positionTasks() {
       // logger.warn(`[DEBUG] Stage: ${debugStage++} in positionTasks() #${debug__positionTasks++}`);
 
-        logger.info('[CALENDAR] Clear day and fill in content');
+        // logger.info('[CALENDAR] Clear day and fill in content');
 
         const container = document.getElementById('gridContainer');
         if (!container) return;
@@ -1796,6 +1812,7 @@
             container.appendChild(achievePill);
         });
 
+        showToast(`Rendered ${dateStrView(viewDate)}`);
     }
 
     function timeToDecimal(timeString) {
@@ -1827,7 +1844,7 @@
 
     // Функция раскрытия элементов (Процессов и Задач)
     function initCardExpansion() {
-      logger.warn(`[DEBUG] Stage: ${debugStage++} in initCardExpansion()`);
+      // logger.warn(`[DEBUG] Stage: ${debugStage++} in initCardExpansion()`);
 
         // 1. Раскрытие карточек процессов
         const cards = document.querySelectorAll('.event-card');
@@ -2650,6 +2667,7 @@
 
       $('f_title').value = task ? task.title : '';
       $('f_category').value = task ? task.category : 'exercise';
+      $('f_context').value = task ? task.tags.context : 'Другое';
       $('f_notes').value = task ? (task.notes||'') : '';
       $('f_notify').checked = task ? task.notify !== false : true;
 
@@ -2658,6 +2676,10 @@
 
       const times = task ? (task.times || ['08:00']) : ['08:00'];
       $('f_time').value = times[0] || '08:00';
+
+      let durationValue = '00:00';
+      if (task) durationValue = pad(Math.floor(task.duration)) + ':' + pad(Math.round((task.duration % 1) * 60));
+      $('f_duration').value = durationValue;
 
       multiTimes = timeMode === 'multiple' ? [...times] : [];
       renderMultiTimeChips();
@@ -2731,6 +2753,10 @@
         windowFields = { windowStart:start, windowEnd:end, windowInterval:interval };
       }
 
+      const duration = timeToDecimal($('f_duration').value);
+      console.log("Set duration: ", 'Exists THEN '+ $('f_duration').value, duration );
+
+
       const recType = $('f_recurrence').value;
       const recurrence = { type: recType };
       if(recType === 'once'){
@@ -2745,11 +2771,15 @@
       const payload = {
         title,
         category: $('f_category').value,
+        tags: {
+          context: $('f_context').value
+        },
         notes: $('f_notes').value.trim(),
         notify: $('f_notify').checked,
         active: true,
         timeMode,
         times,
+        duration,
         ...windowFields,
         recurrence
       };
@@ -3202,9 +3232,9 @@
         console.log('[InstallBanner] Before install');
         // console.log(deferredPrompt);
         deferredPrompt = e;
-        if (installBanner) {
+        if ($('installBanner')) {
           if (/android/i.test(navigator.userAgent)) {
-            installBanner.classList.remove('d-none');
+            $('installBanner').classList.remove('d-none');
           }
         }
         // logger.info("[InstallBanner] function OK");
@@ -3212,7 +3242,7 @@
 
     window.addEventListener('appinstalled', () => {
         deferredPrompt = null;
-        installBanner.classList.add('d-none');
+        $('installBanner').classList.add('d-none');
         console.log('PWA was successfully installed on Android!');
     });
 
@@ -3227,7 +3257,7 @@
             const { outcome } = await deferredPrompt.userChoice;
             console.log(`User installation resolution choice: ${outcome}`);
             deferredPrompt = null;
-            installBanner.classList.add('d-none');
+            $('installBanner').classList.add('d-none');
         });
     }
 
@@ -3235,7 +3265,7 @@
     if (btnDismissInstall) {
         btnDismissInstall.addEventListener('click', () => {
             if (typeof triggerHaptic === 'function') triggerHaptic(10);
-            installBanner.classList.add('d-none');
+            $('installBanner').classList.add('d-none');
         });
     }
 
