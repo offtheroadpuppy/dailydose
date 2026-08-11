@@ -1,4 +1,4 @@
-const CACHE_NAME = 'DailyDose-cache';
+const CACHE_NAME = 'DailyDose_cache';
 const ASSETS = [
   './index.html',
   './manifest.json'
