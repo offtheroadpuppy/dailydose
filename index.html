@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <!-- <link rel="manifest" href="manifest.json"> -->
-  <title>Daily Dose · Routine, Habits and Schedule · v5</title>
+  <title>Daily Dose · Routine, Habits and Schedule · v6</title>
   <link rel="icon" type="image/x-icon" href="./favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover" />
   <link rel="stylesheet" href="style/main.css" />
@@ -12,9 +12,6 @@
   <link rel="stylesheet" href="style/page-daily.css" />
 </head>
 <body>
-
-
-  <!-- Header -->
   <header class="app-header">
     <button class="menu-btn" id="menuToggle">
       <!-- Menu Icon SVG -->
@@ -25,21 +22,15 @@
     <div class="app-title" id="appHeaderTitle">Daily Dose</div>
   </header>
 
-
   <!-- Native Android Network Connectivity Status Bar -->
   <div class="network-status-bar" id="networkStatusBar">
       <span style="margin-top: 2px;">App launching...</span>
   </div>
 
-  <!-- <div class="d-none" id=""> -->
-
     <!-- Body Layout Wrapper -->
     <div class="app-body" id="appBody">
-
-      <!-- Sidebar Backdrop Overlay -->
       <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-      <!-- Sidebar Navigation Drawer -->
       <aside class="screen app-sidebar" id="appSidebar">
 
         <div class="sidebar-links">
@@ -77,37 +68,25 @@
 
       </aside>
 
-      <!-- Main Content -->
       <main class="main-content" id="mainContent">
-
-        <!-- Dynamic Loading Shield overlay block -->
         <div id="page-loader" class="loader-overlay d-none">
             <div class="spinner"></div>
             <p>Get your daily doses😉
               <br />Loading data...</p>
         </div>
+        <div id="toast"></div>
 
-        <!-- Pull to Refresh Spinner -->
-        <div class="pull-to-refresh" id="ptrIndicator">
+        <!-- <div class="pull-to-refresh" id="ptrIndicator">
           <div class="spinner-container">
             <svg class="android-icon" viewBox="0 -960 960 960">
               <path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 131.5 28.5T724-694v-66h80v200H604v-80h90q-36-46-88.5-73T480-740q-109 0-184.5 75.5T220-480q0 109 75.5 184.5T480-220q93 0 162.5-56t84.5-144h81q-16 122-106.5 201T480-160Z"/>
             </svg>
           </div>
-        </div>
+        </div> -->
 
-        <!-- User-Friendly Status Notice Banner (Hidden by Default)
-          Ошибки, предупреждения, успехи и прочее. Финальный статус
-        -->
-        <div class="profile-status-banner" id="profileStatusBanner">
+        <!-- <div class="profile-status-banner" id="profileStatusBanner">
             <span class="banner-text" id="profileStatusText">Status message...</span>
-        </div>
-
-        <!--
-          Инициализации, состояния, обращения, чтение, ожидание и прочее. Процесс
-        -->
-        <div id="toast"></div>
-
+        </div> -->
 
         <!-- Immersive Android-style Install Banner -->
         <!-- <div class="card d-none" id="installBanner" style="background-color: var(--active-blue-bg); border-color: #0b57d0;">
@@ -121,11 +100,6 @@
                 <button class="android-btn" id="btnDismissInstall" style="background: none; color: #0b57d0; font-weight: 600;">Not Now</button>
                 <button class="android-btn" id="btnTriggerInstall" style="background-color: #0b57d0; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">Install</button>
             </div>
-        </div> -->
-
-
-        <!-- PAGE 1:  -->
-        <!-- <div class="app-page d-none" id="page-home">
         </div> -->
 
         <!-- PAGE 1: HOME / TODAY -->
@@ -155,9 +129,6 @@
 
               </div>
           </div>
-
-
-
         </div>
 
         <!-- PAGE 2: CHECKLIST VIEW -->
@@ -183,7 +154,7 @@
         </div>
 
         <!-- PAGE 4: ALERTS -->
-        <div class="screen app-page d-none" id="page-alerts">
+        <!-- <div class="screen app-page d-none" id="page-alerts">
           <div class="card">
             <h2>02.08.2026 To be done: </h2>
             <p> - Не работает виброотклик
@@ -191,13 +162,7 @@
             </p>
           </div>
 
-          <!-- Target dynamic mounting point zone -->
-          <div id="userDynamicFeed">
-            <!-- <div class="card">
-              <h2>Loading secure session...</h2>
-              <p>Verifying authentication clearance maps.</p>
-            </div> -->
-          </div>
+          <div id="userDynamicFeed"></div>
 
           <div class="card">
             <h2>31.07.2026 What's new</h2>
@@ -208,23 +173,10 @@
             </p>
           </div>
 
-          <!-- <div class="card">
-            <h2>Scrollable Content</h2>
-            <p>The header and bottom navigation bar stay locked in place while only this main section scrolls.</p>
-          </div> -->
-
-          <!-- <div class="card">
-            <h2>Vector Icons</h2>
-            <p>The code directly hosts native SVGs. They look identical to Google's layout styling and never fail to load.</p>
-          </div> -->
-
-          <!-- Dummy content to show scroll behavior -->
           <div style="height: 600px;"></div>
-        </div>
-
+        </div> -->
 
         <!-- SIDEBAR PAGES -->
-
         <!-- PAGE 5: PROFILE & AUTH -->
         <div class="app-page d-none" id="page-profile">
 
@@ -295,7 +247,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- PAGE 6: SETTINGS -->
         <div class="app-page d-none" id="page-settings">
@@ -387,7 +338,6 @@
         </div>
 
       </main>
-
       <button class="fab d-none" id="fabAdd" title="Add task">+</button>
 
       <!-- ===================== TASK MODAL ===================== -->
@@ -522,7 +472,6 @@
 
     </div>
 
-
     <!-- Bottom Navigation Bar -->
     <footer class="app-footer">
       <a href="#" class="nav-item active" data-target="page-daily" data-title="Daily Page">
@@ -532,7 +481,6 @@
         <span>Daily</span>
       </a>
 
-      <!-- PAGE 2: CHECKLIST VIEW -->
       <a href="#" class="nav-item" data-target="page-checklist" data-title="Checklist">
         <svg class="android-icon" style="fill: none;" xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24" width="24" height="24"
@@ -545,9 +493,6 @@
       </a>
 
       <a href="#" class="nav-item" data-target="page-tasks" data-title="Manage Tasks">
-        <!-- <svg class="android-icon" viewBox="0 -960 960 960">
-          <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l372 252-56 56ZM380-200q75 0 127.5-52.5T560-380q0-75-52.5-127.5T380-560q-75 0-127.5 52.5T200-380q0 75 52.5 127.5T380-200Z"/>
-        </svg> -->
         <svg class="android-icon" style="fill: none;" xmlns="http://w3.org"
              viewBox="0 0 24 24" width="24" height="24"
              fill="none" stroke="currentColor" stroke-width="2"
@@ -558,66 +503,15 @@
         <span>Manage</span>
       </a>
 
-      <a href="#" class="nav-item" data-target="page-alerts" data-title="Notifications">
+      <!-- <a href="#" class="nav-item" data-target="page-alerts" data-title="Notifications">
         <svg class="android-icon" viewBox="0 -960 960 960">
           <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 18 130 82.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/>
         </svg>
         <span>Notifications</span>
-      </a>
+      </a> -->
     </footer>
 
-  <!-- </div> -->
   <script type="module">
-    const $ = (id) => document.getElementById(id);
-
-    // if ( $('page-loader') )         $('page-loader').classList.remove('d-none');
-    // if ( $('mainContent') )         $('mainContent').classList.add('d-none');
-    // if ( $('menuToggle') )          $('menuToggle').style.visibility = 'hidden';
-
-    //Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCrF3deQA354FumQcOhaJlm9B1zPcrD5UY",
-      authDomain: "rhsapp-35f09.firebaseapp.com",
-      projectId: "rhsapp-35f09",
-      storageBucket: "rhsapp-35f09.firebasestorage.app",
-      messagingSenderId: "829502451422",
-      appId: "1:829502451422:web:ac5d3e06003f1ac39d5c4f"
-    };
-
-
-    const mainContent = $('mainContent');
-    const ptrIndicator = $('ptrIndicator');
-
-
-
-    // const elCalendar = $('calendar-picker');
-
-    // New user name defining
-    const conditions = ["Fresh", "Young", "Red", "Ripe", "Rotten" ,"Juicy" ,"Sweet" ,"Sour" ,"Bitter" ,"Crisp"];
-    const fruits = ["Apple", "Tomato", "Cucumber", "Banana", "Orange" ,"Strawberry" ,"Mango" ,"Lemon" ,"Melon" ,"Watermelon"];
-
-    // Application Global State Control
-    let currentUser = null;
-    // let currentDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
-    let viewDate = new Date();    // date currently shown on Today view
-    let isRegisterMode = false;
-    // let auth, db, currentUser = null;
-
-    // Initialize State Values
-    $('calendar-picker').value = viewDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD;
-    let unsubSchedule = null;
-    let debugStage = 0;
-
-    function getRandomName(conditionArray, fruitArray) {
-      const condition = conditionArray[Math.floor(Math.random() * conditionArray.length)];
-      const fruit = fruitArray[Math.floor(Math.random() * fruitArray.length)];
-      return `${condition} ${fruit}`;
-    }
-
-
-
-
-
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
@@ -632,6 +526,18 @@
 
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
+    const $ = (id) => document.getElementById(id);
+
+    //Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCrF3deQA354FumQcOhaJlm9B1zPcrD5UY",
+      authDomain: "rhsapp-35f09.firebaseapp.com",
+      projectId: "rhsapp-35f09",
+      storageBucket: "rhsapp-35f09.firebasestorage.app",
+      messagingSenderId: "829502451422",
+      appId: "1:829502451422:web:ac5d3e06003f1ac39d5c4f"
+    };
+
     const DEFAULT_SETTINGS = { dateFormat:'dd/mm/yyyy', timeFormat:'24h', weekStart:'mon' };
     const WEEKDAY_NAMES = [
       {en: 'Sun', ru_short: 'Вскр', ru_long: 'Воскресенье'},
@@ -642,8 +548,23 @@
       {en: 'Fri', ru_short: 'Пт',   ru_long: 'Пятница'},
       {en: 'Sat', ru_short: 'Сб',   ru_long: 'Суббота'}
     ];
-    // const days = ['', '', '', '', '', '', ''];
+    const parts = ['nightStart', 'morning', 'day', 'evening', 'nightEnd'];
+
+    const calendarConfig = {
+        nightStart: { startsAt: 0,  isCollapsed: true  },
+        morning:    { startsAt: 7,  isCollapsed: false },
+        day:        { startsAt: 11, isCollapsed: false },
+        evening:    { startsAt: 18, isCollapsed: false },
+        nightEnd:   { startsAt: 22, isCollapsed: false }
+    };
+    let occ = [];
+
     let storageName = 'app_dailydose_settings';
+    let currentUser = null;
+    let viewDate = new Date();
+    let isRegisterMode = false;
+    let unsubSchedule = null;
+    let debugStage = 0;
 
     const pad = (n) => String(n).padStart(2,'0');
     const dateStr = (d) => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
@@ -655,6 +576,14 @@
       ,checklist: []          // all checklist items
       ,completions: {}   // { dateStr: { "taskId__HH:MM": true, ... } }
     };
+
+    // Константные размеры ячеек для математических расчетов координат
+    // const HOUR_HEIGHT = 60;       // Высота часа (px)
+    // const BASE_HOUR_HEIGHT = 60;   // Минимальная высота часа (px)
+    const BASE_ROW_HEIGHT = 26;  // Высота одной 15-минутки по умолчанию (px)
+    const NIGHT_HEIGHT = 40;      // Высота ночного блока (px)
+    const DIVIDER_HEIGHT = 34;    // Высота строки-разделителя (px)
+
 
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
@@ -752,14 +681,12 @@
       }
     }
 
-    // 1. Notifications
     function requestNotificationPermission(){
       if('Notification' in window && Notification.permission === 'default'){
         Notification.requestPermission();
       }
     }
 
-    // 1. Universal Haptic Vibration Helper
     function triggerHaptic(pattern) {
         if ('vibrate' in navigator) {
             navigator.vibrate(pattern);
@@ -767,12 +694,19 @@
         }
     }
 
+    function getRandomName() {
+      const conditions = ["Fresh", "Young", "Red", "Ripe", "Rotten" ,"Juicy" ,"Sweet" ,"Sour" ,"Bitter" ,"Crisp"];
+      const fruits = ["Apple", "Tomato", "Cucumber", "Banana", "Orange" ,"Strawberry" ,"Mango" ,"Lemon" ,"Melon" ,"Watermelon"];
+      const condition = conditions[Math.floor(Math.random() * conditions.length)];
+      const fruit = fruits[Math.floor(Math.random() * fruits.length)];
+      return `${condition} ${fruit}`;
+    }
 
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
     // 2. Connection Tracking
     async function updateNetworkStatus() {
-      logger.warn(`[DEBUG] Stage: ${debugStage++} in updateNetworkStatus()`);
+      // logger.warn(`[DEBUG] Stage: ${debugStage++} in updateNetworkStatus()`);
 
       let hideTimeout;
           clearTimeout(hideTimeout); // Reset timers
@@ -822,7 +756,6 @@
       }
     }
 
-    // 2. UI Notice System
     function showProfileNotice(message, isSuccess = true) {
         const banner = document.getElementById('profileStatusBanner');
         const bannerText = document.getElementById('profileStatusText');
@@ -852,7 +785,7 @@
     const sidebarItems = document.querySelectorAll('.sidebar-item');
 
     function handleViewTransition(triggerElement) {
-      logger.warn(`[DEBUG] Stage: ${debugStage++} in handleViewTransition()`);
+      // logger.warn(`[DEBUG] Stage: ${debugStage++} in handleViewTransition()`);
 
         const appHeaderTitle = $('appHeaderTitle');
         const targetId = triggerElement.getAttribute('data-target');
@@ -899,7 +832,7 @@
         }
 
         // 5. Reset viewport back cleanly to top boundaries
-        if (mainContent) mainContent.scrollTop = 0;
+        if ($('mainContent')) $('mainContent').scrollTop = 0;
 
         logger.info(`Navigating to tab [${pageTitle}]`);
     }
@@ -919,7 +852,7 @@
     }
 
     function setCalendarDate() {
-        logger.warn(`[DEBUG] Stage: ${debugStage++} in setCalendarDate()`);
+        // logger.warn(`[DEBUG] Stage: ${debugStage++} in setCalendarDate()`);
 
         $('currentDayNum').innerText = pad(viewDate.getDate());
         $('currentDayName').innerText = (dateStr(viewDate) === todayStr() ? 'Сегодня · ' + WEEKDAY_NAMES[viewDate.getDay()].ru_short : WEEKDAY_NAMES[viewDate.getDay()].ru_long) ;
@@ -1055,7 +988,7 @@
     // let settings = loadSettings();
 
     function showSettings() {
-      logger.warn(`[DEBUG] Stage: ${debugStage++} in showSettings()`);
+      // logger.warn(`[DEBUG] Stage: ${debugStage++} in showSettings()`);
 
       $('s_dateFormat').value = settings.dateFormat;
       $('s_timeFormat').value = settings.timeFormat;
@@ -1170,7 +1103,7 @@
     /* ---------------------------------------------------------------------*/
     // 5.
     function switchDateAndRender() {
-        logger.warn(`[DEBUG] Stage: ${debugStage++} in switchDateAndRender()`);
+        // logger.warn(`[DEBUG] Stage: ${debugStage++} in switchDateAndRender()`);
 
         if ( isValidDate(viewDate) ) {
           logger.info(`[CALENDAR] Rendering ${dateStr(viewDate)}`);
@@ -1182,6 +1115,876 @@
 
         setCalendarDate();
         renderFullCalendar();
+    }
+
+    function updateDividerCounters() {
+        const doneMap = dataCache.completions[dateStr(viewDate)] || {};
+
+        parts.forEach(part => {
+            const divider = document.querySelector(`.day-part-divider.${part}`);
+            if (!divider) return;
+
+            const oldCounter = divider.querySelector('.divider-info-counter');
+            if (oldCounter) oldCounter.remove();
+
+            if (calendarConfig[part].isCollapsed === true) {
+                // Фильтруем все элементы текущей даты, попавшие в эту часть суток
+                const hiddenItems = occ.filter(item => getDayPartType(timeToDecimal(item.time)) === part);
+                const achievements = occ.filter( item => item.task.duration === 0 && item.task.tags.context === 'Достижение' );
+                // console.log(part);
+                // console.log(occ);
+                // console.log(hiddenItems);
+                // console.log(achievements);
+                if (part == 'nightEnd') {
+                  achievements.forEach(num => {
+                      hiddenItems.push(num);
+                  });
+                }
+                // console.log(achievements);
+                // console.log(hiddenItems);
+
+                //в hiddenItems не попадают Достижения, т.к. они не проходят по времени
+
+                // const allTodos = dayScheduleData.filter(item => item.duration === 0);
+
+                let infoText = "";
+
+                if (hiddenItems.length > 0) {
+                    // Разделяем скрытые элементы на процессы и To-Do
+                    const hiddenEvents = hiddenItems.filter( item => item.task.duration > 0 && item.task.tags.context !== 'Достижение' );
+                    const hiddenTodos = hiddenItems.filter( item => item.task.duration === 0 && item.task.tags.context !== 'Достижение' );
+                    // const achievements = hiddenItems.filter( item => item.task.duration === 0 && item.task.tags.context === 'Достижение' );
+                    // console.log(hiddenEvents);
+                    // const habits = hiddenItems.filter(item => item.tags.context === 'Достижение');
+
+                    if (achievements.length > 0) {
+                      const habitsCount = achievements.length;
+                      // const habitsCompletedCount = achievements.filter(item => item.done).length;
+                      // console.log(achievements);
+                      // console.log(dataCache.completions[dateStr(viewDate)]);
+                      const habitsCompletedCount = achievements
+                          .map(e => e.task.id + '__' + e.time)
+                          .filter(key => Object.hasOwn(doneMap, key) && doneMap[key] === true)
+                          .length;
+
+                      if (part === 'nightEnd') {
+                          if (infoText) {
+                            infoText += "; 🏆 достижений";
+                          } else {
+                            infoText += "🏆 Достижений"
+                          }
+                          if (habitsCount === 0) {
+                            infoText += ` пока нет`;
+                          } else if (habitsCompletedCount === 0) {
+                            infoText += ` пока нет: ${habitsCompletedCount}/${habitsCount}`;
+                          } else {
+                            infoText += `: ${habitsCompletedCount}/${habitsCount}`;
+                          }
+                      }
+                    }
+                    if (hiddenEvents.length > 0) {
+                        const firstEvent = hiddenEvents[0];
+                        console.log(firstEvent);
+                        // Если первый процесс выполнен, помечаем его словом "(сделано)"
+                        infoText += `${firstEvent.task.title}`; /*`${firstEvent.done ? ' (сделано)' : ''}`;*/
+
+                        // Если в этой части суток скрыто несколько процессов
+                        if (hiddenEvents.length > 1) {
+                            infoText += ` (+${hiddenEvents.length - 1})`;
+                        }
+                        const doneEventsCount = hiddenEvents
+                            .map(e => e.task.id + '__' + e.time)
+                            .filter(key => Object.hasOwn(doneMap, key) && doneMap[key] === true)
+                            .length;
+                        // const doneEventsCount = hiddenEvents.filter(e => e.done).length;
+                        infoText += `: ${doneEventsCount}/${hiddenEvents.length}`;
+                    }
+
+                    if (hiddenTodos.length > 0) {
+                        const totalTodos = hiddenTodos.length;
+                        const doneTodos = hiddenTodos
+                            .map(e => e.task.id + '__' + e.time)
+                            .filter(key => Object.hasOwn(doneMap, key) && doneMap[key] === true)
+                            .length;
+                        // console.log('hiddenTodos');
+                        // console.log(hiddenTodos);
+                        // const ids = hiddenTodos.map(e => e.task.id + '__' + e.time);
+                        // console.log('ids');
+                        // console.log(ids);
+                        // console.log('doneMap');
+                        // console.log(doneMap);
+                        // const doneTodos = hiddenTodos.filter(e => e.done).length;
+                        // console.log('dones');
+                        // console.log(doneTodos);
+                        // console.log(totalTodos ,doneTodos, ', ', habitsCount ,habitsCompletedCount );
+                        // if (hiddenTodos.length != habitsCount) {
+                          if (infoText) {
+                            infoText += "; 📋 задач";
+                          } else {
+                            infoText += "📋 Задач"
+                          }
+                          infoText += `: ${doneTodos}/${totalTodos}`;
+                        // }
+                    // } else {
+                    //     if (part === 'nightEnd') {
+                    //         if (infoText) {
+                    //           infoText += "; 🏆 достижений";
+                    //         } else {
+                    //           infoText += "🏆 Достижений"
+                    //         }
+                    //         if (habitsCount === 0) {
+                    //           infoText += ` пока нет`;
+                    //         }
+                    //     }
+                    }
+
+
+
+                } else {
+                    if (part === 'nightEnd') infoText += `🏆 Достижений пока нет`;
+                }
+                // Создаем и добавляем элемент подсказки на плашку
+                const counterEl = document.createElement('span');
+                counterEl.className = 'divider-info-counter';
+                counterEl.innerText = infoText;
+                divider.appendChild(counterEl);
+            }
+        });
+    }
+
+    function initDayPartCollapsing() {
+      // logger.warn(`[DEBUG] Stage: ${debugStage++} in initDayPartCollapsing()`);
+
+        // Вешаем обработчики кликов на плашки
+        parts.forEach(part => {
+            const divider = document.querySelector(`.day-part-divider.${part}`);
+            if (!divider) return;
+
+            const newDivider = divider.cloneNode(true);
+            divider.parentNode.replaceChild(newDivider, divider);
+
+            newDivider.addEventListener('click', () => {
+                // console.log("ONCLICK:", part, calendarConfig[part].isCollapsed);
+                calendarConfig[part].isCollapsed = !calendarConfig[part].isCollapsed;
+                newDivider.classList.toggle('is-collapsed', calendarConfig[part].isCollapsed);
+                adjustHourRowsHeight();
+                renderFullCalendar();
+            });
+        });
+        updateDividerCounters();
+    }
+
+    function initSettingsPanel() {
+        const inputMorning = $('input-morning');
+        const inputDay = $('input-day');
+        const inputEvening = $('input-evening');
+        const btnSubmit = $('submit-settings');
+
+        // 1. Проверяем, есть ли уже сохраненные настройки в памяти браузера
+        if (localStorage.getItem('calendarConfig')) {
+            const savedConfig = JSON.parse(localStorage.getItem('calendarConfig'));
+
+            // calendarConfig.nightStart.startsAt  = savedConfig.nightStart.startsAt;
+            calendarConfig.morning.startsAt     = savedConfig.morning.startsAt;
+            calendarConfig.day.startsAt         = savedConfig.evening.startsAt;
+            calendarConfig.evening.startsAt     = savedConfig.evening.startsAt;
+            // calendarConfig.nightEnd.startsAt    = savedConfig.nightEnd.startsAt;
+
+            inputMorning.value  = calendarConfig.morning.startsAt;
+            inputDay.value      = calendarConfig.day.startsAt;
+            inputEvening.value  = calendarConfig.evening.startsAt;
+        }
+
+        updateLabels();
+
+        function handleSliderMove() {
+            let morning = parseInt(inputMorning.value);
+            let day     = parseInt(inputDay.value);
+            let evening = parseInt(inputEvening.value);
+
+            // Защита от наложения ползунков друг на друга
+            if (morning >= day) {
+                day = morning + 1;
+                inputDay.value = day;
+            }
+            if (day >= evening) {
+                evening = day + 1;
+                inputEvening.value = evening;
+            }
+
+            updateLabels();
+        }
+
+        function updateLabels() {
+            $('val-morning').innerText  = inputMorning.value;
+            $('val-day').innerText      = inputDay.value;
+            $('val-evening').innerText  = inputEvening.value;
+        }
+
+        inputMorning.addEventListener('input', handleSliderMove);
+        inputDay.addEventListener('input', handleSliderMove);
+        inputEvening.addEventListener('input', handleSliderMove);
+
+        btnSubmit.addEventListener('click', () => {
+            calendarConfig.morning.startsAt = parseInt(inputMorning.value);
+            calendarConfig.day.startsAt     = parseInt(inputDay.value);
+            calendarConfig.evening.startsAt = parseInt(inputEvening.value);
+
+            localStorage.setItem('calendarConfig', JSON.stringify(calendarConfig));
+
+            renderFullCalendar();
+        });
+    }
+
+    // let debug__renderFullCalendar = 0;
+    function renderFullCalendar() {
+        // logger.warn(`[DEBUG] Stage: ${debugStage++} in renderFullCalendar() #${debug__renderFullCalendar++}`);
+
+        generateCalendarGrid();
+        adjustHourRowsHeight();
+        document.querySelectorAll('.event-card, .todo-pill').forEach(el => el.remove());
+        // positionEventsWithConflicts();
+        occ = occurrencesForDate(viewDate);
+        positionTasks();
+
+        updateGoogleTimeLine();
+        initCardExpansion();
+        initDayPartCollapsing(); // Переназначаем клики сворачивания на новые плашки
+    }
+
+    function getVerticalPixels(targetHour, targetMinutes = 0) {
+        const container = document.getElementById('gridContainer');
+
+        // 1. Считаем отступы разделителей суток, которые находятся ВЫШЕ целевого часа
+        let pixels = 0;
+
+        // Массив всех разделителей в порядке их следования в DOM
+        const partsOrder = ['nightStart', 'morning', 'day', 'evening', 'nightEnd'];
+        const targetPart = getDayPartType(targetHour);
+        const targetPartIndex = partsOrder.indexOf(targetPart);
+
+        // Добавляем высоту только тех разделителей, которые мы уже прошли по времени
+        for (let i = 0; i <= targetPartIndex; i++) {
+            const part = partsOrder[i];
+            const divider = document.querySelector(`.day-part-divider.${part}`);
+            if (divider) {
+                pixels += divider.offsetHeight;
+            }
+        }
+
+        // Приближаем минуты к нашей 15-минутной сетке (0, 15, 30, 45)
+        const stepMinute = Math.floor(targetMinutes / 15) * 15;
+
+        // 2. Перебираем абсолютно ВСЕ строки часов по порядку, начиная с 00:00
+        const allRows = document.querySelectorAll('.grid-row[data-hour]');
+        for (let row of allRows) {
+            const h = parseInt(row.dataset.hour);
+            const m = parseInt(row.dataset.minute);
+
+            // Если дошли до целевой строки (час и 15-минутный шаг совпали) — останавливаемся
+            if (h === targetHour && m === stepMinute) {
+                // Если сама строка скрыта, привязываем элемент к началу свернутого блока
+                if (row.classList.contains('hidden-by-collapse')) {
+                    break;
+                }
+                // Если строка открыта, добавляем точный хвостик минут внутри текущей 15-минутки
+                const remainderMinutes = targetMinutes - stepMinute;
+                const currentRowHeight = row.offsetHeight;
+                pixels += (remainderMinutes / 15) * currentRowHeight;
+                break;
+            }
+
+            // КРИТИЧЕСКИ ВАЖНО: Прибавляем высоту строки только если она НЕ скрыта сворачиванием!
+            if (!row.classList.contains('hidden-by-collapse')) {
+                pixels += row.offsetHeight;
+            }
+        }
+
+        return pixels;
+    }
+
+    function adjustHourRowsHeight() {
+      // logger.warn(`[DEBUG] Stage: ${debugStage++} in adjustHourRowsHeight()`);
+
+        const todoCountBySlot = {};
+        const busyHours = new Set();
+        // console.log(occ);
+
+        occ.forEach(item => {
+            const startHour = Math.floor(timeToDecimal(item.time));
+
+            if (item.task.duration === 0) {
+                // А: Это To-Do задача
+                busyHours.add(startHour);
+                const minutes = Math.floor((timeToDecimal(item.time) % 1) * 60);
+                const stepMinute = Math.floor(minutes / 15) * 15;
+                const slotKey = `${startHour}-${stepMinute}`;
+                todoCountBySlot[slotKey] = (todoCountBySlot[slotKey] || 0) + 1;
+            } else {
+                // Б: Это процесс (Event)
+                const endHour = Math.ceil(timeToDecimal(item.time) + item.task.duration);
+                for (let h = endHour; h < endHour; h++) {
+                    busyHours.add(h);
+                }
+            }
+        });
+        // console.log(todoCountBySlot);
+
+        const allRows = document.querySelectorAll('.grid-row[data-hour]');
+        allRows.forEach(row => {
+            const hour = parseInt(row.dataset.hour);
+            const minute = row.dataset.minute;
+            const slotKey = `${hour}-${minute}`;
+            const count = todoCountBySlot[slotKey] || 0;
+
+            // СБРОС СТАРЫХ КЛАССОВ СВЕРТЫВАНИЯ И ПУСТОТЫ
+            row.classList.remove('empty-hour-row', 'hidden-by-collapse');
+            row.style.display = ''; // Возвращаем грид-режим по умолчанию
+
+            // ОПРЕДЕЛЯЕМ, К КАКОМУ БЛОКУ ОТНОСИТСЯ СТРОКА ЧАСА
+            const currentPart = getDayPartType(hour);
+
+            // Если этот макро-блок сейчас свернут пользователем — прячем строку
+            if (calendarConfig[currentPart].isCollapsed === true) {
+                row.classList.add('hidden-by-collapse');
+                return; // Пропускаем дальнейшую настройку высоты
+            }
+
+            // Стандартная логика адаптивной высоты для открытых строк
+            if (count > 1) {
+                row.style.height = `${count * 24 + 4}px`;
+            }
+            else if (!busyHours.has(hour)) {
+                row.style.height = `16px`;
+                row.classList.add('empty-hour-row');
+            }
+            else {
+                row.style.height = `${BASE_ROW_HEIGHT}px`;
+            }
+        });
+    }
+
+    // let debug__positionTasks = 0;
+    function positionTasks() {
+      // logger.warn(`[DEBUG] Stage: ${debugStage++} in positionTasks() #${debug__positionTasks++}`);
+
+        logger.info('[CALENDAR] Clear day and fill in content');
+
+        const container = document.getElementById('gridContainer');
+        if (!container) return;
+        document.querySelectorAll('.event-card').forEach(card => card.remove());
+        document.querySelectorAll('.todo-pill').forEach(p => p.remove());
+
+        const ds = dateStr(viewDate);
+        const doneMap = dataCache.completions[ds] || {};
+        // const container = $('todayList');
+        // container.innerHTML = '';
+        // console.log(occ);
+
+        if(occ.length === 0){
+          // container.innerHTML = '<div class="empty-state">Nothing scheduled for this day.<br>Tap + to add a task.</div>';
+          console.log(`Nothing scheduled for ${dateStr(viewDate)}`);
+          showToast(`Nothing scheduled for ${dateStr(viewDate)}`);
+          // if ( $('page-loader') )         $('page-loader').classList.add('d-none');
+          return;
+        }
+
+        // Фильтруем ТОЛЬКО процессы
+        const events = occ.filter(item => (item.task.duration ?? 0) > 0);
+        events.sort((a, b) => timeToDecimal(a.time) - timeToDecimal(b.time));
+
+        let groups = [];
+        events.forEach(event => {
+            let placed = false;
+            for (let group of groups) {
+                let hasConflict = group.some(e => timeToDecimal(event.time) < (timeToDecimal(e.time) + e.duration) && (timeToDecimal(event.time) + event.duration) > timeToDecimal(e.time));
+                if (hasConflict) {
+                    group.push(event);
+                    placed = true;
+                    break;
+                }
+            }
+            if (!placed) groups.push([event]);
+        });
+
+        groups.forEach(group => {
+            let columns = [];
+            group.forEach(event => {
+                let colIndex = 0;
+                while (columns[colIndex] && columns[colIndex].some(e => timeToDecimal(event.time) < (timeToDecimal(e.time) + e.duration))) {
+                    colIndex++;
+                }
+                if (!columns[colIndex]) columns[colIndex] = [];
+                columns[colIndex].push(event);
+                event.colIndex = colIndex;
+            });
+
+            const totalCols = columns.length;
+            // console.log(totalCols);
+            // console.log(group);
+
+            group.forEach(({colIndex, task, time}, index) => {
+                const key = task.id + '__' + time;
+                const done = !!doneMap[key];
+                // console.log(task);
+                // console.log(colIndex, task.id, time, index);
+
+                const startHour = Math.floor(timeToDecimal(time));
+                const startMinutes = Math.round((timeToDecimal(time) % 1) * 60);
+                const endValue = timeToDecimal(time) + task.duration;
+                const endHour = Math.floor(endValue);
+                const endMinutes = Math.round((endValue % 1) * 60);
+
+                // if (task.title == 'Туалет') logger.error(`Туалет: ${time} или ${timeToDecimal(time)} часов, длительность ${task.duration} часов,
+                //     ${startHour} : ${startMinutes} или ${String(startMinutes).padStart(2, '0')} или ${formatTimeDisplay(time)}
+                //     ${endValue}, ${endHour} : ${endMinutes}
+                // `);
+
+                const topPx = getVerticalPixels(startHour, startMinutes);
+                const bottomPx = getVerticalPixels(endHour, endMinutes);
+                // console.log(startHour, startMinutes, endHour, endMinutes);
+                const cardHeight = bottomPx - topPx;
+
+                const calculatedType = getDayPartType(timeToDecimal(time));
+                const card = document.createElement('div');
+
+                card.className = `event-card ${calculatedType} ${done ? 'completed' : ''}`;
+                card.id = key;
+                card.dataset.time = timeToDecimal(time);
+                card.dataset.tag = task.tags ? task.tags.context : '';
+
+                card.style.top = `${topPx}px`;
+                card.style.height = `${cardHeight}px`;
+                card.style.width = `calc((100% - 90px) / ${totalCols})`;
+                card.style.left = `calc(65px + ((100% - 90px) * ${colIndex} / ${totalCols}))`;
+
+                const cardMeta = document.createElement('div');
+                      cardMeta.classList.add('event-meta-row');
+                const cardTitle = document.createElement('div');
+                      cardTitle.classList.add('event-title');
+                      cardTitle.innerHTML = task.title;
+                const cardDesc = document.createElement('div');
+                      cardDesc.classList.add('event-desc');
+                      cardDesc.innerHTML = `${task.notes}
+                          <br />[${CAT_LABEL[task.category]||'📌 Other'}]
+                      `;
+                const checkbox = document.createElement('input');
+                      checkbox.type = 'checkbox';
+                      // checkbox.id = key;
+                      checkbox.checked = done;
+                      checkbox.classList.add('event-checkbox');
+                      checkbox.addEventListener('change', (e) => {
+                          e.stopPropagation();
+                          // toggleItemState(`${task.task.id}`);
+                          console.log(`Onchange TASK ${task.id}, ${key}, ${ds}, ${!done}`);
+                          toggleCompletion(key, ds, !done);
+                      });
+                const text = document.createElement('span');
+                      text.classList.add('event-time');
+                      text.innerHTML = `${formatTimeDisplay(time)} - ${endHour}:${pad(endMinutes)}`;
+                const badge = document.createElement('span');
+                      badge.classList.add('event-tag-badge');
+                      badge.innerHTML = task.tags ? task.tags.context : '';
+                const acts = document.createElement('div');
+                      acts.classList.add('task-actions');
+                const btnEdit = document.createElement('button');
+                      btnEdit.classList.add('icon-btn');
+                      btnEdit.dataset.act = 'edit';
+                      btnEdit.textContent = '✏️';
+                      btnEdit.addEventListener('click', (e) => {
+                        openTaskModal(task);
+                      });
+                      // card.querySelector('[data-act=edit]').onclick = ()=> openTaskModal(task);
+                const btnDel = document.createElement('button');
+                      btnDel.classList.add('icon-btn');
+                      btnDel.dataset.act = 'del';
+                      btnDel.textContent = '🗑️';
+                      btnDel.addEventListener('click', (e) => {
+                        deleteTask(task.id);
+                      });
+                      // card.querySelector('[data-act=del]').onclick = ()=> deleteTask(task.id);
+
+                //
+                if (calendarConfig[calculatedType].isCollapsed === true)
+                      card.classList.add('hidden-by-collapse');
+
+                card.appendChild(cardMeta);
+                card.appendChild(cardTitle);
+                card.appendChild(cardDesc);
+
+                cardMeta.appendChild(checkbox);
+                cardMeta.appendChild(text);
+                cardMeta.appendChild(badge);
+
+                cardDesc.appendChild(acts);
+                acts.appendChild(btnEdit);
+                acts.appendChild(btnDel);
+
+                container.appendChild(card);
+            });
+        });
+
+
+        // Фильтруем ТОЛЬКО To-Do задачи
+        const allTodos = occ.filter(item => (item.task.duration ?? 0) === 0);
+        // console.log(allTodos);
+        const todos = allTodos.filter(item => item.task.tags && item.task.tags.context !== 'Достижение');
+        const achievements = allTodos.filter(item => item.task.tags && item.task.tags.context === 'Достижение');
+        // console.log(todos);
+        // console.log(achievements);
+        todos.sort((a, b) => timeToDecimal(a.time) - timeToDecimal(b.time));
+
+        const placedPills = [];
+
+        todos.forEach(({task, time}, index) => {
+            const key = task.id + '__' + time;
+            const done = !!doneMap[key];
+
+            const startHour = Math.floor(timeToDecimal(time));
+            const startMinutes = Math.floor((timeToDecimal(time) % 1) * 60);
+
+            let calculatedTop = getVerticalPixels(startHour, startMinutes);
+            // console.log(time, timeToDecimal(time), calculatedTop, startHour, startMinutes);
+
+            const pill = document.createElement('div');
+                  pill.className = `todo-pill ${done ? 'completed' : ''}`;
+                  pill.id = key;
+                  pill.dataset.tag = task.tags.context;
+
+            // Обычные почасовые To-Do задачи
+            if (startMinutes % 15 === 0) {
+                calculatedTop = calculatedTop - 10;
+            }
+            const pillHeight = 28;
+            const gap = -7;
+
+            placedPills.forEach(placed => {
+                if (!placed.isHabit && calculatedTop < (placed.top + pillHeight + gap) && (calculatedTop + pillHeight) > placed.top) {
+                    calculatedTop = placed.top + pillHeight + gap;
+                }
+            });
+            placedPills.push({ top: calculatedTop, isHabit: false });
+
+            pill.style.top = `${calculatedTop}px`;
+
+            const displayMinutes = pad(Math.round(startMinutes));
+            // const displayTime = `${String(startHour).padStart(2, '0')}:${displayMinutes}`;
+
+            const checkbox = document.createElement('input');
+                  checkbox.type = 'checkbox';
+                  // checkbox.id = task.id;
+                  checkbox.checked = done;
+                  checkbox.addEventListener('change', (e) => {
+                    e.stopPropagation();
+                    // toggleItemState(`${task.id}`);
+                    toggleCompletion(key, ds, !done);
+                    console.log(`Onchange TODO ${task.id}, ${key}, ${ds}, ${done}`);
+                  });
+                  // checkbox.onchange = ()=> toggleCompletion(key, ds, !done);
+            const block = document.createElement('div');
+                  block.classList.add('pill-text');
+                  block.innerHTML = `${escapeHtml(task.title)}: ${task.notes ? escapeHtml(task.notes) : ''}
+                    <br /><strong class="todo-tag-prefix">[${task.tags.context}]</strong> [${CAT_LABEL[task.category]||'📌 Other'}]
+                    <br />${formatTimeDisplay(time)}
+                  `;
+            // const cat = document.createElement('span');
+            //       cat.classList.add('cat-pill');
+            //       cat.innerHTML = `${CAT_LABEL[task.category]||'📌 Other'}`;
+            const acts = document.createElement('div');
+                  acts.classList.add('task-actions');
+            const btnEdit = document.createElement('button');
+                  btnEdit.classList.add('icon-btn');
+                  btnEdit.dataset.act = 'edit';
+                  btnEdit.textContent = '✏️';
+                  btnEdit.addEventListener('click', (e) => {
+                    openTaskModal(task);
+                  });
+                  // card.querySelector('[data-act=edit]').onclick = ()=> openTaskModal(task);
+            const btnDel = document.createElement('button');
+                  btnDel.classList.add('icon-btn');
+                  btnDel.dataset.act = 'del';
+                  btnDel.textContent = '🗑️';
+                  btnDel.addEventListener('click', (e) => {
+                    deleteTask(task.id);
+                  });
+                  // card.querySelector('[data-act=del]').onclick = ()=> deleteTask(task.id);
+
+            if (calendarConfig[getDayPartType(timeToDecimal(time))].isCollapsed === true)
+                  pill.classList.add('hidden-by-collapse');
+
+            pill.appendChild(checkbox);
+            pill.appendChild(block);
+            // block.appendChild(cat);
+            block.appendChild(acts);
+            acts.appendChild(btnEdit);
+            acts.appendChild(btnDel);
+
+            container.appendChild(pill);
+
+            // if ( $('page-loader') )         $('page-loader').classList.add('d-none');
+        });
+
+        const nightEndDivider = document.querySelector('.day-part-divider.nightEnd');
+        let baseTimelineBottom = getVerticalPixels(24, 0);
+
+        // console.log(achievements);
+        achievements.forEach(({task, time}, index) => {
+            const key = task.id + '__' + time;
+            const done = !!doneMap[key];
+            // console.log(task, time, index);
+
+            const achievePill = document.createElement('div');
+            achievePill.className = `todo-pill habit-pill ${done ? 'completed' : ''}`;
+            achievePill.id = key;
+            achievePill.dataset.tag = task.tags.context;
+
+            // Позиционирование: высота плашки (34px) + отступ сверху (10px) + шаг каждой карточки (42px)
+            const calculatedTop = baseTimelineBottom + (index * 37); /* 34 + 10 + */
+            // console.log(baseTimelineBottom, calculatedTop, );
+            achievePill.style.top = `${calculatedTop}px`;
+
+            const checkbox = document.createElement('input');
+                  checkbox.type = 'checkbox';
+                  // checkbox.id = task.id;
+                  checkbox.checked = done;
+                  checkbox.addEventListener('change', (e) => {
+                    e.stopPropagation();
+                    // toggleItemState(`${task.id}`);
+                    toggleCompletion(key, ds, !done);
+                    console.log(`Onchange ACHIEVE ${task.id}, ${key}, ${ds}, ${done}`);
+                  });
+            const block = document.createElement('div');
+                  block.classList.add('pill-text');
+                  block.innerHTML = `🏆 <strong>${escapeHtml(task.title)}</strong> — ${task.notes ? escapeHtml(task.notes) : ''}
+                      <br /><strong class="todo-tag-prefix">[${task.tags.context}]</strong> [${CAT_LABEL[task.category]||'📌 Other'}]
+                      <br />${formatTimeDisplay(time)}
+                  `;
+            // const cat = document.createElement('span');
+            //       cat.classList.add('cat-pill');
+            //       cat.innerHTML = `${CAT_LABEL[task.category]||'📌 Other'}`;
+            const acts = document.createElement('div');
+                  acts.classList.add('task-actions');
+            const btnEdit = document.createElement('button');
+                  btnEdit.classList.add('icon-btn');
+                  btnEdit.dataset.act = 'edit';
+                  btnEdit.textContent = '✏️';
+                  btnEdit.addEventListener('click', (e) => {
+                    openTaskModal(task);
+                  });
+                  // card.querySelector('[data-act=edit]').onclick = ()=> openTaskModal(task);
+            const btnDel = document.createElement('button');
+                  btnDel.classList.add('icon-btn');
+                  btnDel.dataset.act = 'del';
+                  btnDel.textContent = '🗑️';
+                  btnDel.addEventListener('click', (e) => {
+                    deleteTask(task.id);
+                  });
+                  // card.querySelector('[data-act=del]').onclick = ()=> deleteTask(task.id);
+
+            // Скрытие достижений при сворачивании ночного блока
+            if (calendarConfig['nightEnd'].isCollapsed === true) {
+                achievePill.classList.add('hidden-by-collapse');
+            }
+
+            achievePill.appendChild(checkbox);
+            achievePill.appendChild(block);
+            // block.appendChild(cat);
+            block.appendChild(acts);
+            acts.appendChild(btnEdit);
+            acts.appendChild(btnDel);
+
+            container.appendChild(achievePill);
+        });
+
+    }
+
+    function timeToDecimal(timeString) {
+        // 1. Split "10:15" into ["10", "15"]
+        const [hours, minutes] = timeString.split(':');
+        const decimalTime = Number(hours) + (Number(minutes) / 60);
+        // console.log(`${timeString} -> ${(Math.round(decimalTime * 100) / 100)}`);
+        return Math.round(decimalTime * 100) / 100;
+    }
+
+    function updateGoogleTimeLine() {
+      const now = new Date();
+      const hour = now.getHours();
+      const minutes = now.getMinutes();
+      const indicator = document.getElementById('timeIndicator');
+
+      // Если сейчас ночь (с 01:00 до 06:59), скрываем индикатор с дневной сетки
+      if (hour < 7 && hour !== 0) {
+          indicator.style.display = 'none';
+          return;
+      }
+
+      indicator.style.display = 'block';
+
+      // Рассчитываем точное положение линии в пикселях прямо на текущую минуту
+      const topPx = getVerticalPixels(hour, minutes);
+      indicator.style.top = `${topPx}px`;
+    }
+
+    // Функция раскрытия элементов (Процессов и Задач)
+    function initCardExpansion() {
+      logger.warn(`[DEBUG] Stage: ${debugStage++} in initCardExpansion()`);
+
+        // 1. Раскрытие карточек процессов
+        const cards = document.querySelectorAll('.event-card');
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                if (card.classList.contains('expanded')) {
+                    card.classList.remove('expanded');
+                    return;
+                }
+                closeAllExpanded();
+                // Открываем текущую карточку
+                card.style.minHeight = card.style.height;
+                card.classList.add('expanded');
+            });
+        });
+
+        // 2. Раскрытие плашек точечных задач (To-Do)
+        const pills = document.querySelectorAll('.todo-pill');
+        pills.forEach(pill => {
+            pill.addEventListener('click', (e) => {
+                // КРИТИЧЕСКИ ВАЖНО: Если клик пришелся на сам чекбокс, текст раскрывать не нужно!
+                if (e.target.tagName === 'INPUT') return;
+
+                if (pill.classList.contains('expanded')) {
+                    pill.classList.remove('expanded');
+                    return;
+                }
+                closeAllExpanded();
+                // Открываем текущую карточку
+                pill.style.minHeight = pill.style.height;
+                pill.classList.add('expanded');
+            });
+        });
+
+        // Вспомогательная функция для закрытия всего открытого
+        function closeAllExpanded() {
+            document.querySelectorAll('.event-card.expanded, .todo-pill.expanded').forEach(item => {
+                item.classList.remove('expanded');
+            });
+        }
+
+        // Закрытие при клике на любое пустое место сетки
+        document.getElementById('gridContainer').addEventListener('click', (e) => {
+            if (!e.target.closest('.event-card') && !e.target.closest('.todo-pill')) {
+                closeAllExpanded();
+            }
+        });
+    }
+
+    // Функция прокрутки к текущему времени
+    function scrollToCurrentTime() {
+        const container = document.getElementById('gridContainer');
+        const now = new Date();
+        const hour = now.getHours();
+        const minutes = now.getMinutes();
+
+        // Если сейчас глубокая ночь (например, с 1 до 6 утра), скроллить не нужно, остаемся вверху
+        if (hour < 7 && hour !== 0) {
+            container.scrollTop = 0;
+            return;
+        }
+
+        // Используем нашу готовую математическую функцию, чтобы узнать точную координату в пикселях
+        const currentTopPx = getVerticalPixels(hour, minutes);
+
+        // Сдвигаем скролл так, чтобы линия времени оказалась чуть ниже верха экрана (минус 100px для контекста)
+        // чтобы пользователь видел, что было часом ранее
+        container.scrollTop = currentTopPx - 100;
+    }
+
+    function getDayPartType(hour) {
+        if (hour >= calendarConfig.nightStart.startsAt && hour < calendarConfig.morning.startsAt) {
+            return 'nightStart';
+        }
+        // 2. Утро (от утра до дня, например, 7:00 - 11:59)
+        else if (hour >= calendarConfig.morning.startsAt && hour < calendarConfig.day.startsAt) {
+            return 'morning';
+        }
+        // 3. День (от дня до вечера, например, 12:00 - 17:59)
+        else if (hour >= calendarConfig.day.startsAt && hour < calendarConfig.evening.startsAt) {
+            return 'day';
+        }
+        // 4. Вечер (СТРОГО от вечера до начала ночи, например, 18:00 - 22:59)
+        else if (hour >= calendarConfig.evening.startsAt && hour < calendarConfig.nightEnd.startsAt) {
+            return 'evening';
+        }
+        // 5. Вторая ночь (всё, что равно или позже настройки ночи, например, 23:00+)
+        else {
+            return 'nightEnd';
+        }
+    }
+
+    function generateCalendarGrid() {
+      // logger.warn(`[DEBUG] Stage: ${debugStage++} in generateCalendarGrid()`);
+
+        const container = $('gridContainer');
+        const indicator = $('timeIndicator');
+
+        container.innerHTML = '';
+        container.appendChild(indicator);
+
+        const dividersInfo = {
+            nightStart: { label: 'Ночь', svg: '<svg viewBox="0 0 24 24"><path d="M12.3 22h-.1c-5.5 0-10-4.5-10-10 0-4.8 3.5-8.9 8.2-9.8.5-.1 1 .2 1.2.7.2.5 0 1.1-.4 1.4-2.8 1.9-4.3 5.2-3.8 8.6.6 4 3.9 7.1 7.9 7.5 2.1.2 4.1-.4 5.7-1.7.4-.3 1-.3 1.4.1.4.4.4.9.1 1.3-2.1 2.6-5.3 4.1-8.7 4.1z"/></svg>' },
+            morning:    { label: 'Утро', svg: '<svg viewBox="0 0 24 24"><path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm-1-14h2v3h-2zm0 17h2v3h-2zm-8-9h3v2H3zm15 0h3v2h-3z"/></svg>' },
+            day:        { label: 'День', svg: '<svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm0-11c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1v1c0 .55.45 1 1 1zm0 16c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1s1-.45 1-1v-1c0-.55-.45-1-1-1zm8-8c0-.55-.45-1-1-1h-1c-.55 0-1 .45-1 1s.45 1 1 1h1c.55 0 1-.45 1-1zM6 12c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1s.45-1 1-1h1c.55 0 1 .45 1 1z"/></svg>' },
+            evening:    { label: 'Вечер', svg: '<svg viewBox="0 0 24 24"><path d="M12.1 18.55l-2.03-2.03 1.41-1.41 2.03 2.03-1.41 1.41zm5.37-5.37l-1.41-1.41 2.03-2.03 1.41 1.41-2.03 2.03zM12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 18c4.42 0 8-3.58 8-8s-3.58-8-8-8-8 3.58-8 8 3.58 8 8 8zm-1-8h2v5h-2v-5z"/></svg>' },
+            nightEnd:   { label: 'Ночь', svg: '<svg viewBox="0 0 24 24"><path d="M12.3 22h-.1c-5.5 0-10-4.5-10-10 0-4.8 3.5-8.9 8.2-9.8.5-.1 1 .2 1.2.7.2.5 0 1.1-.4 1.4-2.8 1.9-4.3 5.2-3.8 8.6.6 4 3.9 7.1 7.9 7.5 2.1.2 4.1-.4 5.7-1.7.4-.3 1-.3 1.4.1.4.4.4.9.1 1.3-2.1 2.6-5.3 4.1-8.7 4.1z"/></svg>' }
+        };
+
+        // Вспомогательная функция для быстрого создания HTML разделителя
+        function createDividerElement(key) {
+            const div = document.createElement('div');
+                  div.className = `day-part-divider ${key}`;
+                  div.innerHTML = `<div class="divider-badge">${dividersInfo[key].svg} <span>${dividersInfo[key].label}</span> </div>`;
+            if (calendarConfig[key].isCollapsed === true)
+                  div.classList.add('is-collapsed');
+            return div;
+        }
+
+        // 2. Основной цикл генерации 24 часов (от 0 до 23)
+        for (let hour = 0; hour < 24; hour++) {
+            if        (hour === calendarConfig.nightStart.startsAt) {
+                container.appendChild(createDividerElement('nightStart'));
+            } else if (hour === calendarConfig.morning.startsAt) {
+                container.appendChild(createDividerElement('morning'));
+            } else if (hour === calendarConfig.day.startsAt) {
+                container.appendChild(createDividerElement('day'));
+            } else if (hour === calendarConfig.evening.startsAt) {
+                container.appendChild(createDividerElement('evening'));
+            } else if (hour === calendarConfig.nightEnd.startsAt) {
+                container.appendChild(createDividerElement('nightEnd'));
+            }
+
+            // Рендерим 4 строки по 15 минут для каждого часа
+            const minutesSteps = [0, 15, 30, 45];
+            minutesSteps.forEach(minute => {
+                const row = document.createElement('div');
+                      row.className = 'grid-row';
+                      row.dataset.hour = hour;
+                      row.dataset.minute = minute;
+                let labelText = '';
+                let labelClass = 'time-label';
+                if (minute === 0) {
+                    labelText = `${pad(hour)}:00`;
+                } else if (minute === 30) {
+                    labelText = `${pad(hour)}:30`;
+                    labelClass = 'time-label half-hour-label';
+                }
+                const cellTypeClass = (minute === 0) ? 'main-hour' : 'quarter-hour';
+                      row.innerHTML = `
+                          <div class="${labelClass}">${labelText}</div>
+                          <div class="line-cell ${cellTypeClass}"></div>
+                      `;
+
+                container.appendChild(row);
+            });
+        }
     }
 
 
@@ -1205,11 +2008,9 @@
 
 
     /* ---------------------------------------------------------------------
-       Firebase init (deferred; app still loads the UI even if config is blank
-       so the user can see the setup notice instead of a blank page).
     --------------------------------------------------------------------- */
     async function initFirebase(){
-        logger.warn(`[DEBUG] Stage: ${debugStage++} in initFirebase()`);
+        // logger.warn(`[DEBUG] Stage: ${debugStage++} in initFirebase()`);
 
         const looksConfigured = firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY";
         if (!looksConfigured) {
@@ -1251,7 +2052,7 @@
                         if ( $('profilePanel') )        $('profilePanel').classList.remove('d-none');
                         if ( $('authBoxContainer') )    $('authBoxContainer').classList.add('d-none');
                         if ( $('menuToggle') )          $('menuToggle').style.visibility = 'visible';
-                        if ( $('page-loader') )         $('page-loader').classList.add('d-none');
+                        // if ( $('page-loader') )         $('page-loader').classList.add('d-none');
                         // if ( $('mainContent') )         $('mainContent').classList.remove('d-none');
                         if ( $('fabAdd') )              $('fabAdd').classList.remove('d-none');
                         if (bottomFooter) bottomFooter.style.display = 'flex';
@@ -1267,20 +2068,17 @@
                                     if ( profileData && profileData.displayName ) {
                                         $('profileDisplayName').value = profileData.displayName || 'Unnamed Cell';
                                     } else {
-                                        $('profileDisplayName').value = getRandomName(conditions, fruits);
+                                        $('profileDisplayName').value = getRandomName();
                                     }
                                 }
                             });
 
-                            if (typeof showProfileNotice === 'function') showProfileNotice("User checked", true);
+                            // if (typeof showProfileNotice === 'function') showProfileNotice("User checked", true);
+                            showToast('Logged in successfully');
 
-                            // console.log(`Go next: handleViewTransition`);
                             handleViewTransition(homeTabLink);
-
-                            // console.log("Go next: initDataListeners");
                             initDataListeners();
                             requestNotificationPermission();
-                            // simulatePageUpdate();
                         }
 
                     }
@@ -1292,7 +2090,7 @@
                         if ( $('profilePanel') ) $('profilePanel').classList.add('d-none');
                         if ( $('authBoxContainer') ) $('authBoxContainer').classList.remove('d-none');
                         if ( $('menuToggle') ) $('menuToggle').style.visibility = 'hidden';
-                        if ( $('page-loader') )         $('page-loader').classList.add('d-none');
+                        // if ( $('page-loader') )         $('page-loader').classList.add('d-none');
                         // if ( $('mainContent') )         $('mainContent').classList.remove('d-none');
                         if ( $('fabAdd') )              $('fabAdd').classList.add('d-none');
                         if (bottomFooter) bottomFooter.style.display = 'none';
@@ -1552,7 +2350,7 @@
     let debug__tasks_onSnapshot = 0;
     let debug__compl_onSnapshot = 0;
     function initDataListeners() { /*like subscribeToData()*/
-        logger.warn(`[DEBUG] Stage: ${debugStage++} in initDataListeners() #${debug__initDataListeners++}`);
+        // logger.warn(`[DEBUG] Stage: ${debugStage++} in initDataListeners() #${debug__initDataListeners++}`);
 
         logger.info(`[FIREBASE] Trying to load Data...`);
         // if ( $('page-loader') )         $('page-loader').classList.remove('d-none');
@@ -1573,6 +2371,7 @@
             // renderToday();
             switchDateAndRender();
             renderTasksManage();
+            if (dataCache.tasks.length > 0) showToast('Data loaded');
             // calculateOverallProgress();
             // dataCache.tasks = snap.docs.map(d=>({ id:d.id, ...d.data() }));
         });
@@ -2160,8 +2959,6 @@
     /* ---------------------------------------------------------------------*/
 
 
-
-
     /* ---------------------------------------------------------------------*/
     /* Page Update Pull-to-Refresh */
 
@@ -2171,9 +2968,9 @@
     let hasVibratedForThreshold = false; // Flag to prevent vibration loops while holding down
 
     // 1. Detect when user starts touching the screen
-    mainContent.addEventListener('touchstart', (e) => {
+    $('mainContent').addEventListener('touchstart', (e) => {
       // Only allow pulling if user is scrolled to the absolute top of the container
-      if (mainContent.scrollTop === 0) {
+      if ($('mainContent').scrollTop === 0) {
         startY = e.touches[0].pageY;
         isPulling = true;
         hasVibratedForThreshold = false; // Reset threshold tracker
@@ -2181,7 +2978,7 @@
     });
 
     // 2. Track finger movement downward
-    mainContent.addEventListener('touchmove', (e) => {
+    $('mainContent').addEventListener('touchmove', (e) => {
       if (!isPulling) return;
 
       currentY = e.touches[0].pageY;
@@ -2195,26 +2992,16 @@
         // Apply resistance factor so dragging feels physical and heavy (max 70px)
         const pullHeight = Math.min(diff * 0.4, 70);
 
-        // Safety check to ensure indicator exists before styling
-        if (ptrIndicator) {
-          ptrIndicator.style.height = `${pullHeight}px`;
-
-          // Rotate the arrow icon proportionally to the drag depth
-          // const spinnerIcon = ptrIndicator.querySelector('.spinner');
-          // spinnerIcon.style.transform = `rotate(${pullHeight * 5}deg)`;
-
-          // Fixed: Safely search for the spinner container element
-          const spinnerContainer = ptrIndicator.querySelector('.spinner-container');
+        if ($('ptrIndicator')) {
+          $('ptrIndicator').style.height = `${pullHeight}px`;
+          const spinnerContainer = $('ptrIndicator').querySelector('.spinner-container');
           if (spinnerContainer) {
             spinnerContainer.style.transform = `rotate(${pullHeight * 5}deg)`;
           }
-
-          // HAPTIC CHECK: If pulled past 120px threshold, give a distinct "click" buzz
           if (diff > 120 && !hasVibratedForThreshold) {
               triggerHaptic(30); // Single crisp mechanical 30ms buzz
               hasVibratedForThreshold = true; // Block subsequent vibrations until release
           }
-          // If they pull down and slide back up, reset the flag
           else if (diff <= 120 && hasVibratedForThreshold) {
               hasVibratedForThreshold = false;
           }
@@ -2225,17 +3012,17 @@
     }, { passive: false }); // passive: false is required to let e.preventDefault() work
 
     // 3. User releases finger: check if threshold is met to refresh
-    mainContent.addEventListener('touchend', () => {
+    $('mainContent').addEventListener('touchend', () => {
       if (!isPulling) return;
       isPulling = false;
 
       const finalDiff = currentY - startY;
 
       // If pulled more than 120px total, activate loading
-      if (ptrIndicator) {
+      if ($('ptrIndicator')) {
         if (finalDiff > 120) {
-          ptrIndicator.style.height = '60px'; // Lock container open during load
-          ptrIndicator.classList.add('refreshing');
+          $('ptrIndicator').style.height = '60px'; // Lock container open during load
+          $('ptrIndicator').classList.add('refreshing');
 
           // Success Refresh Haptic: Double tap pulse effect ([buzz, rest, buzz])
           triggerHaptic([20, 40, 20]);
@@ -2244,7 +3031,7 @@
           simulatePageUpdate();
         } else {
           // Cancel refresh and snap back closed
-          ptrIndicator.style.height = '0px';
+          $('ptrIndicator').style.height = '0px';
         }
       }
 
@@ -2255,16 +3042,15 @@
 
     // Clean helper block to dismiss indicators smoothly across execution layers
     function closeRefreshIndicator() {
-        const ptrIndicator = document.getElementById('ptrIndicator');
-        if (ptrIndicator) {
+        if ($('ptrIndicator')) {
             console.log("cRI: Start reloading");
 
             // Option A: Hard refresh the actual browser window
             // window.location.reload();
 
             // Option B: Native-like state update without full flashing reload
-            ptrIndicator.style.height = '0px';
-            ptrIndicator.classList.remove('refreshing');
+            $('ptrIndicator').style.height = '0px';
+            $('ptrIndicator').classList.remove('refreshing');
             //alert("App content updated successfully!");
             console.log("cRI: Page has reloaded");
         }
@@ -2312,7 +3098,7 @@
           if ( $('profilePanel') )        $('profilePanel').classList.add('d-none');
           if ( $('authBoxContainer') )    $('authBoxContainer').classList.remove('d-none');
           if ( $('menuToggle') )          $('menuToggle').style.visibility = 'hidden';
-          if ( $('page-loader') )         $('page-loader').classList.add('d-none');
+          // if ( $('page-loader') )         $('page-loader').classList.add('d-none');
           // if ( $('mainContent') )         $('mainContent').classList.remove('d-none');
           if ( $('fabAdd') )              $('fabAdd').classList.add('d-none');
           if (bottomFooter) bottomFooter.style.display = 'none';
@@ -2367,7 +3153,7 @@
                         </div>`;
                     }
                 } else {
-                    $('profileDisplayName').value = getRandomName(conditions, fruits);
+                    $('profileDisplayName').value = getRandomName();
                 }
             }
         });
@@ -2511,18 +3297,6 @@
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
-
-
-
-    //
-    const calendarConfig = {
-        nightStart: { startsAt: 0,  isCollapsed: true  },
-        morning:    { startsAt: 7,  isCollapsed: false },
-        day:        { startsAt: 11, isCollapsed: false },
-        evening:    { startsAt: 18, isCollapsed: false },
-        nightEnd:   { startsAt: 22, isCollapsed: false }
-    };
-    let occ = [];
 
 
     // Единый массив расписания дня
@@ -2745,10 +3519,6 @@
         },
     ];
 
-
-
-
-
     // Функция автоматического наполнения дня базовыми шаблонами
     function applyTemplatesToDate(dateStr) {
         // Проверяем, есть ли уже в базе элементы для этой даты
@@ -2788,907 +3558,6 @@
 
 
 
-    // Функция, которая на лету определяет тип времени на основе числового часа
-    function getDayPartType(hour) {
-        if (hour >= calendarConfig.nightStart.startsAt && hour < calendarConfig.morning.startsAt) {
-            return 'nightStart';
-        }
-        // 2. Утро (от утра до дня, например, 7:00 - 11:59)
-        else if (hour >= calendarConfig.morning.startsAt && hour < calendarConfig.day.startsAt) {
-            return 'morning';
-        }
-        // 3. День (от дня до вечера, например, 12:00 - 17:59)
-        else if (hour >= calendarConfig.day.startsAt && hour < calendarConfig.evening.startsAt) {
-            return 'day';
-        }
-        // 4. Вечер (СТРОГО от вечера до начала ночи, например, 18:00 - 22:59)
-        else if (hour >= calendarConfig.evening.startsAt && hour < calendarConfig.nightEnd.startsAt) {
-            return 'evening';
-        }
-        // 5. Вторая ночь (всё, что равно или позже настройки ночи, например, 23:00+)
-        else {
-            return 'nightEnd';
-        }
-    }
-
-
-    // Функция автоматической генерации часовой сетки и разделителей суток
-    function generateCalendarGrid() {
-      logger.warn(`[DEBUG] Stage: ${debugStage++} in generateCalendarGrid()`);
-
-        const container = $('gridContainer');
-        const indicator = $('timeIndicator');
-
-        container.innerHTML = '';
-        container.appendChild(indicator);
-
-        const dividersInfo = {
-            nightStart: { label: 'Ночь', svg: '<svg viewBox="0 0 24 24"><path d="M12.3 22h-.1c-5.5 0-10-4.5-10-10 0-4.8 3.5-8.9 8.2-9.8.5-.1 1 .2 1.2.7.2.5 0 1.1-.4 1.4-2.8 1.9-4.3 5.2-3.8 8.6.6 4 3.9 7.1 7.9 7.5 2.1.2 4.1-.4 5.7-1.7.4-.3 1-.3 1.4.1.4.4.4.9.1 1.3-2.1 2.6-5.3 4.1-8.7 4.1z"/></svg>' },
-            morning:    { label: 'Утро', svg: '<svg viewBox="0 0 24 24"><path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm-1-14h2v3h-2zm0 17h2v3h-2zm-8-9h3v2H3zm15 0h3v2h-3z"/></svg>' },
-            day:        { label: 'День', svg: '<svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm0-11c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1v1c0 .55.45 1 1 1zm0 16c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1s1-.45 1-1v-1c0-.55-.45-1-1-1zm8-8c0-.55-.45-1-1-1h-1c-.55 0-1 .45-1 1s.45 1 1 1h1c.55 0 1-.45 1-1zM6 12c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1s.45-1 1-1h1c.55 0 1 .45 1 1z"/></svg>' },
-            evening:    { label: 'Вечер', svg: '<svg viewBox="0 0 24 24"><path d="M12.1 18.55l-2.03-2.03 1.41-1.41 2.03 2.03-1.41 1.41zm5.37-5.37l-1.41-1.41 2.03-2.03 1.41 1.41-2.03 2.03zM12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 18c4.42 0 8-3.58 8-8s-3.58-8-8-8-8 3.58-8 8 3.58 8 8 8zm-1-8h2v5h-2v-5z"/></svg>' },
-            nightEnd:   { label: 'Ночь', svg: '<svg viewBox="0 0 24 24"><path d="M12.3 22h-.1c-5.5 0-10-4.5-10-10 0-4.8 3.5-8.9 8.2-9.8.5-.1 1 .2 1.2.7.2.5 0 1.1-.4 1.4-2.8 1.9-4.3 5.2-3.8 8.6.6 4 3.9 7.1 7.9 7.5 2.1.2 4.1-.4 5.7-1.7.4-.3 1-.3 1.4.1.4.4.4.9.1 1.3-2.1 2.6-5.3 4.1-8.7 4.1z"/></svg>' }
-        };
-
-        // Вспомогательная функция для быстрого создания HTML разделителя
-        function createDividerElement(key) {
-            const div = document.createElement('div');
-                  div.className = `day-part-divider ${key}`;
-                  div.innerHTML = `<div class="divider-badge">${dividersInfo[key].svg} <span>${dividersInfo[key].label}</span> </div>`;
-            if (calendarConfig[key].isCollapsed === true)
-                  div.classList.add('is-collapsed');
-            return div;
-        }
-
-        // 2. Основной цикл генерации 24 часов (от 0 до 23)
-        for (let hour = 0; hour < 24; hour++) {
-            if        (hour === calendarConfig.nightStart.startsAt) {
-                container.appendChild(createDividerElement('nightStart'));
-            } else if (hour === calendarConfig.morning.startsAt) {
-                container.appendChild(createDividerElement('morning'));
-            } else if (hour === calendarConfig.day.startsAt) {
-                container.appendChild(createDividerElement('day'));
-            } else if (hour === calendarConfig.evening.startsAt) {
-                container.appendChild(createDividerElement('evening'));
-            } else if (hour === calendarConfig.nightEnd.startsAt) {
-                container.appendChild(createDividerElement('nightEnd'));
-            }
-
-            // Рендерим 4 строки по 15 минут для каждого часа
-            const minutesSteps = [0, 15, 30, 45];
-            minutesSteps.forEach(minute => {
-                const row = document.createElement('div');
-                      row.className = 'grid-row';
-                      row.dataset.hour = hour;
-                      row.dataset.minute = minute;
-                let labelText = '';
-                let labelClass = 'time-label';
-                if (minute === 0) {
-                    labelText = `${pad(hour)}:00`;
-                } else if (minute === 30) {
-                    labelText = `${pad(hour)}:30`;
-                    labelClass = 'time-label half-hour-label';
-                }
-                const cellTypeClass = (minute === 0) ? 'main-hour' : 'quarter-hour';
-                      row.innerHTML = `
-                          <div class="${labelClass}">${labelText}</div>
-                          <div class="line-cell ${cellTypeClass}"></div>
-                      `;
-
-                container.appendChild(row);
-            });
-        }
-    }
-
-
-    // Константные размеры ячеек для математических расчетов координат
-    // const HOUR_HEIGHT = 60;       // Высота часа (px)
-    // const BASE_HOUR_HEIGHT = 60;   // Минимальная высота часа (px)
-    const BASE_ROW_HEIGHT = 26;  // Высота одной 15-минутки по умолчанию (px)
-    const NIGHT_HEIGHT = 40;      // Высота ночного блока (px)
-    const DIVIDER_HEIGHT = 34;    // Высота строки-разделителя (px)
-
-    // 1. Умный динамический расчет пикселей на основе физического положения 15-минутных строк
-    // Абсолютно точный расчет пикселей на основе системных координат браузера
-    // Универсальный расчет пикселей на основе системных координат браузера для 24 часов
-    // Абсолютно точный расчет пикселей с 00:00 до 24:00 с учетом скрытых/открытых строк
-    function getVerticalPixels(targetHour, targetMinutes = 0) {
-        const container = document.getElementById('gridContainer');
-
-        // 1. Считаем отступы разделителей суток, которые находятся ВЫШЕ целевого часа
-        let pixels = 0;
-
-        // Массив всех разделителей в порядке их следования в DOM
-        const partsOrder = ['nightStart', 'morning', 'day', 'evening', 'nightEnd'];
-        const targetPart = getDayPartType(targetHour);
-        const targetPartIndex = partsOrder.indexOf(targetPart);
-
-        // Добавляем высоту только тех разделителей, которые мы уже прошли по времени
-        for (let i = 0; i <= targetPartIndex; i++) {
-            const part = partsOrder[i];
-            const divider = document.querySelector(`.day-part-divider.${part}`);
-            if (divider) {
-                pixels += divider.offsetHeight;
-            }
-        }
-
-        // Приближаем минуты к нашей 15-минутной сетке (0, 15, 30, 45)
-        const stepMinute = Math.floor(targetMinutes / 15) * 15;
-
-        // 2. Перебираем абсолютно ВСЕ строки часов по порядку, начиная с 00:00
-        const allRows = document.querySelectorAll('.grid-row[data-hour]');
-        for (let row of allRows) {
-            const h = parseInt(row.dataset.hour);
-            const m = parseInt(row.dataset.minute);
-
-            // Если дошли до целевой строки (час и 15-минутный шаг совпали) — останавливаемся
-            if (h === targetHour && m === stepMinute) {
-                // Если сама строка скрыта, привязываем элемент к началу свернутого блока
-                if (row.classList.contains('hidden-by-collapse')) {
-                    break;
-                }
-                // Если строка открыта, добавляем точный хвостик минут внутри текущей 15-минутки
-                const remainderMinutes = targetMinutes - stepMinute;
-                const currentRowHeight = row.offsetHeight;
-                pixels += (remainderMinutes / 15) * currentRowHeight;
-                break;
-            }
-
-            // КРИТИЧЕСКИ ВАЖНО: Прибавляем высоту строки только если она НЕ скрыта сворачиванием!
-            if (!row.classList.contains('hidden-by-collapse')) {
-                pixels += row.offsetHeight;
-            }
-        }
-
-        return pixels;
-    }
-
-
-    function adjustHourRowsHeight() {
-      logger.warn(`[DEBUG] Stage: ${debugStage++} in adjustHourRowsHeight()`);
-
-        const todoCountBySlot = {};
-        const busyHours = new Set();
-        // console.log(occ);
-
-        occ.forEach(item => {
-            const startHour = Math.floor(timeToDecimal(item.time));
-
-            if (item.task.duration === 0) {
-                // А: Это To-Do задача
-                busyHours.add(startHour);
-                const minutes = Math.floor((timeToDecimal(item.time) % 1) * 60);
-                const stepMinute = Math.floor(minutes / 15) * 15;
-                const slotKey = `${startHour}-${stepMinute}`;
-                todoCountBySlot[slotKey] = (todoCountBySlot[slotKey] || 0) + 1;
-            } else {
-                // Б: Это процесс (Event)
-                const endHour = Math.ceil(timeToDecimal(item.time) + item.task.duration);
-                for (let h = endHour; h < endHour; h++) {
-                    busyHours.add(h);
-                }
-            }
-        });
-        // console.log(todoCountBySlot);
-
-        const allRows = document.querySelectorAll('.grid-row[data-hour]');
-        allRows.forEach(row => {
-            const hour = parseInt(row.dataset.hour);
-            const minute = row.dataset.minute;
-            const slotKey = `${hour}-${minute}`;
-            const count = todoCountBySlot[slotKey] || 0;
-
-            // СБРОС СТАРЫХ КЛАССОВ СВЕРТЫВАНИЯ И ПУСТОТЫ
-            row.classList.remove('empty-hour-row', 'hidden-by-collapse');
-            row.style.display = ''; // Возвращаем грид-режим по умолчанию
-
-            // ОПРЕДЕЛЯЕМ, К КАКОМУ БЛОКУ ОТНОСИТСЯ СТРОКА ЧАСА
-            const currentPart = getDayPartType(hour);
-
-            // Если этот макро-блок сейчас свернут пользователем — прячем строку
-            if (calendarConfig[currentPart].isCollapsed === true) {
-                row.classList.add('hidden-by-collapse');
-                return; // Пропускаем дальнейшую настройку высоты
-            }
-
-            // Стандартная логика адаптивной высоты для открытых строк
-            if (count > 1) {
-                row.style.height = `${count * 24 + 4}px`;
-            }
-            else if (!busyHours.has(hour)) {
-                row.style.height = `16px`;
-                row.classList.add('empty-hour-row');
-            }
-            else {
-                row.style.height = `${BASE_ROW_HEIGHT}px`;
-            }
-        });
-    }
-
-
-    // 3. Точная геометрическая расстановка To-Do задач
-    let debug__positionTasks = 0;
-    function positionTasks() {
-      logger.warn(`[DEBUG] Stage: ${debugStage++} in positionTasks() #${debug__positionTasks++}`);
-
-        logger.info('[CALENDAR] Clear day and fill in content');
-
-        const container = document.getElementById('gridContainer');
-        if (!container) return;
-        document.querySelectorAll('.event-card').forEach(card => card.remove());
-        document.querySelectorAll('.todo-pill').forEach(p => p.remove());
-
-        const ds = dateStr(viewDate);
-        const doneMap = dataCache.completions[ds] || {};
-        // const container = $('todayList');
-        // container.innerHTML = '';
-        // console.log(occ);
-
-        if(occ.length === 0){
-          // container.innerHTML = '<div class="empty-state">Nothing scheduled for this day.<br>Tap + to add a task.</div>';
-          console.log(`Nothing scheduled for ${dateStr(viewDate)}`);
-          showToast(`Nothing scheduled for ${dateStr(viewDate)}`);
-          // if ( $('page-loader') )         $('page-loader').classList.add('d-none');
-          return;
-        }
-
-        // Фильтруем ТОЛЬКО процессы
-        const events = occ.filter(item => (item.task.duration ?? 0) > 0);
-        events.sort((a, b) => timeToDecimal(a.time) - timeToDecimal(b.time));
-
-        let groups = [];
-        events.forEach(event => {
-            let placed = false;
-            for (let group of groups) {
-                let hasConflict = group.some(e => timeToDecimal(event.time) < (timeToDecimal(e.time) + e.duration) && (timeToDecimal(event.time) + event.duration) > timeToDecimal(e.time));
-                if (hasConflict) {
-                    group.push(event);
-                    placed = true;
-                    break;
-                }
-            }
-            if (!placed) groups.push([event]);
-        });
-
-        groups.forEach(group => {
-            let columns = [];
-            group.forEach(event => {
-                let colIndex = 0;
-                while (columns[colIndex] && columns[colIndex].some(e => timeToDecimal(event.time) < (timeToDecimal(e.time) + e.duration))) {
-                    colIndex++;
-                }
-                if (!columns[colIndex]) columns[colIndex] = [];
-                columns[colIndex].push(event);
-                event.colIndex = colIndex;
-            });
-
-            const totalCols = columns.length;
-            // console.log(totalCols);
-            // console.log(group);
-
-            group.forEach(({colIndex, task, time}, index) => {
-                const key = task.id + '__' + time;
-                const done = !!doneMap[key];
-                // console.log(task);
-                // console.log(colIndex, task.id, time, index);
-
-                const startHour = Math.floor(timeToDecimal(time));
-                const startMinutes = Math.round((timeToDecimal(time) % 1) * 60);
-                const endValue = timeToDecimal(time) + task.duration;
-                const endHour = Math.floor(endValue);
-                const endMinutes = Math.round((endValue % 1) * 60);
-
-                // if (task.title == 'Туалет') logger.error(`Туалет: ${time} или ${timeToDecimal(time)} часов, длительность ${task.duration} часов,
-                //     ${startHour} : ${startMinutes} или ${String(startMinutes).padStart(2, '0')} или ${formatTimeDisplay(time)}
-                //     ${endValue}, ${endHour} : ${endMinutes}
-                // `);
-
-                const topPx = getVerticalPixels(startHour, startMinutes);
-                const bottomPx = getVerticalPixels(endHour, endMinutes);
-                // console.log(startHour, startMinutes, endHour, endMinutes);
-                const cardHeight = bottomPx - topPx;
-
-                const calculatedType = getDayPartType(timeToDecimal(time));
-                const card = document.createElement('div');
-
-                card.className = `event-card ${calculatedType} ${done ? 'completed' : ''}`;
-                card.id = key;
-                card.dataset.time = timeToDecimal(time);
-                card.dataset.tag = task.tags ? task.tags.context : '';
-
-                card.style.top = `${topPx}px`;
-                card.style.height = `${cardHeight}px`;
-                card.style.width = `calc((100% - 90px) / ${totalCols})`;
-                card.style.left = `calc(65px + ((100% - 90px) * ${colIndex} / ${totalCols}))`;
-
-                const cardMeta = document.createElement('div');
-                      cardMeta.classList.add('event-meta-row');
-                const cardTitle = document.createElement('div');
-                      cardTitle.classList.add('event-title');
-                      cardTitle.innerHTML = task.title;
-                const cardDesc = document.createElement('div');
-                      cardDesc.classList.add('event-desc');
-                      cardDesc.innerHTML = `${task.notes}
-                          <br />[${CAT_LABEL[task.category]||'📌 Other'}]
-                      `;
-                const checkbox = document.createElement('input');
-                      checkbox.type = 'checkbox';
-                      // checkbox.id = key;
-                      checkbox.checked = done;
-                      checkbox.classList.add('event-checkbox');
-                      checkbox.addEventListener('change', (e) => {
-                          e.stopPropagation();
-                          // toggleItemState(`${task.task.id}`);
-                          console.log(`Onchange TASK ${task.id}, ${key}, ${ds}, ${!done}`);
-                          toggleCompletion(key, ds, !done);
-                      });
-                const text = document.createElement('span');
-                      text.classList.add('event-time');
-                      text.innerHTML = `${formatTimeDisplay(time)} - ${endHour}:${pad(endMinutes)}`;
-                const badge = document.createElement('span');
-                      badge.classList.add('event-tag-badge');
-                      badge.innerHTML = task.tags ? task.tags.context : '';
-                const acts = document.createElement('div');
-                      acts.classList.add('task-actions');
-                const btnEdit = document.createElement('button');
-                      btnEdit.classList.add('icon-btn');
-                      btnEdit.dataset.act = 'edit';
-                      btnEdit.textContent = '✏️';
-                      btnEdit.addEventListener('click', (e) => {
-                        openTaskModal(task);
-                      });
-                      // card.querySelector('[data-act=edit]').onclick = ()=> openTaskModal(task);
-                const btnDel = document.createElement('button');
-                      btnDel.classList.add('icon-btn');
-                      btnDel.dataset.act = 'del';
-                      btnDel.textContent = '🗑️';
-                      btnDel.addEventListener('click', (e) => {
-                        deleteTask(task.id);
-                      });
-                      // card.querySelector('[data-act=del]').onclick = ()=> deleteTask(task.id);
-
-                //
-                if (calendarConfig[calculatedType].isCollapsed === true)
-                      card.classList.add('hidden-by-collapse');
-
-                card.appendChild(cardMeta);
-                card.appendChild(cardTitle);
-                card.appendChild(cardDesc);
-
-                cardMeta.appendChild(checkbox);
-                cardMeta.appendChild(text);
-                cardMeta.appendChild(badge);
-
-                cardDesc.appendChild(acts);
-                acts.appendChild(btnEdit);
-                acts.appendChild(btnDel);
-
-                container.appendChild(card);
-            });
-        });
-
-
-        // Фильтруем ТОЛЬКО To-Do задачи
-        const allTodos = occ.filter(item => (item.task.duration ?? 0) === 0);
-        // console.log(allTodos);
-        const todos = allTodos.filter(item => item.task.tags && item.task.tags.context !== 'Достижение');
-        const achievements = allTodos.filter(item => item.task.tags && item.task.tags.context === 'Достижение');
-        // console.log(todos);
-        // console.log(achievements);
-        todos.sort((a, b) => timeToDecimal(a.time) - timeToDecimal(b.time));
-
-        const placedPills = [];
-
-        todos.forEach(({task, time}, index) => {
-            const key = task.id + '__' + time;
-            const done = !!doneMap[key];
-
-            const startHour = Math.floor(timeToDecimal(time));
-            const startMinutes = Math.floor((timeToDecimal(time) % 1) * 60);
-
-            let calculatedTop = getVerticalPixels(startHour, startMinutes);
-            // console.log(time, timeToDecimal(time), calculatedTop, startHour, startMinutes);
-
-            const pill = document.createElement('div');
-                  pill.className = `todo-pill ${done ? 'completed' : ''}`;
-                  pill.id = key;
-                  pill.dataset.tag = task.tags.context;
-
-            // Обычные почасовые To-Do задачи
-            if (startMinutes % 15 === 0) {
-                calculatedTop = calculatedTop - 10;
-            }
-            const pillHeight = 28;
-            const gap = -7;
-
-            placedPills.forEach(placed => {
-                if (!placed.isHabit && calculatedTop < (placed.top + pillHeight + gap) && (calculatedTop + pillHeight) > placed.top) {
-                    calculatedTop = placed.top + pillHeight + gap;
-                }
-            });
-            placedPills.push({ top: calculatedTop, isHabit: false });
-
-            pill.style.top = `${calculatedTop}px`;
-
-            const displayMinutes = pad(Math.round(startMinutes));
-            // const displayTime = `${String(startHour).padStart(2, '0')}:${displayMinutes}`;
-
-            const checkbox = document.createElement('input');
-                  checkbox.type = 'checkbox';
-                  // checkbox.id = task.id;
-                  checkbox.checked = done;
-                  checkbox.addEventListener('change', (e) => {
-                    e.stopPropagation();
-                    // toggleItemState(`${task.id}`);
-                    toggleCompletion(key, ds, !done);
-                    console.log(`Onchange TODO ${task.id}, ${key}, ${ds}, ${done}`);
-                  });
-                  // checkbox.onchange = ()=> toggleCompletion(key, ds, !done);
-            const block = document.createElement('div');
-                  block.classList.add('pill-text');
-                  block.innerHTML = `${escapeHtml(task.title)}: ${task.notes ? escapeHtml(task.notes) : ''}
-                    <br /><strong class="todo-tag-prefix">[${task.tags.context}]</strong> [${CAT_LABEL[task.category]||'📌 Other'}]
-                    <br />${formatTimeDisplay(time)}
-                  `;
-            // const cat = document.createElement('span');
-            //       cat.classList.add('cat-pill');
-            //       cat.innerHTML = `${CAT_LABEL[task.category]||'📌 Other'}`;
-            const acts = document.createElement('div');
-                  acts.classList.add('task-actions');
-            const btnEdit = document.createElement('button');
-                  btnEdit.classList.add('icon-btn');
-                  btnEdit.dataset.act = 'edit';
-                  btnEdit.textContent = '✏️';
-                  btnEdit.addEventListener('click', (e) => {
-                    openTaskModal(task);
-                  });
-                  // card.querySelector('[data-act=edit]').onclick = ()=> openTaskModal(task);
-            const btnDel = document.createElement('button');
-                  btnDel.classList.add('icon-btn');
-                  btnDel.dataset.act = 'del';
-                  btnDel.textContent = '🗑️';
-                  btnDel.addEventListener('click', (e) => {
-                    deleteTask(task.id);
-                  });
-                  // card.querySelector('[data-act=del]').onclick = ()=> deleteTask(task.id);
-
-            if (calendarConfig[getDayPartType(timeToDecimal(time))].isCollapsed === true)
-                  pill.classList.add('hidden-by-collapse');
-
-            pill.appendChild(checkbox);
-            pill.appendChild(block);
-            // block.appendChild(cat);
-            block.appendChild(acts);
-            acts.appendChild(btnEdit);
-            acts.appendChild(btnDel);
-
-            container.appendChild(pill);
-
-            // if ( $('page-loader') )         $('page-loader').classList.add('d-none');
-        });
-
-        const nightEndDivider = document.querySelector('.day-part-divider.nightEnd');
-        let baseTimelineBottom = getVerticalPixels(24, 0);
-
-        // console.log(achievements);
-        achievements.forEach(({task, time}, index) => {
-            const key = task.id + '__' + time;
-            const done = !!doneMap[key];
-            // console.log(task, time, index);
-
-            const achievePill = document.createElement('div');
-            achievePill.className = `todo-pill habit-pill ${done ? 'completed' : ''}`;
-            achievePill.id = key;
-            achievePill.dataset.tag = task.tags.context;
-
-            // Позиционирование: высота плашки (34px) + отступ сверху (10px) + шаг каждой карточки (42px)
-            const calculatedTop = baseTimelineBottom + (index * 37); /* 34 + 10 + */
-            // console.log(baseTimelineBottom, calculatedTop, );
-            achievePill.style.top = `${calculatedTop}px`;
-
-            const checkbox = document.createElement('input');
-                  checkbox.type = 'checkbox';
-                  // checkbox.id = task.id;
-                  checkbox.checked = done;
-                  checkbox.addEventListener('change', (e) => {
-                    e.stopPropagation();
-                    // toggleItemState(`${task.id}`);
-                    toggleCompletion(key, ds, !done);
-                    console.log(`Onchange ACHIEVE ${task.id}, ${key}, ${ds}, ${done}`);
-                  });
-            const block = document.createElement('div');
-                  block.classList.add('pill-text');
-                  block.innerHTML = `🏆 <strong>${escapeHtml(task.title)}</strong> — ${task.notes ? escapeHtml(task.notes) : ''}
-                      <br /><strong class="todo-tag-prefix">[${task.tags.context}]</strong> [${CAT_LABEL[task.category]||'📌 Other'}]
-                      <br />${formatTimeDisplay(time)}
-                  `;
-            // const cat = document.createElement('span');
-            //       cat.classList.add('cat-pill');
-            //       cat.innerHTML = `${CAT_LABEL[task.category]||'📌 Other'}`;
-            const acts = document.createElement('div');
-                  acts.classList.add('task-actions');
-            const btnEdit = document.createElement('button');
-                  btnEdit.classList.add('icon-btn');
-                  btnEdit.dataset.act = 'edit';
-                  btnEdit.textContent = '✏️';
-                  btnEdit.addEventListener('click', (e) => {
-                    openTaskModal(task);
-                  });
-                  // card.querySelector('[data-act=edit]').onclick = ()=> openTaskModal(task);
-            const btnDel = document.createElement('button');
-                  btnDel.classList.add('icon-btn');
-                  btnDel.dataset.act = 'del';
-                  btnDel.textContent = '🗑️';
-                  btnDel.addEventListener('click', (e) => {
-                    deleteTask(task.id);
-                  });
-                  // card.querySelector('[data-act=del]').onclick = ()=> deleteTask(task.id);
-
-            // Скрытие достижений при сворачивании ночного блока
-            if (calendarConfig['nightEnd'].isCollapsed === true) {
-                achievePill.classList.add('hidden-by-collapse');
-            }
-
-            achievePill.appendChild(checkbox);
-            achievePill.appendChild(block);
-            // block.appendChild(cat);
-            block.appendChild(acts);
-            acts.appendChild(btnEdit);
-            acts.appendChild(btnDel);
-
-            container.appendChild(achievePill);
-        });
-
-    }
-
-
-    function timeToDecimal(timeString) {
-        // 1. Split "10:15" into ["10", "15"]
-        const [hours, minutes] = timeString.split(':');
-        const decimalTime = Number(hours) + (Number(minutes) / 60);
-        // console.log(`${timeString} -> ${(Math.round(decimalTime * 100) / 100)}`);
-        return Math.round(decimalTime * 100) / 100;
-    }
-
-
-    // 4. Логика движения красной нити времени (Индикатор Google)
-    function updateGoogleTimeLine() {
-      const now = new Date();
-      const hour = now.getHours();
-      const minutes = now.getMinutes();
-      const indicator = document.getElementById('timeIndicator');
-
-      // Если сейчас ночь (с 01:00 до 06:59), скрываем индикатор с дневной сетки
-      if (hour < 7 && hour !== 0) {
-          indicator.style.display = 'none';
-          return;
-      }
-
-      indicator.style.display = 'block';
-
-      // Рассчитываем точное положение линии в пикселях прямо на текущую минуту
-      const topPx = getVerticalPixels(hour, minutes);
-      indicator.style.top = `${topPx}px`;
-    }
-
-    // Функция плавного раскрытия элементов (Процессов и Задач)
-    function initCardExpansion() {
-      logger.warn(`[DEBUG] Stage: ${debugStage++} in initCardExpansion()`);
-
-        // 1. Раскрытие карточек процессов
-        const cards = document.querySelectorAll('.event-card');
-        cards.forEach(card => {
-            card.addEventListener('click', () => {
-                if (card.classList.contains('expanded')) {
-                    card.classList.remove('expanded');
-                    return;
-                }
-                closeAllExpanded();
-                // Открываем текущую карточку
-                card.style.minHeight = card.style.height;
-                card.classList.add('expanded');
-            });
-        });
-
-        // 2. Раскрытие плашек точечных задач (To-Do)
-        const pills = document.querySelectorAll('.todo-pill');
-        pills.forEach(pill => {
-            pill.addEventListener('click', (e) => {
-                // КРИТИЧЕСКИ ВАЖНО: Если клик пришелся на сам чекбокс, текст раскрывать не нужно!
-                if (e.target.tagName === 'INPUT') return;
-
-                if (pill.classList.contains('expanded')) {
-                    pill.classList.remove('expanded');
-                    return;
-                }
-                closeAllExpanded();
-                // Открываем текущую карточку
-                pill.style.minHeight = pill.style.height;
-                pill.classList.add('expanded');
-            });
-        });
-
-        // Вспомогательная функция для закрытия всего открытого
-        function closeAllExpanded() {
-            document.querySelectorAll('.event-card.expanded, .todo-pill.expanded').forEach(item => {
-                item.classList.remove('expanded');
-            });
-        }
-
-        // Закрытие при клике на любое пустое место сетки
-        document.getElementById('gridContainer').addEventListener('click', (e) => {
-            if (!e.target.closest('.event-card') && !e.target.closest('.todo-pill')) {
-                closeAllExpanded();
-            }
-        });
-    }
-
-
-    // Функция автоматической плавной прокрутки к текущему времени
-    function scrollToCurrentTime() {
-        const container = document.getElementById('gridContainer');
-        const now = new Date();
-        const hour = now.getHours();
-        const minutes = now.getMinutes();
-
-        // Если сейчас глубокая ночь (например, с 1 до 6 утра), скроллить не нужно, остаемся вверху
-        if (hour < 7 && hour !== 0) {
-            container.scrollTop = 0;
-            return;
-        }
-
-        // Используем нашу готовую математическую функцию, чтобы узнать точную координату в пикселях
-        const currentTopPx = getVerticalPixels(hour, minutes);
-
-        // Сдвигаем скролл так, чтобы линия времени оказалась чуть ниже верха экрана (минус 100px для контекста)
-        // чтобы пользователь видел, что было часом ранее
-        container.scrollTop = currentTopPx - 100;
-    }
-
-    // Функция инициализации сворачивания с динамическими счетчиками содержимого
-    // Внутренняя функция, которая обновляет текст-подсказку на плашках
-    const parts = ['nightStart', 'morning', 'day', 'evening', 'nightEnd'];
-
-    function updateDividerCounters() {
-        const doneMap = dataCache.completions[dateStr(viewDate)] || {};
-
-        parts.forEach(part => {
-            const divider = document.querySelector(`.day-part-divider.${part}`);
-            if (!divider) return;
-
-            const oldCounter = divider.querySelector('.divider-info-counter');
-            if (oldCounter) oldCounter.remove();
-
-            if (calendarConfig[part].isCollapsed === true) {
-                // Фильтруем все элементы текущей даты, попавшие в эту часть суток
-                const hiddenItems = occ.filter(item => getDayPartType(timeToDecimal(item.time)) === part);
-                const achievements = occ.filter( item => item.task.duration === 0 && item.task.tags.context === 'Достижение' );
-                // console.log(part);
-                // console.log(occ);
-                // console.log(hiddenItems);
-                // console.log(achievements);
-                if (part == 'nightEnd') {
-                  achievements.forEach(num => {
-                      hiddenItems.push(num);
-                  });
-                }
-                // console.log(achievements);
-                // console.log(hiddenItems);
-
-                //в hiddenItems не попадают Достижения, т.к. они не проходят по времени
-
-                // const allTodos = dayScheduleData.filter(item => item.duration === 0);
-
-                let infoText = "";
-
-                if (hiddenItems.length > 0) {
-                    // Разделяем скрытые элементы на процессы и To-Do
-                    const hiddenEvents = hiddenItems.filter( item => item.task.duration > 0 && item.task.tags.context !== 'Достижение' );
-                    const hiddenTodos = hiddenItems.filter( item => item.task.duration === 0 && item.task.tags.context !== 'Достижение' );
-                    // const achievements = hiddenItems.filter( item => item.task.duration === 0 && item.task.tags.context === 'Достижение' );
-                    // console.log(hiddenEvents);
-                    // const habits = hiddenItems.filter(item => item.tags.context === 'Достижение');
-
-                    if (achievements.length > 0) {
-                      const habitsCount = achievements.length;
-                      // const habitsCompletedCount = achievements.filter(item => item.done).length;
-                      // console.log(achievements);
-                      // console.log(dataCache.completions[dateStr(viewDate)]);
-                      const habitsCompletedCount = achievements
-                          .map(e => e.task.id + '__' + e.time)
-                          .filter(key => Object.hasOwn(doneMap, key) && doneMap[key] === true)
-                          .length;
-
-                      if (part === 'nightEnd') {
-                          if (infoText) {
-                            infoText += "; 🏆 достижений";
-                          } else {
-                            infoText += "🏆 Достижений"
-                          }
-                          if (habitsCount === 0) {
-                            infoText += ` пока нет`;
-                          } else if (habitsCompletedCount === 0) {
-                            infoText += ` пока нет: ${habitsCompletedCount}/${habitsCount}`;
-                          } else {
-                            infoText += `: ${habitsCompletedCount}/${habitsCount}`;
-                          }
-                      }
-                    }
-                    if (hiddenEvents.length > 0) {
-                        const firstEvent = hiddenEvents[0];
-                        console.log(firstEvent);
-                        // Если первый процесс выполнен, помечаем его словом "(сделано)"
-                        infoText += `${firstEvent.task.title}`; /*`${firstEvent.done ? ' (сделано)' : ''}`;*/
-
-                        // Если в этой части суток скрыто несколько процессов
-                        if (hiddenEvents.length > 1) {
-                            infoText += ` (+${hiddenEvents.length - 1})`;
-                        }
-                        const doneEventsCount = hiddenEvents
-                            .map(e => e.task.id + '__' + e.time)
-                            .filter(key => Object.hasOwn(doneMap, key) && doneMap[key] === true)
-                            .length;
-                        // const doneEventsCount = hiddenEvents.filter(e => e.done).length;
-                        infoText += `: ${doneEventsCount}/${hiddenEvents.length}`;
-                    }
-
-                    if (hiddenTodos.length > 0) {
-                        const totalTodos = hiddenTodos.length;
-                        const doneTodos = hiddenTodos
-                            .map(e => e.task.id + '__' + e.time)
-                            .filter(key => Object.hasOwn(doneMap, key) && doneMap[key] === true)
-                            .length;
-                        // console.log('hiddenTodos');
-                        // console.log(hiddenTodos);
-                        // const ids = hiddenTodos.map(e => e.task.id + '__' + e.time);
-                        // console.log('ids');
-                        // console.log(ids);
-                        // console.log('doneMap');
-                        // console.log(doneMap);
-                        // const doneTodos = hiddenTodos.filter(e => e.done).length;
-                        // console.log('dones');
-                        // console.log(doneTodos);
-                        // console.log(totalTodos ,doneTodos, ', ', habitsCount ,habitsCompletedCount );
-                        // if (hiddenTodos.length != habitsCount) {
-                          if (infoText) {
-                            infoText += "; 📋 задач";
-                          } else {
-                            infoText += "📋 Задач"
-                          }
-                          infoText += `: ${doneTodos}/${totalTodos}`;
-                        // }
-                    // } else {
-                    //     if (part === 'nightEnd') {
-                    //         if (infoText) {
-                    //           infoText += "; 🏆 достижений";
-                    //         } else {
-                    //           infoText += "🏆 Достижений"
-                    //         }
-                    //         if (habitsCount === 0) {
-                    //           infoText += ` пока нет`;
-                    //         }
-                    //     }
-                    }
-
-
-
-                } else {
-                    if (part === 'nightEnd') infoText += `🏆 Достижений пока нет`;
-                }
-                // Создаем и добавляем элемент подсказки на плашку
-                const counterEl = document.createElement('span');
-                counterEl.className = 'divider-info-counter';
-                counterEl.innerText = infoText;
-                divider.appendChild(counterEl);
-            }
-        });
-    }
-
-    function initDayPartCollapsing() {
-      logger.warn(`[DEBUG] Stage: ${debugStage++} in initDayPartCollapsing()`);
-
-        // Вешаем обработчики кликов на плашки
-        parts.forEach(part => {
-            const divider = document.querySelector(`.day-part-divider.${part}`);
-            if (!divider) return;
-
-            const newDivider = divider.cloneNode(true);
-            divider.parentNode.replaceChild(newDivider, divider);
-
-            newDivider.addEventListener('click', () => {
-                // console.log("ONCLICK:", part, calendarConfig[part].isCollapsed);
-                calendarConfig[part].isCollapsed = !calendarConfig[part].isCollapsed;
-                newDivider.classList.toggle('is-collapsed', calendarConfig[part].isCollapsed);
-                adjustHourRowsHeight();
-                renderFullCalendar();
-            });
-        });
-        updateDividerCounters();
-    }
-
-
-    function initSettingsPanel() {
-        const inputMorning = $('input-morning');
-        const inputDay = $('input-day');
-        const inputEvening = $('input-evening');
-        const btnSubmit = $('submit-settings');
-
-        // 1. Проверяем, есть ли уже сохраненные настройки в памяти браузера
-        if (localStorage.getItem('calendarConfig')) {
-            const savedConfig = JSON.parse(localStorage.getItem('calendarConfig'));
-
-            // calendarConfig.nightStart.startsAt  = savedConfig.nightStart.startsAt;
-            calendarConfig.morning.startsAt     = savedConfig.morning.startsAt;
-            calendarConfig.day.startsAt         = savedConfig.evening.startsAt;
-            calendarConfig.evening.startsAt     = savedConfig.evening.startsAt;
-            // calendarConfig.nightEnd.startsAt    = savedConfig.nightEnd.startsAt;
-
-            inputMorning.value  = calendarConfig.morning.startsAt;
-            inputDay.value      = calendarConfig.day.startsAt;
-            inputEvening.value  = calendarConfig.evening.startsAt;
-        }
-
-        updateLabels();
-
-        function handleSliderMove() {
-            let morning = parseInt(inputMorning.value);
-            let day     = parseInt(inputDay.value);
-            let evening = parseInt(inputEvening.value);
-
-            // Защита от наложения ползунков друг на друга
-            if (morning >= day) {
-                day = morning + 1;
-                inputDay.value = day;
-            }
-            if (day >= evening) {
-                evening = day + 1;
-                inputEvening.value = evening;
-            }
-
-            updateLabels();
-        }
-
-        function updateLabels() {
-            $('val-morning').innerText  = inputMorning.value;
-            $('val-day').innerText      = inputDay.value;
-            $('val-evening').innerText  = inputEvening.value;
-        }
-
-        inputMorning.addEventListener('input', handleSliderMove);
-        inputDay.addEventListener('input', handleSliderMove);
-        inputEvening.addEventListener('input', handleSliderMove);
-
-        btnSubmit.addEventListener('click', () => {
-            calendarConfig.morning.startsAt = parseInt(inputMorning.value);
-            calendarConfig.day.startsAt     = parseInt(inputDay.value);
-            calendarConfig.evening.startsAt = parseInt(inputEvening.value);
-
-            localStorage.setItem('calendarConfig', JSON.stringify(calendarConfig));
-
-            renderFullCalendar();
-        });
-    }
-
-    let debug__renderFullCalendar = 0;
-    function renderFullCalendar() {
-        logger.warn(`[DEBUG] Stage: ${debugStage++} in renderFullCalendar() #${debug__renderFullCalendar++}`);
-
-        generateCalendarGrid();
-        adjustHourRowsHeight();
-        document.querySelectorAll('.event-card, .todo-pill').forEach(el => el.remove());
-        // positionEventsWithConflicts();
-        occ = occurrencesForDate(viewDate);
-        positionTasks();
-
-        updateGoogleTimeLine();
-        initCardExpansion();
-        initDayPartCollapsing(); // Переназначаем клики сворачивания на новые плашки
-    }
-
-
-
-
-
 
 
     /* ---------------------------------------------------------------------*/
@@ -3697,13 +3566,14 @@
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
-
-
-
-
     /* ---------------------------------------------------------------------*/
     function firstStart() {
       logger.warn(`[DEBUG] Stage: ${debugStage++} in firstStart()`);
+
+      // if ( $('mainContent') )         $('mainContent').classList.add('d-none');
+      // if ( $('page-loader') )         $('page-loader').classList.remove('d-none');
+      // if ( $('menuToggle') )          $('menuToggle').style.visibility = 'hidden';
+      $('calendar-picker').value = viewDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD;
 
       //system funcs
       updateNetworkStatus();
@@ -3761,26 +3631,13 @@
 
 
     }
-    /* ---------------------------------------------------------------------*/
+
     // Init on App start
     firstStart();
-
 
     setInterval(updateDebugMetrics, 1000);
     setInterval(checkDueNotifications, 20000);
     setInterval(updateGoogleTimeLine, 60000);
-
-    /* ---------------------------------------------------------------------
-       Boot
-    --------------------------------------------------------------------- */
-
-
-
-    /* ---------------------------------------------------------------------*/
-
-    /* ---------------------------------------------------------------------*/
-
-    /* ---------------------------------------------------------------------*/
 
   </script>
 </body>
