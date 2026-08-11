@@ -130,58 +130,22 @@
 
         <!-- PAGE 1: HOME / TODAY -->
         <div class="screen app-page d-none" id="page-daily">
-          <div id="taskNavigator">
-            <div class="day-nav">
-                <button id="prevDay">◀</button>
-                <div class="dateLabel" id="dateLabel">Today</div>
-                <input type="date" id="calendar-picker">
-                <button id="nextDay">▶</button>
-            </div>
             <!-- <div class="progress-wrapper">
                 <label>Progress:</label>
                 <div class="progress-bar-bg">
                     <div id="daily-progress-fill" style="width: 0%;">0%</div>
                 </div>
             </div> -->
-          </div>
-          <div id="todayList"></div>
-          <!-- <div class="card">
-            <h2>-</h2>
-            <p>- - - -</p>
-          </div> -->
-
-
-
-          <div class="settings-panel d-none">
-              <div class="settings-title">⚙️ Настройка интервалов суток</div>
-              <div class="control-group">
-                  <label>🌅 Утро с: <span id="val-morning">7</span>:00</label>
-                  <input type="range" id="input-morning" min="5" max="11" value="7">
-              </div>
-              <div class="control-group">
-                  <label>☀️ День с: <span id="val-day">11</span>:00</label>
-                  <input type="range" id="input-day" min="10" max="18" value="11">
-              </div>
-              <div class="control-group">
-                  <label>🌆 Вечер с: <span id="val-evening">18</span>:00</label>
-                  <input type="range" id="input-evening" min="17" max="20" value="18">
-              </div>
-              <button type="button" id="submit-settings" class="btn-submit">Применить</button>
-          </div>
-
           <div class="calendar-app">
-              <!-- Верхняя плашка с кнопками переключения дат -->
               <div class="calendar-top-bar">
-                  <button type="button" id="btn-prev-day" class="nav-btn">◀</button>
-
+                  <button type="button" id="prevDay" class="nav-btn">◀</button>
                   <div class="date-info-block">
-                      <div class="day-badge" id="currentDayNum"></div>
-                      <div class="day-title" id="currentDayName"></div>
+                      <div class="day-badge" id="currentDayNum">📅</div>
+                      <div class="day-title" id="currentDayName">Сегодня</div>
+                      <input type="date" id="calendar-picker" class="d-none" />
                   </div>
-
-                  <button type="button" id="btn-next-day" class="nav-btn">▶</button>
+                  <button type="button" id="nextDay" class="nav-btn">▶</button>
               </div>
-
 
               <!-- Основная сетка расписания -->
               <div class="grid-container" id="gridContainer">
@@ -401,6 +365,24 @@
                 </div>
               </div>
           </div>
+          <div class="card">
+              <div class="settings-panel">
+                  <div class="settings-title">⚙️ Настройка интервалов суток</div>
+                  <div class="control-group">
+                      <label>🌅 Утро с: <span id="val-morning">7</span>:00</label>
+                      <input type="range" id="input-morning" min="5" max="11" value="7">
+                  </div>
+                  <div class="control-group">
+                      <label>☀️ День с: <span id="val-day">11</span>:00</label>
+                      <input type="range" id="input-day" min="10" max="18" value="11">
+                  </div>
+                  <div class="control-group">
+                      <label>🌆 Вечер с: <span id="val-evening">18</span>:00</label>
+                      <input type="range" id="input-evening" min="17" max="20" value="18">
+                  </div>
+                  <button type="button" id="submit-settings" class="btn-submit">Применить</button>
+              </div>
+          </div>
           <!-- </div> -->
         </div>
 
@@ -608,7 +590,7 @@
 
 
 
-    const elCalendar = $('calendar-picker');
+    // const elCalendar = $('calendar-picker');
 
     // New user name defining
     const conditions = ["Fresh", "Young", "Red", "Ripe", "Rotten" ,"Juicy" ,"Sweet" ,"Sour" ,"Bitter" ,"Crisp"];
@@ -622,25 +604,19 @@
     // let auth, db, currentUser = null;
 
     // Initialize State Values
-    elCalendar.value = viewDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD;
+    $('calendar-picker').value = viewDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD;
     let unsubSchedule = null;
-
-
-
-
-    function showToast(msg){
-      const t = $('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      clearTimeout(showToast._t);
-      showToast._t = setTimeout(()=>t.classList.remove('show'), 2200);
-    }
+    let debugStage = 0;
 
     function getRandomName(conditionArray, fruitArray) {
       const condition = conditionArray[Math.floor(Math.random() * conditionArray.length)];
       const fruit = fruitArray[Math.floor(Math.random() * fruitArray.length)];
       return `${condition} ${fruit}`;
     }
+
+
+
+
 
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
@@ -657,12 +633,22 @@
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
     const DEFAULT_SETTINGS = { dateFormat:'dd/mm/yyyy', timeFormat:'24h', weekStart:'mon' };
-    const WEEKDAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const WEEKDAY_NAMES = [
+      {en: 'Sun', ru_short: 'Вскр', ru_long: 'Воскресенье'},
+      {en: 'Mon', ru_short: 'Пн',   ru_long: 'Понедельник'},
+      {en: 'Tue', ru_short: 'Вт',   ru_long: 'Вторник'},
+      {en: 'Wed', ru_short: 'Ср',   ru_long: 'Среда'},
+      {en: 'Thu', ru_short: 'Чт',   ru_long: 'Четверг'},
+      {en: 'Fri', ru_short: 'Пт',   ru_long: 'Пятница'},
+      {en: 'Sat', ru_short: 'Сб',   ru_long: 'Суббота'}
+    ];
+    // const days = ['', '', '', '', '', '', ''];
     let storageName = 'app_dailydose_settings';
 
     const pad = (n) => String(n).padStart(2,'0');
     const dateStr = (d) => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
     const todayStr = () => dateStr(new Date());
+    const isValidDate = (date) => date instanceof Date && !isNaN(date);
 
     let dataCache = {
        tasks: []              // all task templates for the user
@@ -777,7 +763,7 @@
     function triggerHaptic(pattern) {
         if ('vibrate' in navigator) {
             navigator.vibrate(pattern);
-            logger.info('[Haptic] Initiated.')
+            // logger.info('[Haptic] Initiated.')
         }
     }
 
@@ -786,6 +772,8 @@
     /* ---------------------------------------------------------------------*/
     // 2. Connection Tracking
     async function updateNetworkStatus() {
+      logger.warn(`[DEBUG] Stage: ${debugStage++} in updateNetworkStatus()`);
+
       let hideTimeout;
           clearTimeout(hideTimeout); // Reset timers
       const networkStatusBar = $('networkStatusBar');
@@ -795,7 +783,7 @@
 
       if (isOnline == 1) {
           // If it was already hidden, don't flash "Back online" unnecessarily
-          if (!networkStatusBar.classList.contains('online')) { /*networkStatusBar.classList.contains('visible') && */
+          if (networkStatusBar.classList.contains('visible') && !networkStatusBar.classList.contains('online')) { /**/
             // $('appBody').classList.add('network-banner');
             networkStatusBar.textContent = "Back online";
             networkStatusBar.classList.add('online');
@@ -864,6 +852,8 @@
     const sidebarItems = document.querySelectorAll('.sidebar-item');
 
     function handleViewTransition(triggerElement) {
+      logger.warn(`[DEBUG] Stage: ${debugStage++} in handleViewTransition()`);
+
         const appHeaderTitle = $('appHeaderTitle');
         const targetId = triggerElement.getAttribute('data-target');
         const pageTitle = triggerElement.getAttribute('data-title');
@@ -920,6 +910,45 @@
         sidebarOverlay.classList.toggle('active');
     }
 
+    function showToast(msg){
+      const t = $('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(()=>t.classList.remove('show'), 2200);
+    }
+
+    function setCalendarDate() {
+        logger.warn(`[DEBUG] Stage: ${debugStage++} in setCalendarDate()`);
+
+        $('currentDayNum').innerText = pad(viewDate.getDate());
+        $('currentDayName').innerText = (dateStr(viewDate) === todayStr() ? 'Сегодня · ' + WEEKDAY_NAMES[viewDate.getDay()].ru_short : WEEKDAY_NAMES[viewDate.getDay()].ru_long) ;
+    }
+
+    function initDateNavigation() {
+        $('prevDay').addEventListener('click', () => {
+            viewDate.setDate(viewDate.getDate() - 1); // viewDate = new Date(viewDate.getTime()-86400000);
+            switchDateAndRender();
+        });
+        $('nextDay').addEventListener('click', () => {
+            viewDate.setDate(viewDate.getDate() + 1); // viewDate = new Date(viewDate.getTime()+86400000);
+            switchDateAndRender();
+        });
+        $('calendar-picker').addEventListener('change', (e) => {
+            const [year, month, day] = e.target.value.split('-');
+            viewDate = new Date(year, month - 1, day);
+            switchDateAndRender();
+        });
+        $('currentDayNum').addEventListener('click', (e) => {
+          try {
+            $('calendar-picker').showPicker();
+          }
+          catch (err) {
+            logger.error(`Browser doesn't support CalendarPicker: ${err.message}`);
+          }
+        });
+
+    }
 
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
@@ -1002,7 +1031,7 @@
             const now = new Date();
 
             // Pad numbers to ensure clean 00:00:00 format
-            const pad = (num) => String(num).padStart(2, '0');
+            // const pad = (num) => String(num).padStart(2, '0');
 
             const year = now.getFullYear();
             const month = pad(now.getMonth() + 1);
@@ -1026,6 +1055,8 @@
     // let settings = loadSettings();
 
     function showSettings() {
+      logger.warn(`[DEBUG] Stage: ${debugStage++} in showSettings()`);
+
       $('s_dateFormat').value = settings.dateFormat;
       $('s_timeFormat').value = settings.timeFormat;
       $('s_weekStart').value = settings.weekStart;
@@ -1034,6 +1065,8 @@
     }
 
     function loadSettings() {
+      logger.warn(`[DEBUG] Stage: ${debugStage++} in loadSettings()`);
+
       try {
         const raw = localStorage.getItem(storageName);
         if (raw) {
@@ -1087,7 +1120,7 @@
         const b = document.createElement('button');
         b.type = 'button';
         b.dataset.d = d;
-        b.textContent = WEEKDAY_NAMES[d];
+        b.textContent = WEEKDAY_NAMES[d].en;
         if(selectedSet.has(d)) b.classList.add('sel');
         b.onclick = ()=>{
           if(selectedWeekdays.has(d)) selectedWeekdays.delete(d); else selectedWeekdays.add(d);
@@ -1135,8 +1168,29 @@
 
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
+    // 5.
+    function switchDateAndRender() {
+        logger.warn(`[DEBUG] Stage: ${debugStage++} in switchDateAndRender()`);
+
+        if ( isValidDate(viewDate) ) {
+          logger.info(`[CALENDAR] Rendering ${dateStr(viewDate)}`);
+        }
+        else {
+          viewDate = new Date();
+          logger.info(`[CALENDAR] Date undefined. Rendering today`);
+        }
+
+        setCalendarDate();
+        renderFullCalendar();
+    }
 
 
+    /* ---------------------------------------------------------------------*/
+    /* ---------------------------------------------------------------------*/
+    /* ---------------------------------------------------------------------*/
+    /* ---------------------------------------------------------------------*/
+    /* ---------------------------------------------------------------------*/
+    /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
 
@@ -1155,6 +1209,8 @@
        so the user can see the setup notice instead of a blank page).
     --------------------------------------------------------------------- */
     async function initFirebase(){
+        logger.warn(`[DEBUG] Stage: ${debugStage++} in initFirebase()`);
+
         const looksConfigured = firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY";
         if (!looksConfigured) {
           if (typeof showProfileNotice === 'function') showProfileNotice("Firebase isn't configured yet.", false);
@@ -1162,8 +1218,9 @@
         }
 
         try {
-            logger.info("[Boot] 📦 Starting...");
-            showToast('[Boot] 📦 Starting...');
+            // logger.info("[Boot] Starting...");
+            // logger.info("[FIREBASE] Initializing Auth listener state channels...");
+            showToast('Initializing...');
 
             const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js");
             const authMod = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js");
@@ -1175,31 +1232,22 @@
             window.__fb = { authMod, fsMod };
 
             if (window.auth) {
-                console.log("[FIREBASE] Initializing Gatekeeper Observer...");
-                logger.success("[Boot] Database initialized.");
-                console.log("[FIREBASE] Initializing Auth listener state channels...");
-                if (typeof showProfileNotice === 'function') showProfileNotice("Initializing Gatekeeper Observer...", true);
+                logger.success("[FIREBASE] Database initialized.");
+                // if (typeof showProfileNotice === 'function') showProfileNotice("Initializing Gatekeeper Observer...", true);
 
                 authMod.onAuthStateChanged(window.auth, (userSession) => {
                     const bottomFooter = document.querySelector('.app-footer');
-                    logger.info("[Boot] ✨ Checking user...");
                     currentUser = userSession;
 
                     if (userSession) {
-                        logger.info(userSession.email);
-                        logger.success("[Boot] User checked.");
-                        // User successfully logged in or session token re-validated
-                        console.log(`[AUTH_SUCCESS] User logged in: ${userSession.email}`);
-                        console.log(`[AUTH_UID] ID: ${userSession.uid.substring(0, 8)}...`);
-
+                        logger.success(`[FIREBASE] User logged in as ${userSession.email}`);
                         // Check if user account has been fully verified
                         if (userSession.emailVerified) {
-                          console.log("[AUTH_INFO] Email verification token verified.");
+                          // logger.success("[FIREBASE] Email verification token verified.");
                         } else {
-                          console.warn("[AUTH_WARN] User email verification check pending.");
+                          // logger.warn("[FIREBASE] User email isn't fully verified. Its'ok.");
                         }
 
-                        console.log(`[AUTH_SUCCESS] Active account session verified: ${currentUser.email}`);
                         if ( $('profilePanel') )        $('profilePanel').classList.remove('d-none');
                         if ( $('authBoxContainer') )    $('authBoxContainer').classList.add('d-none');
                         if ( $('menuToggle') )          $('menuToggle').style.visibility = 'visible';
@@ -1224,10 +1272,12 @@
                                 }
                             });
 
-                            console.log(`Go next: handleViewTransition`);
+                            if (typeof showProfileNotice === 'function') showProfileNotice("User checked", true);
+
+                            // console.log(`Go next: handleViewTransition`);
                             handleViewTransition(homeTabLink);
 
-                            console.log("Go next: initDataListeners");
+                            // console.log("Go next: initDataListeners");
                             initDataListeners();
                             requestNotificationPermission();
                             // simulatePageUpdate();
@@ -1235,10 +1285,9 @@
 
                     }
                     else {
-                        logger.warn("[Boot] User undefined.");
-                        // No session active, or user clicked a logout button routine
-                        console.warn("[AUTH_STATE] Unauthenticated: No secure session detected.");
-                        console.warn("[AUTH_LOCK] Session void. App entering locked profile view mode.");
+                        logger.warn("[FIREBASE] User undefined.");
+                        // console.warn("[AUTH_STATE] Unauthenticated: No secure session detected.");
+                        // console.warn("[AUTH_LOCK] Session void. App entering locked profile view mode.");
 
                         if ( $('profilePanel') ) $('profilePanel').classList.add('d-none');
                         if ( $('authBoxContainer') ) $('authBoxContainer').classList.remove('d-none');
@@ -1254,22 +1303,19 @@
                             handleViewTransition(profileTabLink);
                         }
                     }
-                    logger.info("[Boot] 🚀 Finished.");
                 });
             }
             else {
-                logger.warn("[Boot] Firebase didn't initialize.");
-                logger.info("[Boot] 🚀 Finished.");
-                console.error("[FIREBASE_ERR] Authentication initialization context broke.");
+                logger.warn("[FIREBASE] Firebase didn't initialize.");
             }
 
             wireAuthUI();
             return true;
         }
         catch (err) {
-          logger.error(`[Boot] Explicit in authentication block: ${err}`);
-          console.error(err);
-          if (typeof showProfileNotice === 'function') showProfileNotice(`Couldn't load Firebase. Check your firebaseConfig and internet connection. (${err})`, true);
+          logger.error(`[FIREBASE] Explicit in auth: ${err.message}`);
+          // console.error(err);
+          if (typeof showProfileNotice === 'function') showProfileNotice(`Couldn't load Firebase: (${err.message})`, true);
           return false;
         }
     }
@@ -1485,14 +1531,14 @@
                 const profileData = docSnap.data(); // Extracts all fields as a plain JS object
                 // const registrationDate = profileData.createdAt; // Grab the parameter
 
-                console.log("Get User Name:", profileData.displayName);
+                logger.success(`[FIREBASE] Got User Name: ${profileData.displayName}`);
                 return profileData;
             } else {
-                console.log("No profile information document found!");
+                logger.warn("[FIREBASE] No Profile information found! It's ok.");
                 return null;
             }
-        } catch (error) {
-            console.error("Error retrieving profile data:", error);
+        } catch (err) {
+            logger.error(`[FIREBASE] Error retrieving profile data: ${err.message}`);
         }
     }
 
@@ -1502,21 +1548,30 @@
 
 
 
-
+    let debug__initDataListeners = 0;
+    let debug__tasks_onSnapshot = 0;
+    let debug__compl_onSnapshot = 0;
     function initDataListeners() { /*like subscribeToData()*/
-        if ( $('page-loader') )         $('page-loader').classList.remove('d-none');
-        // console.log('REMOVE D-NONE');
+        logger.warn(`[DEBUG] Stage: ${debugStage++} in initDataListeners() #${debug__initDataListeners++}`);
+
+        logger.info(`[FIREBASE] Trying to load Data...`);
+        // if ( $('page-loader') )         $('page-loader').classList.remove('d-none');
+
         if (unsubSchedule) unsubSchedule();
         const { fsMod } = window.__fb;
 
         // 1. Tab 1: Time Bound Stream Filtered By Specific Selected Day
         const qSched = fsMod.collection(db, `users/${currentUser.uid}/tasks`);
         unsubSchedule = fsMod.onSnapshot(qSched, (snap) => {
+          logger.warn(`[DEBUG] Stage: ${debugStage++} in initDataListeners() #${debug__tasks_onSnapshot++}`);
             dataCache.tasks = [];
             snap.forEach(doc =>
               dataCache.tasks.push({id: doc.id, ...doc.data()})
             );
-            renderToday();
+            logger.success('[FIREBASE] Tasks loaded');
+            // console.log(dataCache);
+            // renderToday();
+            switchDateAndRender();
             renderTasksManage();
             // calculateOverallProgress();
             // dataCache.tasks = snap.docs.map(d=>({ id:d.id, ...d.data() }));
@@ -1524,11 +1579,15 @@
 
         const compCol = fsMod.collection(db, 'users', currentUser.uid, 'completions');
         fsMod.onSnapshot(compCol, (snap)=>{
-          dataCache.completions = {};
-          snap.docs.forEach(d =>
-            dataCache.completions[d.id] = d.data() || {}
-          );
-          renderToday();
+          logger.warn(`[DEBUG] Stage: ${debugStage++} in initDataListeners() #${debug__compl_onSnapshot++}`);
+            dataCache.completions = {};
+            snap.docs.forEach(d =>
+              dataCache.completions[d.id] = d.data() || {}
+            );
+            logger.success('[FIREBASE] Completions loaded');
+
+          // renderToday();
+          switchDateAndRender();
         });
 
         const clCol = fsMod.collection(db, 'users', currentUser.uid, 'checklist');
@@ -1571,7 +1630,7 @@
     }
 
     /* Expand each occurring task into one entry per time-of-day. */
-    function occurrencesForDate(d){
+    function occurrencesForDate(d) {
       const out = [];
       dataCache.tasks
         .filter(t => t.active !== false && occursOn(t, d))
@@ -1586,70 +1645,11 @@
     const CAT_LABEL = { exercise:'🏃 Exercise', pills:'💊 Pills', water:'💧 Water', meal:'🍽️ Meal', sleep:'🛌 Sleep', other:'📌 Other' };
 
 
-    /* ---------------------------------------------------------------------
-       Rendering: Today view
-    --------------------------------------------------------------------- */
-    const isValidDate = (date) => date instanceof Date && !isNaN(date);
-
-    function renderToday(){
-      let log__check_today = '';
-      if (isValidDate(viewDate)) {
-        log__check_today = "[Tab:Daily] Date set to";
-      }
-      else {
-        viewDate = new Date();
-        log__check_today = "[Tab:Daily] Date undefined. Return to today";
-      }
-      const ds = dateStr(viewDate);
-      console.log(log__check_today, ds);
-      const isToday = ds === todayStr();
-      const weekdayShort = WEEKDAY_NAMES[viewDate.getDay()];
-
-      elCalendar.value = ds; //viewDate.toISOString().split('T')[0];
-      $('dateLabel').textContent = (isToday ? 'Today · ' : '') + weekdayShort + ' '; /* + formatDateDisplay(viewDate);*/
-
-      const occ = occurrencesForDate(viewDate);
-      const doneMap = dataCache.completions[ds] || {};
-      const container = $('todayList');
-      container.innerHTML = '';
-
-      if(occ.length === 0){
-        container.innerHTML = '<div class="empty-state">Nothing scheduled for this day.<br>Tap + to add a task.</div>';
-        if ( $('page-loader') )         $('page-loader').classList.add('d-none');
-        return;
-      }
-
-      occ.forEach(({task, time})=>{
-        const key = task.id + '__' + time;
-        const done = !!doneMap[key];
-        const card = document.createElement('div');
-        card.className = 'task-card' + (done ? ' done' : '');
-        card.innerHTML = `
-          <div class="check-circle">✓</div>
-          <div class="task-body">
-            <div class="task-title">${escapeHtml(task.title)}</div>
-            <div class="task-meta"><span class="cat-pill">${CAT_LABEL[task.category]||'📌 Other'}</span>${formatTimeDisplay(time)}${task.notes ? ' · ' + escapeHtml(task.notes) : ''}</div>
-          </div>
-          <div class="task-actions">
-            <button class="icon-btn" data-act="edit">✏️</button>
-            <button class="icon-btn" data-act="del">🗑️</button>
-          </div>
-        `;
-        card.querySelector('.check-circle').onclick = ()=> toggleCompletion(key, ds, !done);
-        card.querySelector('[data-act=edit]').onclick = ()=> openTaskModal(task);
-        card.querySelector('[data-act=del]').onclick = ()=> deleteTask(task.id);
-        container.appendChild(card);
-
-        if ( $('page-loader') )         $('page-loader').classList.add('d-none');
-      });
-    }
-
-
     function escapeHtml(s){
       return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
 
-    async function toggleCompletion(key, ds, value){
+    async function toggleCompletion(key, ds, value) {
       const { fsMod } = window.__fb;
       const uid = currentUser.uid;
       const ref = fsMod.doc(db, 'users', uid, 'completions', ds);
@@ -1657,22 +1657,20 @@
           [key]: value
         }, { merge:true }
       );
-      logger.info("[DB] Task toggled");
-    }
+      logger.info("[CONTENT] Task toggled");
 
-    $('prevDay').onclick = ()=>{ viewDate = new Date(viewDate.getTime()-86400000); renderToday(); };
-    $('nextDay').onclick = ()=>{ viewDate = new Date(viewDate.getTime()+86400000); renderToday(); };
-    // $('prevDay').addEventListener('click', () => changeDay(-1));
-    // $('nextDay').addEventListener('click', () => changeDay(1));
-    elCalendar.addEventListener('change', (e) => {
-        // console.log(e.target.value);
-        // viewDate = e.target.value;
-        const [year, month, day] = e.target.value.split('-');
-        viewDate = new Date(year, month - 1, day); // Create the Date object (Subtract 1 from month because months are 0-indexed)
-        // console.log(viewDate);
-        // initDataListeners();
-        renderToday();
-    });
+
+      // const targetItem = globalScheduleDatabase.find(item => item.id === id);
+      // if (!targetItem) return;
+      //       targetItem.done = !targetItem.done;
+
+      const element = document.getElementById(key);
+      if (element) {
+            element.classList.toggle('completed', value);
+      }
+
+      updateDividerCounters();
+    }
 
     /* ---------------------------------------------------------------------
        Rendering: Manage Tasks view (all templates, edit/remove)
@@ -1726,7 +1724,7 @@
         case 'daily': return 'Every day';
         case 'weekly': {
           return (rec.days||[]).slice().sort((a,b)=>weekdayOrder().indexOf(a)-weekdayOrder().indexOf(b))
-            .map(d=>WEEKDAY_NAMES[d]).join(', ') || 'Weekly';
+            .map(d=>WEEKDAY_NAMES[d].en).join(', ') || 'Weekly';
         }
         case 'interval': return `Every ${rec.interval||2} days`;
         default: return '';
@@ -2426,34 +2424,11 @@
 
 
 
-    /*
-        1. инициализация всего, что может работать оффлайн
-
-        2. инициализация бд и лисенеров
-
-        3. загрузка данных
-
-        4. при локальном обновлении происходит:
-          переинициализация бд и лисенеров          тк изначально может не быть инета и ничего не подсоединилось
-          загрузка данных
-    */
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /* ---------------------------------------------------------------------*/
     // Register Service Worker to enable PWA installation capabilities
+
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./sw.js')
@@ -2462,7 +2437,6 @@
         });
     }
 
-    /* ---------------------------------------------------------------------*/
     // Native PWA Installation Capture Framework
     let deferredPrompt;
     const installBanner = document.getElementById('installBanner');
@@ -2524,6 +2498,7 @@
             installBanner.classList.add('d-none');
         }
     });
+
     /* ---------------------------------------------------------------------*/
 
 
@@ -2540,17 +2515,19 @@
 
 
     //
-    let currentSelectedDate = new Date(2026, 7, 3);
-    // Конфигурация частей суток по умолчанию
-    const dayTimeConfig = {
-        // nightStart: 0,
-        morningStart: 7,
-        dayStart:     11,
-        eveningStart: 18,
-        nightEnd:     22
+    const calendarConfig = {
+        nightStart: { startsAt: 0,  isCollapsed: true  },
+        morning:    { startsAt: 7,  isCollapsed: false },
+        day:        { startsAt: 11, isCollapsed: false },
+        evening:    { startsAt: 18, isCollapsed: false },
+        nightEnd:   { startsAt: 22, isCollapsed: false }
     };
+    let occ = [];
 
 
+    // Единый массив расписания дня
+    // Если duration === 0 -> это точечная задача (To-Do Pill)
+    // Если duration > 0   -> это длительный процесс (Event Card)
     const defaultProcesses = [
       { date: '', start: 0.0, duration: 7.0, done: false, title: '', description: '',
         tags: {
@@ -2558,7 +2535,7 @@
                                             Спорт, Хобби, Оплата, Покупки, Кино, Вредное, */
           /*Где*/       place:    'Дом',      /*Любое, Дом, Офис, Транспорт, Улица, Спец.место, On-line, Другое*/
           /*Как*/       type:     'Рутина',   /*Мелочь, Фокус, Рутина*/
-          /*Зачем*/     context:  'Здоровье', /*Здоровье, Работа, Быт, Отдых, Развитие */
+          /*Зачем*/     context:  'Здоровье', /*Здоровье, Работа, Быт, Отдых, Развитие, Достижение */
           /*Сфера*/     space:    'Личное',   /*Личное, Работа, Семья*/
           /*Важность*/  priority:  0.5        /*0..1, default=0.5,*/
           /*Когда*/
@@ -2677,76 +2654,76 @@
       }
     ];
     const globalScheduleDatabase = [
-        { id: 'todo-0', date: '2026-08-03', start: 4.0,  duration: 0.0, done: false,  title: 'Туалет',             description: 'Пописать',
+        { id: 'todo0', date: '2026-08-03', start: 4.0,  duration: 0.0, done: false,  title: 'Туалет',    description: 'Пописать',
           tags: {context:'Здоровье'}
         },
-        { id: 'item-0', date: '2026-08-03', start: 4.0,  duration: 1.5, done: true,   title: 'Лежать на кровати',            description: 'Лежать на кровати',
+        { id: 'item0', date: '2026-08-03', start: 4.0,  duration: 1.5, done: true,   title: 'Лежать на кровати', description: 'Лежать на кровати',
           tags: {context:'Здоровье'}
         },
-        { id: 'todo-1', date: '2026-08-03', start: 9.0,  duration: 0,   done: true,   title: 'Утренние ритуалы',description: 'Выпить витамины',
+        { id: 'todo1', date: '2026-08-03', start: 9.0,  duration: 0,   done: true,   title: 'Утренние ритуалы',description: 'Выпить витамины',
           tags: {context:'Здоровье'}
         },
-        { id: 'todo-2', date: '2026-08-03', start: 9.0,  duration: 0,   done: false,  title: 'Почта',           description: 'Проверить рабочую почту. Здесь много текста, чтобы проверить заполнение блока, <br/>когда текст не влезает',
+        { id: 'todo2', date: '2026-08-03', start: 9.0,  duration: 0,   done: false,  title: 'Почта',           description: 'Проверить рабочую почту. Здесь много текста, чтобы проверить заполнение блока, <br/>когда текст не влезает',
           tags: {context:'Работа'}
         },
-        { id: 'todo-6', date: '2026-08-03', start: 9.0,  duration: 0,   done: true,   title: 'Витамины',        description: 'Выпить таблетки',
+        { id: 'todo6', date: '2026-08-03', start: 9.0,  duration: 0,   done: true,   title: 'Витамины',        description: 'Выпить таблетки',
           tags: {context:'Здоровье'}
         },
-        { id: 'todo-7', date: '2026-08-03', start: 9.15, duration: 0,   done: true,   title: 'Утренние ритуалы',description: 'Покакать',
+        { id: 'todo7', date: '2026-08-03', start: 9.15, duration: 0,   done: true,   title: 'Утренние ритуалы',description: 'Покакать',
           tags: {context:'Здоровье'}
         },
-        { id: 'todo-8', date: '2026-08-03', start: 9.25, duration: 0,   done: false,  title: 'Доставка',        description: 'Созвон с курьером',
+        { id: 'todo8', date: '2026-08-03', start: 9.25, duration: 0,   done: false,  title: 'Доставка',        description: 'Созвон с курьером',
           tags: {context:'Быт'}
         },
-        { id: 'item-8', date: '2026-08-03', start: 11.75,duration: 1.0, done: false,  title: '🍵 Перерыв',      description: 'Проверяю, что происходит при пересечении',
+        { id: 'item8', date: '2026-08-03', start: 11.75,duration: 1.0, done: false,  title: '🍵 Перерыв',      description: 'Проверяю, что происходит при пересечении',
           tags: {context:'Развитие'}
         },
-        { id: 'item-4', date: '2026-08-03', start: 12.5, duration: 1.5, done: false,  title: 'Alarm!',          description: 'Срочный созвон с техподдержкой',
+        { id: 'item4', date: '2026-08-03', start: 12.5, duration: 1.5, done: false,  title: 'Alarm!',          description: 'Срочный созвон с техподдержкой',
           tags: {context:'Работа'}
         },
-        { id: 'item-5', date: '2026-08-03', start: 13.5, duration: 2.5, done: false,  title: '💼 Процессы',     description: 'Дейли синк, созвоны, код-ревью',
+        { id: 'item5', date: '2026-08-03', start: 13.5, duration: 2.5, done: false,  title: '💼 Процессы',     description: 'Дейли синк, созвоны, код-ревью',
           tags: {context:'Работа'}
         },
-        { id: 'todo-4', date: '2026-08-03', start: 13.0, duration: 0,   done: false,  title: 'Доставка',        description: 'Заказать обед',
+        { id: 'todo4', date: '2026-08-03', start: 13.0, duration: 0,   done: false,  title: 'Доставка',        description: 'Заказать обед',
           tags: {context:'Быт'}
         },
-        { id: 'item-6', date: '2026-08-03', start: 18.0, duration: 1.5, done: false,  title: '🏃 Вечер',        description: 'Тренировка в зале (Кардио)',
+        { id: 'item10', date: '2026-08-03', start: 18.0, duration: 1.5, done: false,  title: '🏃 Вечер',        description: 'Тренировка в зале (Кардио)',
           tags: {context:'Здоровье'}
         },
-        { id: 'todo-5', date: '2026-08-03', start: 18.5, duration: 0,   done: true,   title: 'Посылка',         description: 'Забрать посылку',
+        { id: 'todo5', date: '2026-08-03', start: 18.5, duration: 0,   done: true,   title: 'Посылка',         description: 'Забрать посылку',
           tags: {context:'Быт'}
         },
-        { id: 'item-7', date: '2026-08-03', start: 20.0, duration: 2.0, done: false,  title: '🛋️ Отдых',        description: 'Ужин и чтение книги перед отбоем',
+        { id: 'item13', date: '2026-08-03', start: 20.0, duration: 2.0, done: false,  title: '🛋️ Отдых',        description: 'Ужин и чтение книги перед отбоем',
           tags: {context:'Отдых'}
         },
 
-        { id: 'tue-item-1', date: '2026-08-04', start: 8.0,  duration: 1.0, done: false, title: 'Обеденный перерыв',description: 'Английский язык (Урок)',
+        { id: 'tueitem1', date: '2026-08-04', start: 8.0,  duration: 1.0, done: false, title: 'Обеденный перерыв',description: 'Английский язык (Урок)',
           tags: {context:'Развитие'}
         },
-        { id: 'tue-todo-1', date: '2026-08-04', start: 9.5,  duration: 0,   done: false, title: 'Доставка',        description: 'Купить подарок коллеге',
+        { id: 'tuetodo1', date: '2026-08-04', start: 9.5,  duration: 0,   done: false, title: 'Доставка',        description: 'Купить подарок коллеге',
           tags: {context:'Быт'}
         },
-        { id: 'tue-item-2', date: '2026-08-04', start: 10.0, duration: 4.0, done: false, title: '💼 Процессы',    description: 'Глубокая работа: Написание документации',
+        { id: 'tueitem2', date: '2026-08-04', start: 10.0, duration: 4.0, done: false, title: '💼 Процессы',    description: 'Глубокая работа: Написание документации',
           tags: {context:'Работа'}
         },
-        { id: 'tue-item-3', date: '2026-08-04', start: 15.0, duration: 2.0, done: false, title: '💼 Процессы',    description: 'Встреча с клиентом в Zoom',
+        { id: 'tueitem3', date: '2026-08-04', start: 15.0, duration: 2.0, done: false, title: '💼 Процессы',    description: 'Встреча с клиентом в Zoom',
           tags: {context:'Работа'}
         },
 
-        { id: 'wed-item-1', date: '2026-08-02', start: 9.0,  duration: 2.0, done: false, title: '💼 Процессы',   description: 'Планирование спринта',
+        { id: 'weditem1', date: '2026-08-02', start: 9.0,  duration: 2.0, done: false, title: '💼 Процессы',   description: 'Планирование спринта',
           tags: {context:'Работа'}
         },
-        { id: 'wed-todo-1', date: '2026-08-02', start: 14.0, duration: 0,   done: false, title: 'Посылка',      description: 'Забрать заказ из WB',
+        { id: 'wedtodo1', date: '2026-08-02', start: 14.0, duration: 0,   done: false, title: 'Посылка',      description: 'Забрать заказ из WB',
           tags: {context:'Быт'}
         },
-        { id: 'wed-item-2', date: '2026-08-02', start: 18.0, duration: 2.0, done: false, title: '🛋️ Отдых',      description: 'Поход в кино на премьеру',
+        { id: 'weditem2', date: '2026-08-02', start: 18.0, duration: 2.0, done: false, title: '🛋️ Отдых',      description: 'Поход в кино на премьеру',
           tags: {context:'Отдых'}
         },
-        { id: 'todo-6',     date: '2026-08-03', start: 22.5,  duration: 0,   done: false, title: 'Витамины',      description: 'Выпить таблетки',
+        { id: 'todo11',     date: '2026-08-03', start: 22.5,  duration: 0,   done: false, title: 'Витамины',      description: 'Выпить таблетки',
           tags: {context:'Здоровье'}
         },
 
-        { id: 'habit-1', date: '2026-08-03', start: 24, duration: 0, done: false, title: 'День без сигарет', description: 'Сегодня не курил, полет нормальный',
+        { id: 'habit1', date: '2026-08-03', start: 24, duration: 0, done: false, title: 'День без сигарет', description: 'Сегодня не курил, полет нормальный',
           tags: {
             template: '🏆 Достижение',
             place:    'Любое',
@@ -2756,7 +2733,7 @@
             priority:  0.5
           }
         },
-        { id: 'habit-2', date: '2026-08-03', start: 24, duration: 0, done: true, title: 'Норма воды', description: 'Выпито 2 литра чистой воды за день',
+        { id: 'habit2', date: '2026-08-03', start: 24, duration: 0, done: true, title: 'Норма воды', description: 'Выпито 2 литра чистой воды за день',
           tags: {
             template: '🏆 Достижение',
             place:    'Любое',
@@ -2768,7 +2745,7 @@
         },
     ];
 
-    let dayScheduleData = [];
+
 
 
 
@@ -2781,7 +2758,7 @@
         if (!isDateExists) {
             defaultProcesses.forEach((template, index) => {
                 const newTemplateItem = {
-                    id: `temp-${dateStr}-${index}`, // Уникальный ID для каждого дня
+                    id: `temp_${dateStr}_${index}`, // Уникальный ID для каждого дня
                     date: dateStr,
                     start: template.start,
                     duration: template.duration,
@@ -2806,70 +2783,26 @@
     }
 
 
-    // 4. ФУНКЦИЯ ФОРМАТИРОВАНИЯ ДАТЫ В СТРОКУ (ВЫДАЕТ КЛЮЧ ТИПА "2026-08-03")
-    function formatDateToKey(date) {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    }
 
-    // 0. Автоматический вывод текущей даты в шапку
-    function setCalendarDate() {
-      const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-      document.getElementById('currentDayNum').innerText = String(currentSelectedDate.getDate()).padStart(2, '0');
-      document.getElementById('currentDayName').innerText = days[currentSelectedDate.getDay()];
-    }
 
-    // 6. ИНИЦИАЛИЗАЦИЯ И КЛИКИ ПО КНОПКАМ СТРЕЛОК
-    function initDateNavigation() {
-        const btnPrev = document.getElementById('btn-prev-day');
-        const btnNext = document.getElementById('btn-next-day');
 
-        btnPrev.addEventListener('click', () => {
-            currentSelectedDate.setDate(currentSelectedDate.getDate() - 1);
-            switchDateAndRender();
-        });
 
-        btnNext.addEventListener('click', () => {
-            currentSelectedDate.setDate(currentSelectedDate.getDate() + 1);
-            switchDateAndRender();
-        });
-    }
-
-    // 7. НОВАЯ ЛОГИКА ФИЛЬТРАЦИИ: Переключение даты и выборка из плоского массива
-    function switchDateAndRender() {
-        const targetDateStr = formatDateToKey(currentSelectedDate);
-
-        applyTemplatesToDate(targetDateStr);
-
-        // Используем метод .filter() для поиска всех элементов, принадлежащих выбранной дате
-        dayScheduleData = globalScheduleDatabase.filter(item => item.date === targetDateStr);
-
-        // Обновляем текст даты в шапке
-        setCalendarDate();
-
-        // Вызываем функцию полной перерисовки страницы
-        renderFullCalendar();
-    }
 
     // Функция, которая на лету определяет тип времени на основе числового часа
     function getDayPartType(hour) {
-        // console.log(hour, dayTimeConfig.eveningStart, dayTimeConfig.nightEnd);
-        // 1. Самая ранняя ночь (от 00:00 до наступления утра, например, до 7:00)
-        if (hour < dayTimeConfig.morningStart) {
+        if (hour >= calendarConfig.nightStart.startsAt && hour < calendarConfig.morning.startsAt) {
             return 'nightStart';
         }
         // 2. Утро (от утра до дня, например, 7:00 - 11:59)
-        else if (hour >= dayTimeConfig.morningStart && hour < dayTimeConfig.dayStart) {
+        else if (hour >= calendarConfig.morning.startsAt && hour < calendarConfig.day.startsAt) {
             return 'morning';
         }
         // 3. День (от дня до вечера, например, 12:00 - 17:59)
-        else if (hour >= dayTimeConfig.dayStart && hour < dayTimeConfig.eveningStart) {
+        else if (hour >= calendarConfig.day.startsAt && hour < calendarConfig.evening.startsAt) {
             return 'day';
         }
         // 4. Вечер (СТРОГО от вечера до начала ночи, например, 18:00 - 22:59)
-        else if (hour >= dayTimeConfig.eveningStart && hour < dayTimeConfig.nightEnd) {
+        else if (hour >= calendarConfig.evening.startsAt && hour < calendarConfig.nightEnd.startsAt) {
             return 'evening';
         }
         // 5. Вторая ночь (всё, что равно или позже настройки ночи, например, 23:00+)
@@ -2881,14 +2814,14 @@
 
     // Функция автоматической генерации часовой сетки и разделителей суток
     function generateCalendarGrid() {
-        const container = document.getElementById('gridContainer');
-        const indicator = document.getElementById('timeIndicator');
+      logger.warn(`[DEBUG] Stage: ${debugStage++} in generateCalendarGrid()`);
 
-        // 1. Очищаем контейнер от старой разметки (но сохраняем индикатор времени)
+        const container = $('gridContainer');
+        const indicator = $('timeIndicator');
+
         container.innerHTML = '';
         container.appendChild(indicator);
 
-        // Объект со структурой и SVG-иконками для разделителей суток
         const dividersInfo = {
             nightStart: { label: 'Ночь', svg: '<svg viewBox="0 0 24 24"><path d="M12.3 22h-.1c-5.5 0-10-4.5-10-10 0-4.8 3.5-8.9 8.2-9.8.5-.1 1 .2 1.2.7.2.5 0 1.1-.4 1.4-2.8 1.9-4.3 5.2-3.8 8.6.6 4 3.9 7.1 7.9 7.5 2.1.2 4.1-.4 5.7-1.7.4-.3 1-.3 1.4.1.4.4.4.9.1 1.3-2.1 2.6-5.3 4.1-8.7 4.1z"/></svg>' },
             morning:    { label: 'Утро', svg: '<svg viewBox="0 0 24 24"><path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm-1-14h2v3h-2zm0 17h2v3h-2zm-8-9h3v2H3zm15 0h3v2h-3z"/></svg>' },
@@ -2900,33 +2833,24 @@
         // Вспомогательная функция для быстрого создания HTML разделителя
         function createDividerElement(key) {
             const div = document.createElement('div');
-            div.className = `day-part-divider ${key}`;
-            // Если этот блок по умолчанию свернут (например, nightStart), сразу добавляем класс
-            if (collapsedBlocks[key] === true) {
-                div.classList.add('is-collapsed');
-            }
-            div.innerHTML = `
-                <div class="divider-badge">
-                    ${dividersInfo[key].svg}
-                    <span>${dividersInfo[key].label}</span>
-                </div>
-            `;
+                  div.className = `day-part-divider ${key}`;
+                  div.innerHTML = `<div class="divider-badge">${dividersInfo[key].svg} <span>${dividersInfo[key].label}</span> </div>`;
+            if (calendarConfig[key].isCollapsed === true)
+                  div.classList.add('is-collapsed');
             return div;
         }
 
         // 2. Основной цикл генерации 24 часов (от 0 до 23)
         for (let hour = 0; hour < 24; hour++) {
-
-            // ВСТАВКА РАЗДЕЛИТЕЛЕЙ СУТОК на основе текущего часа и настроек пользователя
-            if (hour === 0) {
+            if        (hour === calendarConfig.nightStart.startsAt) {
                 container.appendChild(createDividerElement('nightStart'));
-            } else if (hour === dayTimeConfig.morningStart) {
+            } else if (hour === calendarConfig.morning.startsAt) {
                 container.appendChild(createDividerElement('morning'));
-            } else if (hour === dayTimeConfig.dayStart) {
+            } else if (hour === calendarConfig.day.startsAt) {
                 container.appendChild(createDividerElement('day'));
-            } else if (hour === dayTimeConfig.eveningStart) {
+            } else if (hour === calendarConfig.evening.startsAt) {
                 container.appendChild(createDividerElement('evening'));
-            } else if (hour === dayTimeConfig.nightEnd) {
+            } else if (hour === calendarConfig.nightEnd.startsAt) {
                 container.appendChild(createDividerElement('nightEnd'));
             }
 
@@ -2934,30 +2858,22 @@
             const minutesSteps = [0, 15, 30, 45];
             minutesSteps.forEach(minute => {
                 const row = document.createElement('div');
-                row.className = 'grid-row';
-                row.dataset.hour = hour;
-                row.dataset.minute = minute;
-
-                // Определяем, какую текстовую метку времени выводить слева
+                      row.className = 'grid-row';
+                      row.dataset.hour = hour;
+                      row.dataset.minute = minute;
                 let labelText = '';
                 let labelClass = 'time-label';
-
                 if (minute === 0) {
-                    // Начало часа (например, "09:00")
-                    labelText = `${String(hour).padStart(2, '0')}:00`;
+                    labelText = `${pad(hour)}:00`;
                 } else if (minute === 30) {
-                    // Полчаса (бледная метка "30")
-                    labelText = `${String(hour).padStart(2, '0')}:30`;
+                    labelText = `${pad(hour)}:30`;
                     labelClass = 'time-label half-hour-label';
                 }
-
-                // Определяем тип ячейки (главная сплошная линия или пунктирная 15-минутка)
                 const cellTypeClass = (minute === 0) ? 'main-hour' : 'quarter-hour';
-
-                row.innerHTML = `
-                    <div class="${labelClass}">${labelText}</div>
-                    <div class="line-cell ${cellTypeClass}"></div>
-                `;
+                      row.innerHTML = `
+                          <div class="${labelClass}">${labelText}</div>
+                          <div class="line-cell ${cellTypeClass}"></div>
+                      `;
 
                 container.appendChild(row);
             });
@@ -2968,7 +2884,7 @@
     // Константные размеры ячеек для математических расчетов координат
     // const HOUR_HEIGHT = 60;       // Высота часа (px)
     // const BASE_HOUR_HEIGHT = 60;   // Минимальная высота часа (px)
-    const BASE_ROW_HEIGHT = 24;  // Высота одной 15-минутки по умолчанию (px)
+    const BASE_ROW_HEIGHT = 26;  // Высота одной 15-минутки по умолчанию (px)
     const NIGHT_HEIGHT = 40;      // Высота ночного блока (px)
     const DIVIDER_HEIGHT = 34;    // Высота строки-разделителя (px)
 
@@ -3028,39 +2944,32 @@
     }
 
 
-    // 2. Функция динамического расширения конкретного 15-минутного интервала
-    // Объект для хранения состояний свернутых блоков (true = свернут, false = открыт)
-    const collapsedBlocks = {
-      nightStart: true, // Ночь с 00:00 до утра
-      morning: false,
-      day: false,
-      evening: false,
-      nightEnd: false   // Ночь с вечерней границы до 00:00
-    };
-
     function adjustHourRowsHeight() {
+      logger.warn(`[DEBUG] Stage: ${debugStage++} in adjustHourRowsHeight()`);
+
         const todoCountBySlot = {};
         const busyHours = new Set();
+        // console.log(occ);
 
-        dayScheduleData.forEach(item => {
-            const startHour = Math.floor(item.start);
+        occ.forEach(item => {
+            const startHour = Math.floor(timeToDecimal(item.time));
 
-            if (item.duration === 0) {
+            if (item.task.duration === 0) {
                 // А: Это To-Do задача
                 busyHours.add(startHour);
-                const minutes = Math.floor((item.start % 1) * 60);
+                const minutes = Math.floor((timeToDecimal(item.time) % 1) * 60);
                 const stepMinute = Math.floor(minutes / 15) * 15;
                 const slotKey = `${startHour}-${stepMinute}`;
                 todoCountBySlot[slotKey] = (todoCountBySlot[slotKey] || 0) + 1;
             } else {
                 // Б: Это процесс (Event)
-                const endHour = Math.ceil(item.start + item.duration);
+                const endHour = Math.ceil(timeToDecimal(item.time) + item.task.duration);
                 for (let h = endHour; h < endHour; h++) {
                     busyHours.add(h);
                 }
             }
         });
-
+        // console.log(todoCountBySlot);
 
         const allRows = document.querySelectorAll('.grid-row[data-hour]');
         allRows.forEach(row => {
@@ -3077,7 +2986,7 @@
             const currentPart = getDayPartType(hour);
 
             // Если этот макро-блок сейчас свернут пользователем — прячем строку
-            if (collapsedBlocks[currentPart] === true) {
+            if (calendarConfig[currentPart].isCollapsed === true) {
                 row.classList.add('hidden-by-collapse');
                 return; // Пропускаем дальнейшую настройку высоты
             }
@@ -3096,20 +3005,42 @@
         });
     }
 
-    // 3. Вычисление точных размеров и позиций для карточек событий
-    function positionEventsWithConflicts() {
+
+    // 3. Точная геометрическая расстановка To-Do задач
+    let debug__positionTasks = 0;
+    function positionTasks() {
+      logger.warn(`[DEBUG] Stage: ${debugStage++} in positionTasks() #${debug__positionTasks++}`);
+
+        logger.info('[CALENDAR] Clear day and fill in content');
+
         const container = document.getElementById('gridContainer');
+        if (!container) return;
         document.querySelectorAll('.event-card').forEach(card => card.remove());
+        document.querySelectorAll('.todo-pill').forEach(p => p.remove());
+
+        const ds = dateStr(viewDate);
+        const doneMap = dataCache.completions[ds] || {};
+        // const container = $('todayList');
+        // container.innerHTML = '';
+        // console.log(occ);
+
+        if(occ.length === 0){
+          // container.innerHTML = '<div class="empty-state">Nothing scheduled for this day.<br>Tap + to add a task.</div>';
+          console.log(`Nothing scheduled for ${dateStr(viewDate)}`);
+          showToast(`Nothing scheduled for ${dateStr(viewDate)}`);
+          // if ( $('page-loader') )         $('page-loader').classList.add('d-none');
+          return;
+        }
 
         // Фильтруем ТОЛЬКО процессы
-        const events = dayScheduleData.filter(item => item.duration > 0);
-        events.sort((a, b) => a.start - b.start);
+        const events = occ.filter(item => (item.task.duration ?? 0) > 0);
+        events.sort((a, b) => timeToDecimal(a.time) - timeToDecimal(b.time));
 
         let groups = [];
         events.forEach(event => {
             let placed = false;
             for (let group of groups) {
-                let hasConflict = group.some(e => event.start < (e.start + e.duration) && (event.start + event.duration) > e.start);
+                let hasConflict = group.some(e => timeToDecimal(event.time) < (timeToDecimal(e.time) + e.duration) && (timeToDecimal(event.time) + event.duration) > timeToDecimal(e.time));
                 if (hasConflict) {
                     group.push(event);
                     placed = true;
@@ -3123,7 +3054,7 @@
             let columns = [];
             group.forEach(event => {
                 let colIndex = 0;
-                while (columns[colIndex] && columns[colIndex].some(e => event.start < (e.start + e.duration))) {
+                while (columns[colIndex] && columns[colIndex].some(e => timeToDecimal(event.time) < (timeToDecimal(e.time) + e.duration))) {
                     colIndex++;
                 }
                 if (!columns[colIndex]) columns[colIndex] = [];
@@ -3132,195 +3063,291 @@
             });
 
             const totalCols = columns.length;
+            // console.log(totalCols);
+            // console.log(group);
 
-            group.forEach(event => {
-                const startHour = Math.floor(event.start);
-                const startMinutes = (event.start % 1) * 60;
-                const endValue = event.start + event.duration;
+            group.forEach(({colIndex, task, time}, index) => {
+                const key = task.id + '__' + time;
+                const done = !!doneMap[key];
+                // console.log(task);
+                // console.log(colIndex, task.id, time, index);
+
+                const startHour = Math.floor(timeToDecimal(time));
+                const startMinutes = Math.round((timeToDecimal(time) % 1) * 60);
+                const endValue = timeToDecimal(time) + task.duration;
                 const endHour = Math.floor(endValue);
-                const endMinutes = (endValue % 1) * 60;
+                const endMinutes = Math.round((endValue % 1) * 60);
+
+                // if (task.title == 'Туалет') logger.error(`Туалет: ${time} или ${timeToDecimal(time)} часов, длительность ${task.duration} часов,
+                //     ${startHour} : ${startMinutes} или ${String(startMinutes).padStart(2, '0')} или ${formatTimeDisplay(time)}
+                //     ${endValue}, ${endHour} : ${endMinutes}
+                // `);
 
                 const topPx = getVerticalPixels(startHour, startMinutes);
                 const bottomPx = getVerticalPixels(endHour, endMinutes);
+                // console.log(startHour, startMinutes, endHour, endMinutes);
                 const cardHeight = bottomPx - topPx;
 
-                const calculatedType = getDayPartType(event.start);
+                const calculatedType = getDayPartType(timeToDecimal(time));
                 const card = document.createElement('div');
 
-                card.className = `event-card ${calculatedType} ${event.done ? 'completed' : ''}`;
-                card.id = event.id;
-                card.dataset.start = event.start;
-                card.dataset.tag = event.tags.context;
+                card.className = `event-card ${calculatedType} ${done ? 'completed' : ''}`;
+                card.id = key;
+                card.dataset.time = timeToDecimal(time);
+                card.dataset.tag = task.tags ? task.tags.context : '';
 
                 card.style.top = `${topPx}px`;
                 card.style.height = `${cardHeight}px`;
                 card.style.width = `calc((100% - 90px) / ${totalCols})`;
-                card.style.left = `calc(65px + ((100% - 90px) * ${event.colIndex} / ${totalCols}))`;
+                card.style.left = `calc(65px + ((100% - 90px) * ${colIndex} / ${totalCols}))`;
 
-                card.innerHTML = `
-                    <div class="event-meta-row">
-                        <input type="checkbox" ${event.done ? 'checked' : ''} class="event-checkbox"
-                          onclick="event.stopPropagation()" onchange="toggleItemState('${event.id}')" />
-                        <span class="event-time">${startHour}:${String(startMinutes).padEnd(2, '0')}
-                          - ${endHour}:${String(endMinutes).padEnd(2, '0')}
-                        </span>
-                        <span class="event-tag-badge">${event.tags.context}</span>
-                    </div>
-                    <div class="event-title">${event.title}</div>
-                    <div class="event-desc">${event.description}</div>
-                `;
+                const cardMeta = document.createElement('div');
+                      cardMeta.classList.add('event-meta-row');
+                const cardTitle = document.createElement('div');
+                      cardTitle.classList.add('event-title');
+                      cardTitle.innerHTML = task.title;
+                const cardDesc = document.createElement('div');
+                      cardDesc.classList.add('event-desc');
+                      cardDesc.innerHTML = `${task.notes}
+                          <br />[${CAT_LABEL[task.category]||'📌 Other'}]
+                      `;
+                const checkbox = document.createElement('input');
+                      checkbox.type = 'checkbox';
+                      // checkbox.id = key;
+                      checkbox.checked = done;
+                      checkbox.classList.add('event-checkbox');
+                      checkbox.addEventListener('change', (e) => {
+                          e.stopPropagation();
+                          // toggleItemState(`${task.task.id}`);
+                          console.log(`Onchange TASK ${task.id}, ${key}, ${ds}, ${!done}`);
+                          toggleCompletion(key, ds, !done);
+                      });
+                const text = document.createElement('span');
+                      text.classList.add('event-time');
+                      text.innerHTML = `${formatTimeDisplay(time)} - ${endHour}:${pad(endMinutes)}`;
+                const badge = document.createElement('span');
+                      badge.classList.add('event-tag-badge');
+                      badge.innerHTML = task.tags ? task.tags.context : '';
+                const acts = document.createElement('div');
+                      acts.classList.add('task-actions');
+                const btnEdit = document.createElement('button');
+                      btnEdit.classList.add('icon-btn');
+                      btnEdit.dataset.act = 'edit';
+                      btnEdit.textContent = '✏️';
+                      btnEdit.addEventListener('click', (e) => {
+                        openTaskModal(task);
+                      });
+                      // card.querySelector('[data-act=edit]').onclick = ()=> openTaskModal(task);
+                const btnDel = document.createElement('button');
+                      btnDel.classList.add('icon-btn');
+                      btnDel.dataset.act = 'del';
+                      btnDel.textContent = '🗑️';
+                      btnDel.addEventListener('click', (e) => {
+                        deleteTask(task.id);
+                      });
+                      // card.querySelector('[data-act=del]').onclick = ()=> deleteTask(task.id);
 
-                if (collapsedBlocks[calculatedType] === true) {
-                    card.classList.add('hidden-by-collapse');
-                }
+                //
+                if (calendarConfig[calculatedType].isCollapsed === true)
+                      card.classList.add('hidden-by-collapse');
+
+                card.appendChild(cardMeta);
+                card.appendChild(cardTitle);
+                card.appendChild(cardDesc);
+
+                cardMeta.appendChild(checkbox);
+                cardMeta.appendChild(text);
+                cardMeta.appendChild(badge);
+
+                cardDesc.appendChild(acts);
+                acts.appendChild(btnEdit);
+                acts.appendChild(btnDel);
 
                 container.appendChild(card);
             });
         });
-    }
 
-    // 3. Точная геометрическая расстановка To-Do задач
-    function positionTodoPillsWithStacking() {
-        const container = document.getElementById('gridContainer');
-        if (!container) return;
-
-        document.querySelectorAll('.todo-pill').forEach(p => p.remove());
 
         // Фильтруем ТОЛЬКО To-Do задачи
-        const allTodos = dayScheduleData.filter(item => item.duration === 0);
-        const todos = allTodos.filter(item => item.tags.context !== 'Достижение');
-        const achievements = allTodos.filter(item => item.tags.context === 'Достижение');
-
-        todos.sort((a, b) => a.start - b.start);
+        const allTodos = occ.filter(item => (item.task.duration ?? 0) === 0);
+        // console.log(allTodos);
+        const todos = allTodos.filter(item => item.task.tags && item.task.tags.context !== 'Достижение');
+        const achievements = allTodos.filter(item => item.task.tags && item.task.tags.context === 'Достижение');
+        // console.log(todos);
+        // console.log(achievements);
+        todos.sort((a, b) => timeToDecimal(a.time) - timeToDecimal(b.time));
 
         const placedPills = [];
 
-        todos.forEach(todo => {
-            const startHour = Math.floor(todo.start);
-            const startMinutes = (todo.start % 1) * 60;
+        todos.forEach(({task, time}, index) => {
+            const key = task.id + '__' + time;
+            const done = !!doneMap[key];
+
+            const startHour = Math.floor(timeToDecimal(time));
+            const startMinutes = Math.floor((timeToDecimal(time) % 1) * 60);
 
             let calculatedTop = getVerticalPixels(startHour, startMinutes);
+            // console.log(time, timeToDecimal(time), calculatedTop, startHour, startMinutes);
 
             const pill = document.createElement('div');
-            pill.className = `todo-pill ${todo.done ? 'completed' : ''}`;
-            pill.id = todo.id;
-            pill.dataset.tag = todo.tags.context;
+                  pill.className = `todo-pill ${done ? 'completed' : ''}`;
+                  pill.id = key;
+                  pill.dataset.tag = task.tags.context;
 
-            // if (todo.start === 24) {
-            //     pill.classList.add('habit-pill'); // Добавляем особый CSS-класс
-            //
-            //     // Берем координату нижней ночной плашки
-            //     const nightEndDivider = document.querySelector('.day-part-divider.nightEnd');
-            //     const container = document.getElementById('gridContainer');
-            //
-            //     let dividerTop = 0;
-            //     if (nightEndDivider) {
-            //         dividerTop = nightEndDivider.getBoundingClientRect().top + container.scrollTop - container.getBoundingClientRect().top;
-            //     }
-            //
-            //     // Выстраиваем достижения лесенкой под плашкой «Ночь (Конец дня)»
-            //     const habitIndex = placedPills.filter(p => p.isHabit).length;
-            //     calculatedTop = dividerTop + 34 + (habitIndex * 40); // 34px высота плашки + 40px шаг
-            //
-            //     placedPills.push({ top: calculatedTop, isHabit: true });
-            // } else {
-                // Обычные почасовые To-Do задачи
-                if (startMinutes % 15 === 0) {
-                    calculatedTop = calculatedTop - 10;
+            // Обычные почасовые To-Do задачи
+            if (startMinutes % 15 === 0) {
+                calculatedTop = calculatedTop - 10;
+            }
+            const pillHeight = 28;
+            const gap = -7;
+
+            placedPills.forEach(placed => {
+                if (!placed.isHabit && calculatedTop < (placed.top + pillHeight + gap) && (calculatedTop + pillHeight) > placed.top) {
+                    calculatedTop = placed.top + pillHeight + gap;
                 }
-                const pillHeight = 28;
-                const gap = -7;
-
-                placedPills.forEach(placed => {
-                    if (!placed.isHabit && calculatedTop < (placed.top + pillHeight + gap) && (calculatedTop + pillHeight) > placed.top) {
-                        calculatedTop = placed.top + pillHeight + gap;
-                    }
-                });
-                placedPills.push({ top: calculatedTop, isHabit: false });
-            // }
+            });
+            placedPills.push({ top: calculatedTop, isHabit: false });
 
             pill.style.top = `${calculatedTop}px`;
 
-            const displayMinutes = String(Math.round(startMinutes)).padStart(2, '0');
-            const displayTime = `${String(startHour).padStart(2, '0')}:${displayMinutes}`;
+            const displayMinutes = pad(Math.round(startMinutes));
+            // const displayTime = `${String(startHour).padStart(2, '0')}:${displayMinutes}`;
 
-            // if (todo.start === 24) {
-            //     pill.innerHTML = `<input type="checkbox" ${todo.done ? 'checked' : ''}
-            //         onchange="toggleItemState('${todo.id}')" />
-            //         <span class="pill-text">🏆 <strong>${todo.title}</strong> — ${todo.description}
-            //         <br /><strong class="todo-tag-prefix">[${todo.tags.context}]</strong>
-            //         </span>
-            //     `;
-            // } else {
-                pill.innerHTML = `<input type="checkbox" ${todo.done ? 'checked' : ''}
-                    onchange="toggleItemState('${todo.id}')" />
-                    <span class="pill-text">${todo.title}: ${todo.description}
-                    <br /><strong class="todo-tag-prefix">[${todo.tags.context}]</strong>
-                    <br />${displayTime}
-                    </span>
-                `;
-            // }
+            const checkbox = document.createElement('input');
+                  checkbox.type = 'checkbox';
+                  // checkbox.id = task.id;
+                  checkbox.checked = done;
+                  checkbox.addEventListener('change', (e) => {
+                    e.stopPropagation();
+                    // toggleItemState(`${task.id}`);
+                    toggleCompletion(key, ds, !done);
+                    console.log(`Onchange TODO ${task.id}, ${key}, ${ds}, ${done}`);
+                  });
+                  // checkbox.onchange = ()=> toggleCompletion(key, ds, !done);
+            const block = document.createElement('div');
+                  block.classList.add('pill-text');
+                  block.innerHTML = `${escapeHtml(task.title)}: ${task.notes ? escapeHtml(task.notes) : ''}
+                    <br /><strong class="todo-tag-prefix">[${task.tags.context}]</strong> [${CAT_LABEL[task.category]||'📌 Other'}]
+                    <br />${formatTimeDisplay(time)}
+                  `;
+            // const cat = document.createElement('span');
+            //       cat.classList.add('cat-pill');
+            //       cat.innerHTML = `${CAT_LABEL[task.category]||'📌 Other'}`;
+            const acts = document.createElement('div');
+                  acts.classList.add('task-actions');
+            const btnEdit = document.createElement('button');
+                  btnEdit.classList.add('icon-btn');
+                  btnEdit.dataset.act = 'edit';
+                  btnEdit.textContent = '✏️';
+                  btnEdit.addEventListener('click', (e) => {
+                    openTaskModal(task);
+                  });
+                  // card.querySelector('[data-act=edit]').onclick = ()=> openTaskModal(task);
+            const btnDel = document.createElement('button');
+                  btnDel.classList.add('icon-btn');
+                  btnDel.dataset.act = 'del';
+                  btnDel.textContent = '🗑️';
+                  btnDel.addEventListener('click', (e) => {
+                    deleteTask(task.id);
+                  });
+                  // card.querySelector('[data-act=del]').onclick = ()=> deleteTask(task.id);
 
-            const todoPartType = getDayPartType(todo.start);
-            if (collapsedBlocks[todoPartType] === true) {
-                pill.classList.add('hidden-by-collapse');
-            }
+            if (calendarConfig[getDayPartType(timeToDecimal(time))].isCollapsed === true)
+                  pill.classList.add('hidden-by-collapse');
+
+            pill.appendChild(checkbox);
+            pill.appendChild(block);
+            // block.appendChild(cat);
+            block.appendChild(acts);
+            acts.appendChild(btnEdit);
+            acts.appendChild(btnDel);
 
             container.appendChild(pill);
+
+            // if ( $('page-loader') )         $('page-loader').classList.add('d-none');
         });
 
         const nightEndDivider = document.querySelector('.day-part-divider.nightEnd');
         let baseTimelineBottom = getVerticalPixels(24, 0);
-        // let baseTimelineBottom = 0;
-        /*if (nightEndDivider) {
-            baseTimelineBottom = nightEndDivider.getBoundingClientRect().top + container.scrollTop - container.getBoundingClientRect().top;
-        } else {
-            baseTimelineBottom = getVerticalPixels(24, 0);
-        }*/
 
-        // Выстраиваем достижения лесенкой строго ниже этой линии
-        achievements.forEach((achieve, index) => {
+        // console.log(achievements);
+        achievements.forEach(({task, time}, index) => {
+            const key = task.id + '__' + time;
+            const done = !!doneMap[key];
+            // console.log(task, time, index);
+
             const achievePill = document.createElement('div');
-            achievePill.className = `todo-pill habit-pill ${achieve.done ? 'completed' : ''}`;
-            achievePill.id = achieve.id;
-            achievePill.dataset.tag = achieve.tags.context;
+            achievePill.className = `todo-pill habit-pill ${done ? 'completed' : ''}`;
+            achievePill.id = key;
+            achievePill.dataset.tag = task.tags.context;
 
             // Позиционирование: высота плашки (34px) + отступ сверху (10px) + шаг каждой карточки (42px)
             const calculatedTop = baseTimelineBottom + (index * 37); /* 34 + 10 + */
-            console.log(baseTimelineBottom, calculatedTop, );
+            // console.log(baseTimelineBottom, calculatedTop, );
             achievePill.style.top = `${calculatedTop}px`;
 
-            achievePill.innerHTML = `
-                <input type="checkbox" ${achieve.done ? 'checked' : ''} onchange="toggleItemState('${achieve.id}')">
-                <span class="pill-text">🏆 <strong>${achieve.title}</strong> — ${achieve.description}</span>
-            `;
+            const checkbox = document.createElement('input');
+                  checkbox.type = 'checkbox';
+                  // checkbox.id = task.id;
+                  checkbox.checked = done;
+                  checkbox.addEventListener('change', (e) => {
+                    e.stopPropagation();
+                    // toggleItemState(`${task.id}`);
+                    toggleCompletion(key, ds, !done);
+                    console.log(`Onchange ACHIEVE ${task.id}, ${key}, ${ds}, ${done}`);
+                  });
+            const block = document.createElement('div');
+                  block.classList.add('pill-text');
+                  block.innerHTML = `🏆 <strong>${escapeHtml(task.title)}</strong> — ${task.notes ? escapeHtml(task.notes) : ''}
+                      <br /><strong class="todo-tag-prefix">[${task.tags.context}]</strong> [${CAT_LABEL[task.category]||'📌 Other'}]
+                      <br />${formatTimeDisplay(time)}
+                  `;
+            // const cat = document.createElement('span');
+            //       cat.classList.add('cat-pill');
+            //       cat.innerHTML = `${CAT_LABEL[task.category]||'📌 Other'}`;
+            const acts = document.createElement('div');
+                  acts.classList.add('task-actions');
+            const btnEdit = document.createElement('button');
+                  btnEdit.classList.add('icon-btn');
+                  btnEdit.dataset.act = 'edit';
+                  btnEdit.textContent = '✏️';
+                  btnEdit.addEventListener('click', (e) => {
+                    openTaskModal(task);
+                  });
+                  // card.querySelector('[data-act=edit]').onclick = ()=> openTaskModal(task);
+            const btnDel = document.createElement('button');
+                  btnDel.classList.add('icon-btn');
+                  btnDel.dataset.act = 'del';
+                  btnDel.textContent = '🗑️';
+                  btnDel.addEventListener('click', (e) => {
+                    deleteTask(task.id);
+                  });
+                  // card.querySelector('[data-act=del]').onclick = ()=> deleteTask(task.id);
 
             // Скрытие достижений при сворачивании ночного блока
-            if (collapsedBlocks['nightEnd'] === true) {
+            if (calendarConfig['nightEnd'].isCollapsed === true) {
                 achievePill.classList.add('hidden-by-collapse');
             }
 
+            achievePill.appendChild(checkbox);
+            achievePill.appendChild(block);
+            // block.appendChild(cat);
+            block.appendChild(acts);
+            acts.appendChild(btnEdit);
+            acts.appendChild(btnDel);
+
             container.appendChild(achievePill);
         });
+
     }
 
-    // Функция переключения класса при клике на чекбокс
-    // Универсальный обработчик чекбоксов для процессов и To-Do
-    function toggleItemState(id) {
-        // 1. Находим элемент в глобальном плоском массиве
-        const targetItem = globalScheduleDatabase.find(item => item.id === id);
-        if (!targetItem) return;
 
-        // 2. Инвертируем статус выполнения
-        targetItem.done = !targetItem.done;
-
-        // 3. Добавляем/удаляем визуальный класс completed без полной перерисовки сетки (для плавности)
-        const element = document.getElementById(id);
-        if (element) {
-            element.classList.toggle('completed', targetItem.done);
-        }
-
-        updateDividerCounters();
+    function timeToDecimal(timeString) {
+        // 1. Split "10:15" into ["10", "15"]
+        const [hours, minutes] = timeString.split(':');
+        const decimalTime = Number(hours) + (Number(minutes) / 60);
+        // console.log(`${timeString} -> ${(Math.round(decimalTime * 100) / 100)}`);
+        return Math.round(decimalTime * 100) / 100;
     }
 
 
@@ -3346,6 +3373,8 @@
 
     // Функция плавного раскрытия элементов (Процессов и Задач)
     function initCardExpansion() {
+      logger.warn(`[DEBUG] Stage: ${debugStage++} in initCardExpansion()`);
+
         // 1. Раскрытие карточек процессов
         const cards = document.querySelectorAll('.event-card');
         cards.forEach(card => {
@@ -3421,44 +3450,55 @@
     const parts = ['nightStart', 'morning', 'day', 'evening', 'nightEnd'];
 
     function updateDividerCounters() {
+        const doneMap = dataCache.completions[dateStr(viewDate)] || {};
+
         parts.forEach(part => {
             const divider = document.querySelector(`.day-part-divider.${part}`);
             if (!divider) return;
 
-            // Удаляем старый счетчик, если он уже был отрисован
             const oldCounter = divider.querySelector('.divider-info-counter');
             if (oldCounter) oldCounter.remove();
 
-            // Если блок СВЕРНУТ, ищем, что спрятано внутри
-            if (collapsedBlocks[part] === true) {
+            if (calendarConfig[part].isCollapsed === true) {
                 // Фильтруем все элементы текущей даты, попавшие в эту часть суток
-                const hiddenItems = dayScheduleData.filter(item => getDayPartType(item.start) === part);
+                const hiddenItems = occ.filter(item => getDayPartType(timeToDecimal(item.time)) === part);
+                const achievements = occ.filter( item => item.task.duration === 0 && item.task.tags.context === 'Достижение' );
+                // console.log(part);
+                // console.log(occ);
+                // console.log(hiddenItems);
+                // console.log(achievements);
+                if (part == 'nightEnd') {
+                  achievements.forEach(num => {
+                      hiddenItems.push(num);
+                  });
+                }
+                // console.log(achievements);
+                // console.log(hiddenItems);
+
+                //в hiddenItems не попадают Достижения, т.к. они не проходят по времени
+
                 // const allTodos = dayScheduleData.filter(item => item.duration === 0);
 
                 let infoText = "";
 
                 if (hiddenItems.length > 0) {
                     // Разделяем скрытые элементы на процессы и To-Do
-                    const hiddenEvents = hiddenItems.filter(item => item.duration > 0);
-                    const hiddenTodos = hiddenItems.filter(
-                        item => item.duration === 0, item => item.tags.context !== 'Достижение'
-                    );
-                    const achievements = hiddenItems.filter(
-                        item => item.duration === 0, item => item.tags.context === 'Достижение'
-                    );
+                    const hiddenEvents = hiddenItems.filter( item => item.task.duration > 0 && item.task.tags.context !== 'Достижение' );
+                    const hiddenTodos = hiddenItems.filter( item => item.task.duration === 0 && item.task.tags.context !== 'Достижение' );
+                    // const achievements = hiddenItems.filter( item => item.task.duration === 0 && item.task.tags.context === 'Достижение' );
+                    // console.log(hiddenEvents);
+                    // const habits = hiddenItems.filter(item => item.tags.context === 'Достижение');
 
-                    // const todos = hiddenItems.filter(item => item.tags.context !== 'Достижение');
-                    // Формируем текст подсказки
-                    // if (hiddenEvents.length > 0) {
-                    //     // Берем название первого процесса (например, "Сон")
-                    //     infoText += `${hiddenEvents[0].title}`;
-                    //     if (hiddenEvents.length > 1) infoText += ` (+${hiddenEvents.length - 1})`;
-                    // }
-                    if (hiddenEvents.length > 0) {
+                    if (achievements.length > 0) {
+                      const habitsCount = achievements.length;
+                      // const habitsCompletedCount = achievements.filter(item => item.done).length;
+                      // console.log(achievements);
+                      // console.log(dataCache.completions[dateStr(viewDate)]);
+                      const habitsCompletedCount = achievements
+                          .map(e => e.task.id + '__' + e.time)
+                          .filter(key => Object.hasOwn(doneMap, key) && doneMap[key] === true)
+                          .length;
 
-                    }
-
-                    if (hiddenEvents.length > 0) {
                       if (part === 'nightEnd') {
                           if (infoText) {
                             infoText += "; 🏆 достижений";
@@ -3473,48 +3513,61 @@
                             infoText += `: ${habitsCompletedCount}/${habitsCount}`;
                           }
                       }
-
+                    }
+                    if (hiddenEvents.length > 0) {
                         const firstEvent = hiddenEvents[0];
+                        console.log(firstEvent);
                         // Если первый процесс выполнен, помечаем его словом "(сделано)"
-                        infoText += `${firstEvent.title}`; /*`${firstEvent.done ? ' (сделано)' : ''}`;*/
+                        infoText += `${firstEvent.task.title}`; /*`${firstEvent.done ? ' (сделано)' : ''}`;*/
 
                         // Если в этой части суток скрыто несколько процессов
                         if (hiddenEvents.length > 1) {
                             infoText += ` (+${hiddenEvents.length - 1})`;
                         }
-                        const doneEventsCount = hiddenEvents.filter(e => e.done).length;
+                        const doneEventsCount = hiddenEvents
+                            .map(e => e.task.id + '__' + e.time)
+                            .filter(key => Object.hasOwn(doneMap, key) && doneMap[key] === true)
+                            .length;
+                        // const doneEventsCount = hiddenEvents.filter(e => e.done).length;
                         infoText += `: ${doneEventsCount}/${hiddenEvents.length}`;
                     }
 
-                    const habits = hiddenItems.filter(item => item.tags.context === 'Достижение');
-                    const habitsCount = habits.length;
-                    const habitsCompletedCount = habits.filter(item => item.done).length;
-
                     if (hiddenTodos.length > 0) {
-                        // Считаем сколько всего To-Do задач и сколько из них завершено
                         const totalTodos = hiddenTodos.length;
-                        const doneTodos = hiddenTodos.filter(t => t.done).length;
-
-
-                        if (hiddenTodos.length != habitsCount) {
+                        const doneTodos = hiddenTodos
+                            .map(e => e.task.id + '__' + e.time)
+                            .filter(key => Object.hasOwn(doneMap, key) && doneMap[key] === true)
+                            .length;
+                        // console.log('hiddenTodos');
+                        // console.log(hiddenTodos);
+                        // const ids = hiddenTodos.map(e => e.task.id + '__' + e.time);
+                        // console.log('ids');
+                        // console.log(ids);
+                        // console.log('doneMap');
+                        // console.log(doneMap);
+                        // const doneTodos = hiddenTodos.filter(e => e.done).length;
+                        // console.log('dones');
+                        // console.log(doneTodos);
+                        // console.log(totalTodos ,doneTodos, ', ', habitsCount ,habitsCompletedCount );
+                        // if (hiddenTodos.length != habitsCount) {
                           if (infoText) {
                             infoText += "; 📋 задач";
                           } else {
                             infoText += "📋 Задач"
                           }
-                          infoText += `: ${doneTodos-habitsCompletedCount}/${totalTodos-habitsCount}`;
-                        }
-                    } else {
-                        if (part === 'nightEnd') {
-                            if (infoText) {
-                              infoText += "; 🏆 достижений";
-                            } else {
-                              infoText += "🏆 Достижений"
-                            }
-                            if (habitsCount === 0) {
-                              infoText += ` пока нет`;
-                            }
-                        }
+                          infoText += `: ${doneTodos}/${totalTodos}`;
+                        // }
+                    // } else {
+                    //     if (part === 'nightEnd') {
+                    //         if (infoText) {
+                    //           infoText += "; 🏆 достижений";
+                    //         } else {
+                    //           infoText += "🏆 Достижений"
+                    //         }
+                    //         if (habitsCount === 0) {
+                    //           infoText += ` пока нет`;
+                    //         }
+                    //     }
                     }
 
 
@@ -3532,63 +3585,54 @@
     }
 
     function initDayPartCollapsing() {
+      logger.warn(`[DEBUG] Stage: ${debugStage++} in initDayPartCollapsing()`);
+
         // Вешаем обработчики кликов на плашки
         parts.forEach(part => {
             const divider = document.querySelector(`.day-part-divider.${part}`);
             if (!divider) return;
 
-            // Удаляем старые слушатели перед добавлением новых (защита от дублирования при перерисовке)
             const newDivider = divider.cloneNode(true);
             divider.parentNode.replaceChild(newDivider, divider);
 
             newDivider.addEventListener('click', () => {
-                collapsedBlocks[part] = !collapsedBlocks[part];
-                newDivider.classList.toggle('is-collapsed', collapsedBlocks[part]);
-
-                // 1. Пересчитываем сетку часов (скрываем/показываем строки)
+                // console.log("ONCLICK:", part, calendarConfig[part].isCollapsed);
+                calendarConfig[part].isCollapsed = !calendarConfig[part].isCollapsed;
+                newDivider.classList.toggle('is-collapsed', calendarConfig[part].isCollapsed);
                 adjustHourRowsHeight();
-
-                // 2. Скрываем/показываем карточки процессов и To-Do
-                // Функция полного рендера выполнит это автоматически на основе collapsedBlocks,
-                // так как getVerticalPixels теперь умеет прятать свернутые элементы
                 renderFullCalendar();
             });
         });
-
-        // Запускаем расчет счетчиков для свернутых по умолчанию блоков (например, для nightStart)
         updateDividerCounters();
     }
 
 
-    // Функция инициализации интерактивной панели настроек суток
     function initSettingsPanel() {
-        const inputMorning = document.getElementById('input-morning');
-        const inputDay = document.getElementById('input-day');
-        const inputEvening = document.getElementById('input-evening');
-        const btnSubmit = document.getElementById('submit-settings');
+        const inputMorning = $('input-morning');
+        const inputDay = $('input-day');
+        const inputEvening = $('input-evening');
+        const btnSubmit = $('submit-settings');
 
         // 1. Проверяем, есть ли уже сохраненные настройки в памяти браузера
-        if (localStorage.getItem('dayTimeConfig')) {
-            const savedConfig = JSON.parse(localStorage.getItem('dayTimeConfig'));
+        if (localStorage.getItem('calendarConfig')) {
+            const savedConfig = JSON.parse(localStorage.getItem('calendarConfig'));
 
-            // Обновляем значения в коде
-            dayTimeConfig.morningStart = savedConfig.morningStart;
-            dayTimeConfig.dayStart = savedConfig.dayStart;
-            dayTimeConfig.eveningStart = savedConfig.eveningStart;
+            // calendarConfig.nightStart.startsAt  = savedConfig.nightStart.startsAt;
+            calendarConfig.morning.startsAt     = savedConfig.morning.startsAt;
+            calendarConfig.day.startsAt         = savedConfig.evening.startsAt;
+            calendarConfig.evening.startsAt     = savedConfig.evening.startsAt;
+            // calendarConfig.nightEnd.startsAt    = savedConfig.nightEnd.startsAt;
 
-            // Выставляем ползунки в сохраненные позиции
-            inputMorning.value = savedConfig.morningStart;
-            inputDay.value = savedConfig.dayStart;
-            inputEvening.value = savedConfig.eveningStart;
+            inputMorning.value  = calendarConfig.morning.startsAt;
+            inputDay.value      = calendarConfig.day.startsAt;
+            inputEvening.value  = calendarConfig.evening.startsAt;
         }
 
-        // Обновляем текстовые индикаторы цифр при первой загрузке
         updateLabels();
 
-        // 2. Слушаем движение ползунков (меняем только цифры, сетку НЕ трогаем)
         function handleSliderMove() {
             let morning = parseInt(inputMorning.value);
-            let day = parseInt(inputDay.value);
+            let day     = parseInt(inputDay.value);
             let evening = parseInt(inputEvening.value);
 
             // Защита от наложения ползунков друг на друга
@@ -3605,47 +3649,37 @@
         }
 
         function updateLabels() {
-            document.getElementById('val-morning').innerText = inputMorning.value;
-            document.getElementById('val-day').innerText = inputDay.value;
-            document.getElementById('val-evening').innerText = inputEvening.value;
+            $('val-morning').innerText  = inputMorning.value;
+            $('val-day').innerText      = inputDay.value;
+            $('val-evening').innerText  = inputEvening.value;
         }
 
         inputMorning.addEventListener('input', handleSliderMove);
         inputDay.addEventListener('input', handleSliderMove);
         inputEvening.addEventListener('input', handleSliderMove);
 
-        // 3. КНОПКА SUBMIT: Применяем изменения и перестраиваем сетку
         btnSubmit.addEventListener('click', () => {
-            // Записываем финальные значения в рабочий конфиг
-            dayTimeConfig.morningStart = parseInt(inputMorning.value);
-            dayTimeConfig.dayStart = parseInt(inputDay.value);
-            dayTimeConfig.eveningStart = parseInt(inputEvening.value);
+            calendarConfig.morning.startsAt = parseInt(inputMorning.value);
+            calendarConfig.day.startsAt     = parseInt(inputDay.value);
+            calendarConfig.evening.startsAt = parseInt(inputEvening.value);
 
-            // Сохраняем конфиг в локальную память браузера
-            localStorage.setItem('dayTimeConfig', JSON.stringify(dayTimeConfig));
+            localStorage.setItem('calendarConfig', JSON.stringify(calendarConfig));
 
             renderFullCalendar();
         });
     }
 
+    let debug__renderFullCalendar = 0;
     function renderFullCalendar() {
+        logger.warn(`[DEBUG] Stage: ${debugStage++} in renderFullCalendar() #${debug__renderFullCalendar++}`);
 
-        if (collapsedBlocks.nightStart) {
-            const nightStartDivider = document.querySelector('.day-part-divider.nightStart');
-            if (nightStartDivider) nightStartDivider.classList.add('is-collapsed');
-        }
-
-        // 1. Генерируем чистую сетку часов и плашки суток
         generateCalendarGrid();
-        // 2. Адаптируем высоту строк (схлопываем пустые часы и ночь по умолчанию)
         adjustHourRowsHeight();
-
-        // 3. Удаляем старые и заново расставляем процессы и To-Do
         document.querySelectorAll('.event-card, .todo-pill').forEach(el => el.remove());
-        positionEventsWithConflicts();
-        positionTodoPillsWithStacking();
+        // positionEventsWithConflicts();
+        occ = occurrencesForDate(viewDate);
+        positionTasks();
 
-        // 4. Оживляем интерфейс (линия времени, клики для раскрытия, клики аккордеона)
         updateGoogleTimeLine();
         initCardExpansion();
         initDayPartCollapsing(); // Переназначаем клики сворачивания на новые плашки
@@ -3654,18 +3688,6 @@
 
 
 
-    // --- ИНИЦИАЛИЗАЦИЯ ---
-    initSettingsPanel();
-    initDateNavigation();
-    switchDateAndRender();
-    // Запускаем полную сборку календаря
-    // setCalendarDate();
-    // renderFullCalendar();
-    // Делаем фокус на текущий час один раз при загрузке страницы
-    scrollToCurrentTime();
-
-    // Запускаем ежеминутный пересчет положения линии времени
-    setInterval(updateGoogleTimeLine, 60000);
 
 
 
@@ -3681,6 +3703,23 @@
 
     /* ---------------------------------------------------------------------*/
     function firstStart() {
+      logger.warn(`[DEBUG] Stage: ${debugStage++} in firstStart()`);
+
+      //system funcs
+      updateNetworkStatus();
+      updateDebugMetrics(); //no Debug Stage variable
+
+      settings = loadSettings();
+      showSettings();
+
+      initFirebase();
+
+      initSettingsPanel();
+      initDateNavigation();
+      // switchDateAndRender();
+      scrollToCurrentTime();
+
+
       //system listeners
       window.addEventListener('online', updateNetworkStatus);
       window.addEventListener('offline', updateNetworkStatus);
@@ -3714,17 +3753,11 @@
         // logger.info(`${settings.dateFormat}, ${settings.timeFormat}, ${settings.weekStart}`);
         // console.log(settings);
         saveSettings();
-        renderToday();
+        // renderToday();
+        switchDateAndRender();
         renderTasksManage();
         showToast('Settings saved');
       });
-
-      //system funcs
-      updateNetworkStatus();
-      updateDebugMetrics();
-
-      settings = loadSettings();
-      showSettings();
 
 
     }
@@ -3735,11 +3768,12 @@
 
     setInterval(updateDebugMetrics, 1000);
     setInterval(checkDueNotifications, 20000);
+    setInterval(updateGoogleTimeLine, 60000);
 
     /* ---------------------------------------------------------------------
        Boot
     --------------------------------------------------------------------- */
-    initFirebase();
+
 
 
     /* ---------------------------------------------------------------------*/
