@@ -1699,7 +1699,7 @@
                   // checkbox.onchange = ()=> toggleCompletion(key, ds, !done);
             const block = document.createElement('div');
                   block.classList.add('pill-text');
-                  block.innerHTML = `${escapeHtml(task.title)}: ${task.notes ? escapeHtml(task.notes) : ''}
+                  block.innerHTML = `${escapeHtml(task.title)}${task.notes ? ': '+escapeHtml(task.notes) : ''}
                     <br /><strong class="todo-tag-prefix">[${task.tags.context}]</strong> [${CAT_LABEL[task.category]||'📌 Other'}]
                     <br />${formatTimeDisplay(time)}
                   `;
@@ -2930,18 +2930,18 @@
             if (typeof triggerHaptic === 'function') triggerHaptic(10); // Subtle vibration tap feedback
         });
 
-        window.addEventListener('touchmove', (e) => {
-            if (isDragging) {
-                handleDragMove(e.touches[0].pageY);
-            }
-        }, { passive: true });
-
-        window.addEventListener('touchend', () => {
-            if (isDragging) {
-                isDragging = false;
-                console.log(`Adjusted terminal panel console height to: ${adjustableFooter.style.height}`);
-            }
-        });
+        // window.addEventListener('touchmove', (e) => {
+        //     if (isDragging) {
+        //         handleDragMove(e.touches[0].pageY);
+        //     }
+        // }, { passive: true });
+        //
+        // window.addEventListener('touchend', () => {
+        //     if (isDragging) {
+        //         isDragging = false;
+        //         console.log(`Adjusted terminal panel console height to: ${adjustableFooter.style.height}`);
+        //     }
+        // });
 
         // --- DESKTOP MOUSE LISTENERS ---
         resizer.addEventListener('mousedown', (e) => {
