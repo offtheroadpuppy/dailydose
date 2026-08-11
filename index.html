@@ -3199,6 +3199,7 @@
     // 1. Intercept the browser's automatic installation prompt
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
+        console.log(deferredPrompt);
         deferredPrompt = e;
         if (installBanner) {
             installBanner.classList.remove('d-none');
@@ -3209,6 +3210,7 @@
     // 2. User clicks the "Install" action button inside our banner
     if (btnTriggerInstall) {
         btnTriggerInstall.addEventListener('click', async () => {
+          console.log(deferredPrompt);
             if (!deferredPrompt) return;
             if (typeof triggerHaptic === 'function') triggerHaptic(15);
             deferredPrompt.prompt();
