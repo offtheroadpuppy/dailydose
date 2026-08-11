@@ -93,7 +93,7 @@
             <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
                 <h3 style="color: var(--active-blue-text); font-size: 16px;">Add to Home Screen</h3>
                 <p style="color: var(--active-blue-text); font-size: 13px; opacity: 0.9;">
-                    Install this app on your Android device for a fast, full-screen offline experience.
+                    Install this app on your device for a fast, full-screen offline experience.
                 </p>
             </div>
             <div style="display: flex; gap: 8px; justify-content: flex-end;">
@@ -3199,13 +3199,21 @@
     // 1. Intercept the browser's automatic installation prompt
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
-        console.log('[InstallBanner] Before installation');
-        console.log(deferredPrompt);
+        console.log('[InstallBanner] Before install');
+        // console.log(deferredPrompt);
         deferredPrompt = e;
         if (installBanner) {
+          if (/android/i.test(navigator.userAgent)) {
             installBanner.classList.remove('d-none');
+          }
         }
-        logger.info("[InstallBanner] function OK");
+        // logger.info("[InstallBanner] function OK");
+    });
+
+    window.addEventListener('appinstalled', () => {
+        deferredPrompt = null;
+        installBanner.classList.add('d-none');
+        console.log('PWA was successfully installed on Android!');
     });
 
     // 2. User clicks the "Install" action button inside our banner
