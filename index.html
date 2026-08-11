@@ -1283,7 +1283,7 @@
                 // console.log("ONCLICK:", part, calendarConfig[part].isCollapsed);
                 calendarConfig[part].isCollapsed = !calendarConfig[part].isCollapsed;
                 newDivider.classList.toggle('is-collapsed', calendarConfig[part].isCollapsed);
-                adjustHourRowsHeight();
+                // adjustHourRowsHeight();
                 renderFullCalendar();
             });
         });
@@ -1355,12 +1355,12 @@
     // let debug__renderFullCalendar = 0;
     function renderFullCalendar() {
         // logger.warn(`[DEBUG] Stage: ${debugStage++} in renderFullCalendar() #${debug__renderFullCalendar++}`);
-
-        generateCalendarGrid();
-        adjustHourRowsHeight();
         document.querySelectorAll('.event-card, .todo-pill').forEach(el => el.remove());
         // positionEventsWithConflicts();
         occ = occurrencesForDate(viewDate);
+        // console.log(occ);
+        generateCalendarGrid();
+        adjustHourRowsHeight();
         positionTasks();
 
         updateGoogleTimeLine();
@@ -1422,7 +1422,7 @@
     function adjustHourRowsHeight() {
       // logger.warn(`[DEBUG] Stage: ${debugStage++} in adjustHourRowsHeight()`);
 
-        const todoCountBySlot = {};
+        const CountBySlot = {};
         const busyHours = new Set();
         // console.log(occ);
 
@@ -1435,23 +1435,26 @@
                 const minutes = Math.floor((timeToDecimal(item.time) % 1) * 60);
                 const stepMinute = Math.floor(minutes / 15) * 15;
                 const slotKey = `${startHour}-${stepMinute}`;
-                todoCountBySlot[slotKey] = (todoCountBySlot[slotKey] || 0) + 1;
+                CountBySlot[slotKey] = (CountBySlot[slotKey] || 0) + 1;
             } else {
                 // Б: Это процесс (Event)
                 const endHour = Math.ceil(timeToDecimal(item.time) + item.task.duration);
+                // console.log(endHour);
                 for (let h = endHour; h < endHour; h++) {
                     busyHours.add(h);
+                    // console.log(h, timeToDecimal(item.time), endHour);
                 }
             }
         });
-        // console.log(todoCountBySlot);
+        // console.log(CountBySlot);
+        // console.log(busyHours);
 
         const allRows = document.querySelectorAll('.grid-row[data-hour]');
         allRows.forEach(row => {
             const hour = parseInt(row.dataset.hour);
             const minute = row.dataset.minute;
             const slotKey = `${hour}-${minute}`;
-            const count = todoCountBySlot[slotKey] || 0;
+            const count = CountBySlot[slotKey] || 0;
 
             // СБРОС СТАРЫХ КЛАССОВ СВЕРТЫВАНИЯ И ПУСТОТЫ
             row.classList.remove('empty-hour-row', 'hidden-by-collapse');
@@ -1508,12 +1511,20 @@
         // Фильтруем ТОЛЬКО процессы
         const events = occ.filter(item => (item.task.duration ?? 0) > 0);
         events.sort((a, b) => timeToDecimal(a.time) - timeToDecimal(b.time));
+        // console.log(events);
 
         let groups = [];
         events.forEach(event => {
             let placed = false;
+            // console.log('EVENT');
+            // console.log(event);
+            // console.log('GROUPS');
+            // console.log(groups);
             for (let group of groups) {
-                let hasConflict = group.some(e => timeToDecimal(event.time) < (timeToDecimal(e.time) + e.duration) && (timeToDecimal(event.time) + event.duration) > timeToDecimal(e.time));
+              // console.log('group');
+              // console.log(group);
+                let hasConflict = group.some(e => timeToDecimal(event.time) < (timeToDecimal(e.time) + e.task.duration) && (timeToDecimal(event.time) + event.task.duration) > timeToDecimal(e.time));
+                // console.log(hasConflict);
                 if (hasConflict) {
                     group.push(event);
                     placed = true;
@@ -1522,18 +1533,24 @@
             }
             if (!placed) groups.push([event]);
         });
+        // console.log('events');
+        // console.log(events);
+        // console.log('groups');
+        // console.log(groups);
 
         groups.forEach(group => {
             let columns = [];
             group.forEach(event => {
+              // console.log(group, event);
                 let colIndex = 0;
-                while (columns[colIndex] && columns[colIndex].some(e => timeToDecimal(event.time) < (timeToDecimal(e.time) + e.duration))) {
+                while (columns[colIndex] && columns[colIndex].some(e => timeToDecimal(event.time) < (timeToDecimal(e.time) + e.task.duration))) {
                     colIndex++;
                 }
                 if (!columns[colIndex]) columns[colIndex] = [];
                 columns[colIndex].push(event);
                 event.colIndex = colIndex;
             });
+            // console.log(group);
 
             const totalCols = columns.length;
             // console.log(totalCols);
@@ -2135,7 +2152,6 @@
         }
     }
 
-
     // Submit capture pipeline engine handling registration and login tasks
     function wireAuthUI () {
       // window.__fb = { authMod, fsMod };
@@ -2318,9 +2334,6 @@
 
     }
 
-
-
-
     // Reusable Activity Logger Function
     async function logUserActivity(userId, actionType, actionDetails) {
         try {
@@ -2333,7 +2346,6 @@
             console.error("Failed to write to activity log:", err);
         }
     }
-
 
     /* ---------------------------------------------------------------------*/
     async function getUserData() {
@@ -2455,6 +2467,8 @@
           times.forEach(time=> out.push({ task:t, time }));
         });
       out.sort((a,b)=> a.time.localeCompare(b.time));
+      // console.log('00000000');
+      // console.log(dataCache.tasks);
       return out;
     }
 
@@ -2798,6 +2812,7 @@
       }catch(err){
         showToast('Error: ' + err.message);
       }
+
     };
 
 
@@ -2930,18 +2945,18 @@
             if (typeof triggerHaptic === 'function') triggerHaptic(10); // Subtle vibration tap feedback
         });
 
-        // window.addEventListener('touchmove', (e) => {
-        //     if (isDragging) {
-        //         handleDragMove(e.touches[0].pageY);
-        //     }
-        // }, { passive: true });
-        //
-        // window.addEventListener('touchend', () => {
-        //     if (isDragging) {
-        //         isDragging = false;
-        //         console.log(`Adjusted terminal panel console height to: ${adjustableFooter.style.height}`);
-        //     }
-        // });
+        $('appSidebar').addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                handleDragMove(e.touches[0].pageY);
+            }
+        }, { passive: true });
+
+        $('appSidebar').addEventListener('touchend', () => {
+            if (isDragging) {
+                isDragging = false;
+                console.log(`Adjusted terminal panel console height to: ${adjustableFooter.style.height}`);
+            }
+        });
 
         // --- DESKTOP MOUSE LISTENERS ---
         resizer.addEventListener('mousedown', (e) => {
@@ -2951,13 +2966,13 @@
             e.preventDefault(); // Prevents cursor highlights text selection artifacts
         });
 
-        window.addEventListener('mousemove', (e) => {
+        $('appSidebar').addEventListener('mousemove', (e) => {
             if (isDragging) {
                 handleDragMove(e.pageY);
             }
         });
 
-        window.addEventListener('mouseup', () => {
+        $('appSidebar').addEventListener('mouseup', () => {
             if (isDragging) {
                 isDragging = false;
             }
@@ -3572,15 +3587,12 @@
       //system funcs
       updateNetworkStatus();
       updateDebugMetrics(); //no Debug Stage variable
-
       settings = loadSettings();
       showSettings();
-
-      initFirebase();
-
       initSettingsPanel();
       initDateNavigation();
       // switchDateAndRender();
+      initFirebase();
       scrollToCurrentTime();
 
 
