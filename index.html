@@ -1423,6 +1423,7 @@
       // logger.warn(`[DEBUG] Stage: ${debugStage++} in adjustHourRowsHeight()`);
 
         const CountBySlot = {};
+        const CountBySlotTasks = {};
         const busyHours = new Set();
         console.log(occ);
 
@@ -1430,30 +1431,43 @@
             const startHour = Math.floor(timeToDecimal(item.time));
 
             const minutes = Math.floor((timeToDecimal(item.time) % 1) * 60);
-            const stepMinute = Math.floor(minutes / 15) * 15;
+            const stepMinute = Math.floor(minutes / 15) * 15; //делим на 15-минутные блоки
             const slotKey = `${startHour}-${stepMinute}`;
+            console.log(`${item.task.title} в ${item.time}: часов ${startHour} минут ${minutes} округляем до ${stepMinute}. Блок ${slotKey}`);
             CountBySlot[slotKey] = (CountBySlot[slotKey] || 0) + 1;
             console.log(CountBySlot);
+            //если в блоке что-то есть, то высота минимум 46
+            console.log('duration: ', item.task.duration);
 
             if (item.task.duration === 0) {
-                // А: Это To-Do задача
                 busyHours.add(startHour);
-                const minutes = Math.floor((timeToDecimal(item.time) % 1) * 60);
-                const stepMinute = Math.floor(minutes / 15) * 15;
-                const slotKey = `${startHour}-${stepMinute}`;
-                CountBySlot[slotKey] = (CountBySlot[slotKey] || 0) + 1;
+                // const minutes = Math.floor((timeToDecimal(item.time) % 1) * 60);
+                // const stepMinute = Math.floor(minutes / 15) * 15;
+                // const slotKey = `${startHour}-${stepMinute}`;
+                // CountBySlot[slotKey] = (CountBySlot[slotKey] || 0) + 1;
             } else {
-                // Б: Это процесс (Event)
                 const endHour = Math.ceil(timeToDecimal(item.time) + item.task.duration);
-                // console.log(endHour);
-                for (let h = endHour; h < endHour; h++) {
+                CountBySlotTasks[slotKey] = (CountBySlotTasks[slotKey] || 0) + 1;
+
+                const endHourEnd = Math.floor(timeToDecimal(item.time) + item.task.duration);
+                const minutesEnd = Math.floor(((timeToDecimal(item.time) + item.task.duration) % 1) * 60);
+                const stepMinuteEnd = Math.floor(minutesEnd / 15) * 15; //делим на 15-минутные блоки
+                const slotKeyEnd = `${endHourEnd}-${stepMinuteEnd}`;
+                CountBySlotTasks[slotKeyEnd] = (CountBySlotTasks[slotKeyEnd] || 0) + 1;
+                console.log(slotKeyEnd, timeToDecimal(item.time), item.task.duration);
+
+                for (let h = endHour/*startHour*/; h < endHour; h++/*=h+0.15*/) {
                     busyHours.add(h);
-                    // console.log('BAM BAM ', h, timeToDecimal(item.time), endHour);
+                    CountBySlotTasks[slotKey] = (CountBySlotTasks[slotKey] || 0) + 1;
+                    console.log('BAM', h, timeToDecimal(item.time), endHour);
                 }
             }
         });
-        // console.log(CountBySlot);
-        // console.log(busyHours);
+        console.log('busyHours');
+        console.log(busyHours);
+        console.log('CountBySlotTasks');
+        console.log(CountBySlotTasks);
+
 
         const allRows = document.querySelectorAll('.grid-row[data-hour]');
         allRows.forEach(row => {
@@ -1461,6 +1475,7 @@
             const minute = row.dataset.minute;
             const slotKey = `${hour}-${minute}`;
             const count = CountBySlot[slotKey] || 0;
+            const countTasks = CountBySlotTasks[slotKey] || 0;
 
             // СБРОС СТАРЫХ КЛАССОВ СВЕРТЫВАНИЯ И ПУСТОТЫ
             row.classList.remove('empty-hour-row', 'hidden-by-collapse');
@@ -1468,6 +1483,7 @@
 
             // ОПРЕДЕЛЯЕМ, К КАКОМУ БЛОКУ ОТНОСИТСЯ СТРОКА ЧАСА
             const currentPart = getDayPartType(hour);
+            console.log(slotKey, currentPart, count, 'TASKS:', countTasks, 'FORMULA:' );
 
             // Если этот макро-блок сейчас свернут пользователем — прячем строку
             if (calendarConfig[currentPart].isCollapsed === true) {
@@ -1475,16 +1491,32 @@
                 return; // Пропускаем дальнейшую настройку высоты
             }
 
+            //
+            /*
+            tasks 0      todo 0   sum 0
+            tasks 0      todo 1   sum 1
+            tasks 1      todo 0   sum 1
+            tasks 1      todo 1   sum 2
+            tasks 2      todo 1   sum 3
+            tasks 2      todo 5   sum 7
+            */
             // Стандартная логика адаптивной высоты для открытых строк
-            if (count > 1) {
-                row.style.height = `${count * 24 + 4}px`;
+            if (countTasks > 0 && countTasks >= count-countTasks) {
+              row.style.height = `${count * 46 + 4}px`; //46 для Task
+              console.log(`${slotKey} увеличиваю до ${count * 46 + 4}px, т.к. ${countTasks} из ${count} элементов`);
+            }
+            else if (count > 1) {
+                row.style.height = `${count * 24 + 4}px`; //24 для Todo, 46 для Task
+                console.log(`${slotKey} увеличиваю до ${count * 24 + 4}px, т.к. ${count} элементов`);
             }
             else if (!busyHours.has(hour)) {
                 row.style.height = `16px`;
                 row.classList.add('empty-hour-row');
+                console.log(`${slotKey} не трогаю`);
             }
             else {
                 row.style.height = `${BASE_ROW_HEIGHT}px`;
+                console.log(`${slotKey} размера по умолчанию ${BASE_ROW_HEIGHT}px`);
             }
         });
     }
@@ -1584,6 +1616,7 @@
                 // console.log(startHour, startMinutes, endHour, endMinutes);
                 const cardHeight = bottomPx - topPx;
 
+
                 const calculatedType = getDayPartType(timeToDecimal(time));
                 const card = document.createElement('div');
 
@@ -1593,7 +1626,7 @@
                 card.dataset.tag = task.tags ? task.tags.context : '';
 
                 card.style.top = `${topPx}px`;
-                card.style.height = `${cardHeight}px`;
+                card.style.height = `${cardHeight > 46 ? cardHeight : 46}px`;
                 card.style.width = `calc((100% - 90px) / ${totalCols})`;
                 card.style.left = `calc(65px + ((100% - 90px) * ${colIndex} / ${totalCols}))`;
 
