@@ -1424,10 +1424,16 @@
 
         const CountBySlot = {};
         const busyHours = new Set();
-        // console.log(occ);
+        console.log(occ);
 
         occ.forEach(item => {
             const startHour = Math.floor(timeToDecimal(item.time));
+
+            const minutes = Math.floor((timeToDecimal(item.time) % 1) * 60);
+            const stepMinute = Math.floor(minutes / 15) * 15;
+            const slotKey = `${startHour}-${stepMinute}`;
+            CountBySlot[slotKey] = (CountBySlot[slotKey] || 0) + 1;
+            console.log(CountBySlot);
 
             if (item.task.duration === 0) {
                 // А: Это To-Do задача
@@ -1442,7 +1448,7 @@
                 // console.log(endHour);
                 for (let h = endHour; h < endHour; h++) {
                     busyHours.add(h);
-                    // console.log(h, timeToDecimal(item.time), endHour);
+                    // console.log('BAM BAM ', h, timeToDecimal(item.time), endHour);
                 }
             }
         });
@@ -1847,10 +1853,10 @@
       const indicator = document.getElementById('timeIndicator');
 
       // Если сейчас ночь (с 01:00 до 06:59), скрываем индикатор с дневной сетки
-      if (hour < 7 && hour !== 0) {
-          indicator.style.display = 'none';
-          return;
-      }
+      // if (hour < 7 && hour !== 0) {
+      //     indicator.style.display = 'none';
+      //     return;
+      // }
 
       indicator.style.display = 'block';
 
