@@ -238,7 +238,7 @@ body {
     border: 1px solid;
     /* border-left: 4px solid transparent; */
     border-left: 3px solid var(--tag-border, #70757a);
-    min-height: 26px;
+    min-height: 46px;
 }
 
 
