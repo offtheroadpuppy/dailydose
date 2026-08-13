@@ -406,7 +406,7 @@ body {
     align-items: flex-start; /*center;*/
     gap: 8px;
     box-shadow: 0 1px 3px rgba(60,64,67,0.15);
-    z-index: 11; /* Гарантируем, что чекбокс будет кликабелен */
+    z-index: 14; /* Гарантируем, что чекбокс будет кликабелен */
     box-sizing: border-box;
     cursor: pointer;
     overflow: hidden;
@@ -509,22 +509,21 @@ body {
   /* Панель настроек */
 /* Закрепляем панель в самом верху и центрируем контент страницы */
 .settings-panel {
-    position: fixed; /* Фиксируем на одном месте при скролле */
+    /* position: fixed;
     top: 0;
     left: 0;
     right: 0;
     max-width: 100%;
     margin: 0;
-    border-radius: 0; /* Убираем скругления, так как панель растянута на весь верх */
+    border-radius: 0;
     background: #ffffff;
     padding: 12px 24px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-    box-sizing: border-box;
+    box-sizing: border-box; */
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 16px;
-    z-index: 1000; /* Панель всегда поверх всех элементов и календаря */
 }
 
 .settings-title {
@@ -811,4 +810,11 @@ body {
 
 .todo-pill.habit-pill.completed .pill-text strong {
     color: #15803d;
+}
+
+
+.required-field::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
 }
