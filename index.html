@@ -542,6 +542,10 @@
       </a>
     </footer>
 
+
+    <script async defer src="https://apis.google.com/js/api.js"></script>
+    <script async defer src="https://accounts.google.com/gsi/client"></script>
+
   <script type="module">
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
@@ -3632,6 +3636,12 @@
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
 
+
+
+
+
+
+
     const CLIENT_ID = '829502451422-i4nsoet8voomtfv4v9b2mnfc20k72u6q.apps.googleusercontent.com';
     const SCOPES = 'https://googleapis.com';
     const DISCOVERY_DOC = 'https://googleapis.com';
@@ -3731,7 +3741,11 @@
         }
     }
 
-
+    window.addEventListener('load', () => {
+        // Если скрипты Google уже скачались, вызываем их функции ручками
+        if (typeof gapi !== 'undefined') gapiLoaded();
+        if (typeof google !== 'undefined') gisLoaded();
+    });
 
 
 
@@ -3834,7 +3848,5 @@
     setInterval(updateGoogleTimeLine, 60000);
 
   </script>
-  <script async defer src="https://google.com" onload="gapiLoaded()"></script>
-  <script async defer src="https://google.com" onload="gisLoaded()"></script>
 </body>
 </html>
