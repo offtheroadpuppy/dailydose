@@ -157,8 +157,8 @@
         <div class="screen app-page d-none" id="page-alerts">
           <div class="card">
             <h2>Мой Календарь</h2>
-            <button id="auth_btn" onclick="handleAuthClick()" style="display: none;">Войти в Google</button>
-            <button id="signout_btn" onclick="handleSignoutClick()" style="display: none;">Выйти</button>
+            <button id="auth_btn" style="display: none;">Войти в Google</button>
+            <button id="signout_btn" style="display: none;">Выйти</button>
           </div>
           <div class="card" id="events">
             <h2>Ближайшие 10 событий:</h2>
@@ -3790,6 +3790,15 @@
         }
     });
 
+    $('auth_btn').addEventListener('click', () => {
+        console.log('auth_btn CLICK');
+        handleAuthClick();
+    });
+    $('signout_btn').addEventListener('click', () => {
+        console.log('signout_btn CLICK');
+        handleSignoutClick();
+    });
+  
 
     // Загрузка данных из Google Календаря через обычный HTTP-запрос (без gapi.load)
     async function loadCalendarEvents() {
