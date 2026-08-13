@@ -3643,7 +3643,7 @@
 
 
     const CLIENT_ID = '829502451422-i4nsoet8voomtfv4v9b2mnfc20k72u6q.apps.googleusercontent.com';
-    const SCOPES = 'https://googleapis.com/auth/calendar.readonly';
+    const SCOPES = 'https://www.googleapis.com/auth/calendar';
     // const DISCOVERY_DOC = 'https://googleapis.com';
 
     let tokenClient;
@@ -3798,13 +3798,13 @@
         console.log('signout_btn CLICK');
         handleSignoutClick();
     });
-  
+
 
     // Загрузка данных из Google Календаря через обычный HTTP-запрос (без gapi.load)
     async function loadCalendarEvents() {
         const timeMin = new Date().toISOString();
         // Формируем URL для запроса к Google API
-        // const url = `https://googleapis.com/auth/calendar.readonly/${encodeURIComponent(timeMin)}`;
+        // const url = `https://googleapis.com/auth/calendar/${encodeURIComponent(timeMin)}`;
         const calendarId = 'primary';
         const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?timeMin=${encodeURIComponent(timeMin)}&maxResults=10`;
 
