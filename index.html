@@ -24,7 +24,7 @@
 
   <!-- Native Android Network Connectivity Status Bar -->
   <div class="network-status-bar" id="networkStatusBar">
-      <span style="margin-top: 2px;">App launching...</span>
+      <span style="margin-top: 2px;">Запуск...</span>
   </div>
 
     <!-- Body Layout Wrapper -->
@@ -154,14 +154,18 @@
         </div>
 
         <!-- PAGE 4: ALERTS -->
-        <!-- <div class="screen app-page d-none" id="page-alerts">
+        <div class="screen app-page d-none" id="page-alerts">
           <div class="card">
-            <h2>02.08.2026 To be done: </h2>
-            <p> - Не работает виброотклик
-              <br /> - Добавить открытие экранов свайпами
-            </p>
+            <h2>Мой Календарь</h2>
+            <button id="auth_btn" onclick="handleAuthClick()" style="display: none;">Войти в Google</button>
+            <button id="signout_btn" onclick="handleSignoutClick()" style="display: none;">Выйти</button>
+          </div>
+          <div class="card" id="events">
+            <h2>Ближайшие 10 событий:</h2>
+            <div id="events_list"></div>
           </div>
 
+          <!--
           <div id="userDynamicFeed"></div>
 
           <div class="card">
@@ -173,8 +177,8 @@
             </p>
           </div>
 
-          <div style="height: 600px;"></div>
-        </div> -->
+          <div style="height: 600px;"></div> -->
+        </div>
 
         <!-- SIDEBAR PAGES -->
         <!-- PAGE 5: PROFILE & AUTH -->
@@ -343,15 +347,17 @@
       <!-- ===================== TASK MODAL ===================== -->
       <div class="modal-overlay d-none" id="taskModalOverlay">
         <div class="modal">
-          <h3 id="taskModalTitle">New task</h3>
+          <h3 id="taskModalTitle">Новая задача</h3>
+          <div class="section-label">Создать слот, событие или достижение</div>
+          <br />
 
           <div class="field">
-            <label>Title</label>
+            <label class="required-field">Название</label>
             <input type="text" id="f_title" placeholder="e.g. Take vitamin D" />
           </div>
 
           <div class="field">
-            <label>Category</label>
+            <label>Категория</label>
             <select id="f_category">
               <option value="exercise">🏃 Exercise</option>
               <option value="pills">💊 Pills / Medicine</option>
@@ -362,7 +368,7 @@
             </select>
           </div>
           <div class="field">
-            <label>Context</label>
+            <label>Контекст</label>
             <select id="f_context">
               <option value="Здоровье">🏃 Здоровье</option>
               <option value="Работа">💻 Работа</option>
@@ -374,57 +380,60 @@
             </select>
           </div>
 
-          <div class="section-label">Time of day</div>
-          <div class="field">
-            <select id="f_timeMode">
-              <option value="single">One time a day</option>
-              <option value="multiple">Several exact times a day</option>
-              <option value="window">Repeat every few hours, within a window</option>
-            </select>
+          <div id="achievementNone">
+              <div class="section-label required-field">Time of day</div>
+              <div class="field">
+                <select id="f_timeMode">
+                  <option value="single">One time a day</option>
+                  <option value="multiple">Several exact times a day</option>
+                  <option value="window">Repeat every few hours, within a window</option>
+                </select>
+              </div>
+
+            <!-- single time -->
+            <div class="field" id="f_singleWrap">
+              <label>Time</label>
+              <input type="time" id="f_time" value="08:00" />
+            </div>
+
+            <!-- multiple exact times -->
+            <div class="field d-none" id="f_multipleWrap">
+              <label>Times</label>
+              <div class="add-time-row">
+                <input type="time" id="f_addTimeInput" value="08:00" />
+                <button type="button" id="f_addTimeBtn">Add time</button>
+              </div>
+              <div class="chip-row" id="multiTimesChips"></div>
+              <div class="hint">Add each time this task should happen, e.g. 07:00, 13:00, 19:00.</div>
+            </div>
+
+            <!-- window / interval times -->
+            <div class="field d-none" id="f_windowWrap">
+              <div class="row-3">
+                <div>
+                  <label>From</label>
+                  <input type="time" id="f_windowStart" value="07:00" />
+                </div>
+                <div>
+                  <label>To</label>
+                  <input type="time" id="f_windowEnd" value="22:00" />
+                </div>
+                <div>
+                  <label>Every (hours)</label>
+                  <input type="number" id="f_windowInterval" min="0.25" step="0.25" value="3" />
+                </div>
+              </div>
+              <div class="hint" id="windowPreview"></div>
+            </div>
+
+            <div class="field">
+              <label>Длительность (00:00 - Событие, иначе Временной слот)</label>
+              <input type="time" id="f_duration" value="00:00" />
+            </div>
+
           </div>
 
-              <!-- single time -->
-              <div class="field" id="f_singleWrap">
-                <label>Time</label>
-                <input type="time" id="f_time" value="08:00" />
-              </div>
-
-              <!-- multiple exact times -->
-              <div class="field d-none" id="f_multipleWrap">
-                <label>Times</label>
-                <div class="add-time-row">
-                  <input type="time" id="f_addTimeInput" value="08:00" />
-                  <button type="button" id="f_addTimeBtn">Add time</button>
-                </div>
-                <div class="chip-row" id="multiTimesChips"></div>
-                <div class="hint">Add each time this task should happen, e.g. 07:00, 13:00, 19:00.</div>
-              </div>
-
-              <!-- window / interval times -->
-              <div class="field d-none" id="f_windowWrap">
-                <div class="row-3">
-                  <div>
-                    <label>From</label>
-                    <input type="time" id="f_windowStart" value="07:00" />
-                  </div>
-                  <div>
-                    <label>To</label>
-                    <input type="time" id="f_windowEnd" value="22:00" />
-                  </div>
-                  <div>
-                    <label>Every (hours)</label>
-                    <input type="number" id="f_windowInterval" min="0.25" step="0.25" value="3" />
-                  </div>
-                </div>
-                <div class="hint" id="windowPreview"></div>
-              </div>
-
-          <div class="section-label">Duration</div>
-          <div class="field">
-            <input type="time" id="f_duration" value="00:10" />
-          </div>
-
-          <div class="section-label">Repeats</div>
+          <div class="section-label required-field">Repeats</div>
           <div class="field">
             <select id="f_recurrence">
               <option value="once">Just once</option>
@@ -451,7 +460,6 @@
               <button type="button" data-d="6">Sat</button> -->
             </div>
           </div>
-
 
           <div class="field d-none" id="f_intervalWrap">
             <label>Every how many days</label>
@@ -518,12 +526,20 @@
         <span>Manage</span>
       </a>
 
-      <!-- <a href="#" class="nav-item" data-target="page-alerts" data-title="Notifications">
-        <svg class="android-icon" viewBox="0 -960 960 960">
+      <a href="#" class="nav-item d-none" data-target="page-alerts" data-title="Notifications">
+        <!-- <svg class="android-icon" viewBox="0 -960 960 960">
           <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 18 130 82.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/>
+        </svg> -->
+        <svg xmlns="http://www.w3.org/2000/svg"
+              width="24" height="24" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
         </svg>
-        <span>Notifications</span>
-      </a> -->
+        <span>Add more</span>
+      </a>
     </footer>
 
   <script type="module">
@@ -1422,60 +1438,58 @@
     function adjustHourRowsHeight() {
       // logger.warn(`[DEBUG] Stage: ${debugStage++} in adjustHourRowsHeight()`);
 
-        const CountBySlot = {};
-        const CountBySlotTasks = {};
+        const CountBySlotTodo = {};
+        const CountBySlotEvent = {};
         const busyHours = new Set();
-        console.log(occ);
+        const minutesSteps = [0, 15, 30, 45];
 
+        console.log(occ);
         occ.forEach(item => {
             const startHour = Math.floor(timeToDecimal(item.time));
-
             const minutes = Math.floor((timeToDecimal(item.time) % 1) * 60);
             const stepMinute = Math.floor(minutes / 15) * 15; //делим на 15-минутные блоки
             const slotKey = `${startHour}-${stepMinute}`;
-            console.log(`${item.task.title} в ${item.time}: часов ${startHour} минут ${minutes} округляем до ${stepMinute}. Блок ${slotKey}`);
-            CountBySlot[slotKey] = (CountBySlot[slotKey] || 0) + 1;
-            console.log(CountBySlot);
-            //если в блоке что-то есть, то высота минимум 46
-            console.log('duration: ', item.task.duration);
 
             if (item.task.duration === 0) {
                 busyHours.add(startHour);
-                // const minutes = Math.floor((timeToDecimal(item.time) % 1) * 60);
-                // const stepMinute = Math.floor(minutes / 15) * 15;
-                // const slotKey = `${startHour}-${stepMinute}`;
-                // CountBySlot[slotKey] = (CountBySlot[slotKey] || 0) + 1;
+                CountBySlotTodo[slotKey] = (CountBySlotTodo[slotKey] || 0) + 1;
+                // console.log(`${item.task.title} в ${item.time}: часов ${startHour} минут ${minutes} округляем до ${stepMinute}. Блок ${slotKey}`);
+                // console.log(CountBySlotTodo);
             } else {
                 const endHour = Math.ceil(timeToDecimal(item.time) + item.task.duration);
-                CountBySlotTasks[slotKey] = (CountBySlotTasks[slotKey] || 0) + 1;
+                CountBySlotEvent[slotKey] = (CountBySlotEvent[slotKey] || 0) + 1;
 
                 const endHourEnd = Math.floor(timeToDecimal(item.time) + item.task.duration);
                 const minutesEnd = Math.floor(((timeToDecimal(item.time) + item.task.duration) % 1) * 60);
                 const stepMinuteEnd = Math.floor(minutesEnd / 15) * 15; //делим на 15-минутные блоки
                 const slotKeyEnd = `${endHourEnd}-${stepMinuteEnd}`;
-                CountBySlotTasks[slotKeyEnd] = (CountBySlotTasks[slotKeyEnd] || 0) + 1;
-                console.log(slotKeyEnd, timeToDecimal(item.time), item.task.duration);
+                if ( !minutesSteps.includes(minutesEnd) ) {
+                  //если 0, 15, 30, 45 то не надо добавлять
+                  // console.log('NUMBER IS NOT ON A LINE');
+                  CountBySlotEvent[slotKeyEnd] = (CountBySlotEvent[slotKeyEnd] || 0) + 1;
+                }
+                // console.log(slotKeyEnd, stepMinuteEnd, timeToDecimal(item.time), item.task.duration);
 
                 for (let h = endHour/*startHour*/; h < endHour; h++/*=h+0.15*/) {
                     busyHours.add(h);
-                    CountBySlotTasks[slotKey] = (CountBySlotTasks[slotKey] || 0) + 1;
-                    console.log('BAM', h, timeToDecimal(item.time), endHour);
+                    CountBySlotEvent[slotKey] = (CountBySlotEvent[slotKey] || 0) + 1;
+                    // console.log('BAM', h, timeToDecimal(item.time), endHour);
                 }
             }
+            // console.log('duration: ', item.task.duration);
         });
-        console.log('busyHours');
-        console.log(busyHours);
-        console.log('CountBySlotTasks');
-        console.log(CountBySlotTasks);
-
+        // console.log('busyHours');
+        // console.log(busyHours);
+        // console.log('CountBySlotEvent');
+        // console.log(CountBySlotEvent);
 
         const allRows = document.querySelectorAll('.grid-row[data-hour]');
         allRows.forEach(row => {
             const hour = parseInt(row.dataset.hour);
             const minute = row.dataset.minute;
             const slotKey = `${hour}-${minute}`;
-            const count = CountBySlot[slotKey] || 0;
-            const countTasks = CountBySlotTasks[slotKey] || 0;
+            const countTodos = CountBySlotTodo[slotKey] || 0;
+            const countEvents = CountBySlotEvent[slotKey] || 0;
 
             // СБРОС СТАРЫХ КЛАССОВ СВЕРТЫВАНИЯ И ПУСТОТЫ
             row.classList.remove('empty-hour-row', 'hidden-by-collapse');
@@ -1483,7 +1497,7 @@
 
             // ОПРЕДЕЛЯЕМ, К КАКОМУ БЛОКУ ОТНОСИТСЯ СТРОКА ЧАСА
             const currentPart = getDayPartType(hour);
-            console.log(slotKey, currentPart, count, 'TASKS:', countTasks, 'FORMULA:' );
+            // console.log(slotKey, currentPart, countTodos, 'TASKS:', countEvents, 'FORMULA:' );
 
             // Если этот макро-блок сейчас свернут пользователем — прячем строку
             if (calendarConfig[currentPart].isCollapsed === true) {
@@ -1501,22 +1515,23 @@
             tasks 2      todo 5   sum 7
             */
             // Стандартная логика адаптивной высоты для открытых строк
-            if (countTasks > 0 && countTasks >= count-countTasks) {
-              row.style.height = `${count * 46 + 4}px`; //46 для Task
-              console.log(`${slotKey} увеличиваю до ${count * 46 + 4}px, т.к. ${countTasks} из ${count} элементов`);
+            // console.log(countEvents,countTodos );
+            if (countEvents > 0 && countEvents >= countTodos) {
+              row.style.height = `${countEvents * 46 + 4}px`; //46 для Task
+              // console.log(`1. ${slotKey} увеличиваю до ${countEvents * 46 + 4}px, т.к. ${countEvents} и ${countTodos} элементов`);
             }
-            else if (count > 1) {
-                row.style.height = `${count * 24 + 4}px`; //24 для Todo, 46 для Task
-                console.log(`${slotKey} увеличиваю до ${count * 24 + 4}px, т.к. ${count} элементов`);
+            else if (countTodos > 1) {
+                row.style.height = `${countTodos * 24 + 4}px`; //24 для Todo, 46 для Task
+                // console.log(`2. ${slotKey} увеличиваю до ${countTodos * 24 + 4}px, т.к. ${countEvents} и ${countTodos} элементов`);
             }
             else if (!busyHours.has(hour)) {
                 row.style.height = `16px`;
                 row.classList.add('empty-hour-row');
-                console.log(`${slotKey} не трогаю`);
+                // console.log(`${slotKey} не трогаю`);
             }
             else {
                 row.style.height = `${BASE_ROW_HEIGHT}px`;
-                console.log(`${slotKey} размера по умолчанию ${BASE_ROW_HEIGHT}px`);
+                // console.log(`${slotKey} размера по умолчанию ${BASE_ROW_HEIGHT}px`);
             }
         });
     }
@@ -1541,7 +1556,7 @@
         if(occ.length === 0){
           // container.innerHTML = '<div class="empty-state">Nothing scheduled for this day.<br>Tap + to add a task.</div>';
           console.log(`Nothing scheduled for ${dateStr(viewDate)}`);
-          showToast(`Nothing scheduled for ${dateStr(viewDate)}`);
+          showToast(`Ничего не запланировано на ${dateStrView(viewDate)}`);
           // if ( $('page-loader') )         $('page-loader').classList.add('d-none');
           return;
         }
@@ -1634,12 +1649,14 @@
                       cardMeta.classList.add('event-meta-row');
                 const cardTitle = document.createElement('div');
                       cardTitle.classList.add('event-title');
-                      cardTitle.innerHTML = task.title;
+                      cardTitle.innerHTML = `
+                        ${(CAT_LABEL[task.category]||'📌 Other').slice(0, 2)}
+                        ${task.title}
+                        ${task.notes ? '·' : ''}
+                      `;
                 const cardDesc = document.createElement('div');
                       cardDesc.classList.add('event-desc');
-                      cardDesc.innerHTML = `${task.notes}
-                          <br />[${CAT_LABEL[task.category]||'📌 Other'}]
-                      `;
+                      cardDesc.innerHTML = `${task.notes}`;
                 const checkbox = document.createElement('input');
                       checkbox.type = 'checkbox';
                       // checkbox.id = key;
@@ -1755,8 +1772,9 @@
                   // checkbox.onchange = ()=> toggleCompletion(key, ds, !done);
             const block = document.createElement('div');
                   block.classList.add('pill-text');
-                  block.innerHTML = `${escapeHtml(task.title)}${task.notes ? ': '+escapeHtml(task.notes) : ''}
-                    <br /><strong class="todo-tag-prefix">[${task.tags.context}]</strong> [${CAT_LABEL[task.category]||'📌 Other'}]
+                  block.innerHTML = `${(CAT_LABEL[task.category]||'📌 Other').slice(0, 2)}
+                    ${escapeHtml(task.title)} ${task.notes ? '·<br />'+escapeHtml(task.notes) : ''}
+                    <br /><strong class="todo-tag-prefix">[${task.tags.context}]</strong>
                     <br />${formatTimeDisplay(time)}
                   `;
             // const cat = document.createElement('span');
@@ -1868,7 +1886,7 @@
             container.appendChild(achievePill);
         });
 
-        showToast(`Rendered ${dateStrView(viewDate)}`);
+        showToast(`Отображено ${dateStrView(viewDate)}`);
     }
 
     function timeToDecimal(timeString) {
@@ -2094,7 +2112,7 @@
         try {
             // logger.info("[Boot] Starting...");
             // logger.info("[FIREBASE] Initializing Auth listener state channels...");
-            showToast('Initializing...');
+            showToast('Загрузка...');
 
             const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js");
             const authMod = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js");
@@ -2147,11 +2165,15 @@
                             });
 
                             // if (typeof showProfileNotice === 'function') showProfileNotice("User checked", true);
-                            showToast('Logged in successfully');
+                            showToast(`Вход как ${currentUser.email}`);
 
                             handleViewTransition(homeTabLink);
                             initDataListeners();
                             requestNotificationPermission();
+                        }
+
+                        if (currentUser.email === 'pimenow.al@gmail.com') {
+                            document.querySelector('[data-title="Notifications"]').classList.remove('d-none');
                         }
 
                     }
@@ -2439,7 +2461,7 @@
             // renderToday();
             switchDateAndRender();
             renderTasksManage();
-            if (dataCache.tasks.length > 0) showToast('Data loaded');
+            if (dataCache.tasks.length > 0) showToast('Данные загружены');
             // calculateOverallProgress();
             // dataCache.tasks = snap.docs.map(d=>({ id:d.id, ...d.data() }));
         });
@@ -2605,7 +2627,7 @@
       const { fsMod } = window.__fb;
       const uid = currentUser.uid;
       await fsMod.deleteDoc(fsMod.doc(db, 'users', uid, 'tasks', taskId));
-      showToast('Task removed');
+      showToast('Задача удалена');
       logger.info("[DB] Task removed");
     }
 
@@ -2716,7 +2738,7 @@
     function openTaskModal(task){
       console.log("openTaskModal");
       editingTaskId = task ? task.id : null;
-      $('taskModalTitle').textContent = task ? 'Edit task' : 'New task';
+      $('taskModalTitle').textContent = task ? 'Редактирование задачи' : 'Новая задача';
 
       $('f_title').value = task ? task.title : '';
       $('f_category').value = task ? task.category : 'exercise';
@@ -2788,7 +2810,7 @@
 
     $('taskModalSave').onclick = async ()=>{
       const title = $('f_title').value.trim();
-      if(!title){ showToast('Give the task a title'); return; }
+      if(!title){ showToast('Название обязательно'); return; }
 
       const timeMode = $('f_timeMode').value;
       let times = [];
@@ -2797,12 +2819,12 @@
         times = [$('f_time').value || '08:00'];
       } else if(timeMode === 'multiple'){
         times = [...multiTimes].sort();
-        if(times.length === 0){ showToast('Add at least one time'); return; }
+        if(times.length === 0){ showToast('Добавь хотя бы одно время'); return; }
       } else if(timeMode === 'window'){
         const start = $('f_windowStart').value, end = $('f_windowEnd').value;
         const interval = parseFloat($('f_windowInterval').value);
         times = generateWindowTimes(start, end, interval);
-        if(times.length === 0){ showToast('Check the time window and interval'); return; }
+        if(times.length === 0){ showToast('Проверь время и интервал'); return; }
         windowFields = { windowStart:start, windowEnd:end, windowInterval:interval };
       }
 
@@ -2842,14 +2864,14 @@
       try{
         if(editingTaskId){
           await fsMod.updateDoc(fsMod.doc(db,'users',uid,'tasks',editingTaskId), payload);
-          showToast('Task updated');
+          showToast('Задача обновлена');
         } else {
           await fsMod.addDoc(fsMod.collection(db,'users',uid,'tasks'), payload);
-          showToast('Task created');
+          showToast('Задача создана');
         }
         closeTaskModal();
       }catch(err){
-        showToast('Error: ' + err.message);
+        showToast('Ошибка: ' + err.message);
       }
 
     };
@@ -3602,6 +3624,115 @@
 
 
 
+    /* ---------------------------------------------------------------------*/
+    /* ---------------------------------------------------------------------*/
+    /* ---------------------------------------------------------------------*/
+    /* ---------------------------------------------------------------------*/
+    /* ---------------------------------------------------------------------*/
+    /* ---------------------------------------------------------------------*/
+    /* ---------------------------------------------------------------------*/
+
+    const CLIENT_ID = '829502451422-i4nsoet8voomtfv4v9b2mnfc20k72u6q.apps.googleusercontent.com';
+    const SCOPES = 'https://googleapis.com';
+    const DISCOVERY_DOC = 'https://googleapis.com';
+
+    let tokenClient;
+    let gapiInited = false;
+    let gisInited = false;
+
+    // 1. Инициализация старой библиотеки GAPI для выполнения запросов к API
+    async function initializeGapiClient() {
+        await gapi.client.init({
+            discoveryDocs: [DISCOVERY_DOC],
+        });
+        gapiInited = true;
+        maybeEnableButtons();
+    }
+
+    function gapiLoaded() {
+        gapi.load('client', initializeGapiClient);
+    }
+
+    // 2. Инициализация новой библиотеки GIS для авторизации (OAuth2)
+    function gisLoaded() {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: CLIENT_ID,
+            scope: SCOPES,
+            callback: async (resp) => {
+                if (resp.error !== undefined) {
+                    throw (resp);
+                }
+                document.getElementById('signout_btn').style.display = 'inline-block';
+                document.getElementById('auth_btn').innerText = 'Обновить токен';
+                await loadCalendarEvents();
+            },
+        });
+        gisInited = true;
+        maybeEnableButtons();
+    }
+
+    // Включаем кнопки, когда обе библиотеки загрузились
+    function maybeEnableButtons() {
+        if (gapiInited && gisInited) {
+            document.getElementById('auth_btn').style.display = 'inline-block';
+        }
+    }
+
+    // 3. Обработка клика по кнопке "Войти"
+    function handleAuthClick() {
+        // Запрос токена у пользователя (откроется всплывающее окно Google)
+        tokenClient.requestAccessToken({prompt: 'consent'});
+    }
+
+    // 4. Обработка клика по кнопке "Выйти"
+    function handleSignoutClick() {
+        const token = gapi.client.getToken();
+        if (token !== null) {
+            google.accounts.oauth2.revoke(token.access_token, () => {
+                gapi.client.setToken('');
+                document.getElementById('events').style.display = 'none';
+                document.getElementById('signout_btn').style.display = 'none';
+                document.getElementById('auth_btn').innerText = 'Войти в Google';
+            });
+        }
+    }
+
+    // 5. Загрузка данных из Google Календаря и вывод на страницу
+    async function loadCalendarEvents() {
+        try {
+            const response = await gapi.client.calendar.events.list({
+                'calendarId': 'primary', // 'primary' означает главный календарь вошедшего пользователя
+                'timeMin': (new Date()).toISOString(), // Только будущие события
+                'showDeleted': false,
+                'singleEvents': true,
+                'maxResults': 10,
+                'orderBy': 'startTime',
+            });
+
+            const events = response.result.items;
+            const eventsList = document.getElementById('events_list');
+            eventsList.innerHTML = ''; // Очищаем список
+
+            if (!events || events.length === 0) {
+                eventsList.innerHTML = '<p>Событий не найдено.</p>';
+            } else {
+                events.forEach(event => {
+                    const start = event.start.dateTime || event.start.date;
+                    const div = document.createElement('div');
+                    div.className = 'event-item';
+                    div.innerHTML = `<strong>${start}</strong> — ${event.summary || 'Без названия'}`;
+                    eventsList.appendChild(div);
+                });
+            }
+            document.getElementById('events').style.display = 'block';
+        } catch (err) {
+            console.error('Ошибка при получении событий:', err);
+            alert('Не удалось загрузить календарь. Проверьте консоль браузера.');
+        }
+    }
+
+
+
 
 
 
@@ -3671,7 +3802,25 @@
         // renderToday();
         switchDateAndRender();
         renderTasksManage();
-        showToast('Settings saved');
+        showToast('Настройки сохранены');
+      });
+
+      $('f_context').addEventListener('change', function() {
+        if (this.value === 'Достижение') {
+          $('achievementNone').style.display = 'none';
+        } else {
+          $('achievementNone').style.display = 'block';
+        }
+      });
+
+      $('f_duration').addEventListener('input', function() {
+        // Проверяем: если значения нет (this.value === "")
+        console.log("DURATION: ", this.value);
+        if ( (!this.value || this.value === '00:00') && $('f_context').value !== 'Достижение') {
+          checkbox.checked = true;
+        } else {
+          checkbox.checked = false;
+        }
       });
 
 
@@ -3685,5 +3834,7 @@
     setInterval(updateGoogleTimeLine, 60000);
 
   </script>
+  <script async defer src="https://google.com" onload="gapiLoaded()"></script>
+  <script async defer src="https://google.com" onload="gisLoaded()"></script>
 </body>
 </html>
