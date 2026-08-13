@@ -543,7 +543,7 @@
     </footer>
 
 
-    <script async defer src="https://apis.google.com/js/api.js"></script>
+    <!-- <script async defer src="https://apis.google.com/js/api.js"></script> -->
     <script async defer src="https://accounts.google.com/gsi/client"></script>
 
   <script type="module">
@@ -3643,63 +3643,68 @@
 
 
     const CLIENT_ID = '829502451422-i4nsoet8voomtfv4v9b2mnfc20k72u6q.apps.googleusercontent.com';
-    const SCOPES = 'https://googleapis.com';
-    const DISCOVERY_DOC = 'https://googleapis.com';
+    const SCOPES = 'https://googleapis.com/auth/calendar.readonly';
+    // const DISCOVERY_DOC = 'https://googleapis.com';
 
     let tokenClient;
-    let gapiInited = false;
-    let gisInited = false;
+    // let gapiInited = false;
+    // let gisInited = false;
+    let accessToken = null;
 
     // 1. Инициализация старой библиотеки GAPI для выполнения запросов к API
-    async function initializeGapiClient() {
-        await gapi.client.init({
-            discoveryDocs: [DISCOVERY_DOC],
-        });
-        gapiInited = true;
-        maybeEnableButtons();
-    }
+    // async function initializeGapiClient() {
+    //     await gapi.client.init({
+    //         discoveryDocs: [DISCOVERY_DOC],
+    //     });
+    //     gapiInited = true;
+    //     maybeEnableButtons();
+    // }
 
-    function gapiLoaded() {
-        gapi.load('client', initializeGapiClient);
-    }
+    // function gapiLoaded() {
+    //     gapi.load('client', initializeGapiClient);
+    // }
 
     // 2. Инициализация новой библиотеки GIS для авторизации (OAuth2)
-    function gisLoaded() {
-        tokenClient = google.accounts.oauth2.initTokenClient({
-            client_id: CLIENT_ID,
-            scope: SCOPES,
-            callback: async (resp) => {
-                if (resp.error !== undefined) {
-                    throw (resp);
-                }
-                document.getElementById('signout_btn').style.display = 'inline-block';
-                document.getElementById('auth_btn').innerText = 'Обновить токен';
-                await loadCalendarEvents();
-            },
-        });
-        gisInited = true;
-        maybeEnableButtons();
-    }
+    // function gisLoaded() {
+    //     tokenClient = google.accounts.oauth2.initTokenClient({
+    //         client_id: CLIENT_ID,
+    //         scope: SCOPES,
+    //         callback: async (resp) => {
+    //             if (resp.error !== undefined) {
+    //                 throw (resp);
+    //             }
+    //             document.getElementById('signout_btn').style.display = 'inline-block';
+    //             document.getElementById('auth_btn').innerText = 'Обновить токен';
+    //             await loadCalendarEvents();
+    //         },
+    //     });
+    //     gisInited = true;
+    //     maybeEnableButtons();
+    // }
 
     // Включаем кнопки, когда обе библиотеки загрузились
-    function maybeEnableButtons() {
-        if (gapiInited && gisInited) {
-            document.getElementById('auth_btn').style.display = 'inline-block';
-        }
-    }
+    // function maybeEnableButtons() {
+    //     if (gapiInited && gisInited) {
+    //         document.getElementById('auth_btn').style.display = 'inline-block';
+    //     }
+    // }
 
     // 3. Обработка клика по кнопке "Войти"
     function handleAuthClick() {
         // Запрос токена у пользователя (откроется всплывающее окно Google)
-        tokenClient.requestAccessToken({prompt: 'consent'});
+        if (tokenClient) {
+            tokenClient.requestAccessToken({prompt: 'consent'});
+        } else {
+            alert('Библиотека Google еще не загрузилась. Подождите секунду.');
+        }
     }
 
     // 4. Обработка клика по кнопке "Выйти"
     function handleSignoutClick() {
-        const token = gapi.client.getToken();
-        if (token !== null) {
-            google.accounts.oauth2.revoke(token.access_token, () => {
-                gapi.client.setToken('');
+        // const accessToken = gapi.client.getToken();
+        if (accessToken) {
+            google.accounts.oauth2.revoke(accessToken, () => {
+                accessToken = null;
                 document.getElementById('events').style.display = 'none';
                 document.getElementById('signout_btn').style.display = 'none';
                 document.getElementById('auth_btn').innerText = 'Войти в Google';
@@ -3708,23 +3713,114 @@
     }
 
     // 5. Загрузка данных из Google Календаря и вывод на страницу
-    async function loadCalendarEvents() {
+    // async function loadCalendarEvents() {
+    //     try {
+    //         const response = await gapi.client.calendar.events.list({
+    //             'calendarId': 'primary', // 'primary' означает главный календарь вошедшего пользователя
+    //             'timeMin': (new Date()).toISOString(), // Только будущие события
+    //             'showDeleted': false,
+    //             'singleEvents': true,
+    //             'maxResults': 10,
+    //             'orderBy': 'startTime',
+    //         });
+    //
+    //         const events = response.result.items;
+    //         const eventsList = document.getElementById('events_list');
+    //         eventsList.innerHTML = ''; // Очищаем список
+    //
+    //         if (!events || events.length === 0) {
+    //             eventsList.innerHTML = '<p>Событий не найдено.</p>';
+    //         } else {
+    //             events.forEach(event => {
+    //                 const start = event.start.dateTime || event.start.date;
+    //                 const div = document.createElement('div');
+    //                 div.className = 'event-item';
+    //                 div.innerHTML = `<strong>${start}</strong> — ${event.summary || 'Без названия'}`;
+    //                 eventsList.appendChild(div);
+    //             });
+    //         }
+    //         document.getElementById('events').style.display = 'block';
+    //     } catch (err) {
+    //         console.error('Ошибка при получении событий:', err);
+    //         alert('Не удалось загрузить календарь. Проверьте консоль браузера.');
+    //     }
+    // }
+
+    window.addEventListener('load', () => {
+        // Если скрипты Google уже скачались, вызываем их функции ручками
+        // if (typeof gapi !== 'undefined') gapiLoaded();
+        if (typeof google !== 'undefined') initOAuthClient(); //gisLoaded();
+    });
+
+    // Эта функция вызывается автоматически, когда скрипт Google загрузился (атрибут onload выше)
+    function initOAuthClient() {
         try {
-            const response = await gapi.client.calendar.events.list({
-                'calendarId': 'primary', // 'primary' означает главный календарь вошедшего пользователя
-                'timeMin': (new Date()).toISOString(), // Только будущие события
-                'showDeleted': false,
-                'singleEvents': true,
-                'maxResults': 10,
-                'orderBy': 'startTime',
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: SCOPES,
+                callback: async (tokenResponse) => {
+                    if (tokenResponse.error !== undefined) {
+                        throw (tokenResponse);
+                    }
+
+                    // Сохраняем токен во временную переменную
+                    accessToken = tokenResponse.access_token;
+                    console.log('accessToken', tokenResponse.access_token);
+
+                    // Меняем видимость кнопок
+                    document.getElementById('signout_btn').style.display = 'inline-block';
+                    document.getElementById('auth_btn').innerText = 'Обновить доступ';
+
+                    // Загружаем данные напрямую через Fetch API
+                    await loadCalendarEvents();
+                },
             });
 
-            const events = response.result.items;
+            // Показываем кнопку входа пользователю
+            document.getElementById('auth_btn').style.display = 'inline-block';
+        } catch (err) {
+            console.error('Ошибка инициализации клиента Google Identity:', err);
+        }
+    }
+
+    // Загрузка данных из Google Календаря через обычный HTTP-запрос (без gapi.load)
+    async function loadCalendarEvents() {
+        const timeMin = new Date().toISOString();
+        // Формируем URL для запроса к Google API
+        // const url = `https://googleapis.com/auth/calendar.readonly/${encodeURIComponent(timeMin)}`;
+        const calendarId = 'primary';
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?timeMin=${encodeURIComponent(timeMin)}&maxResults=10`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    // Передаем полученный токен в заголовке Authorization
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Accept': 'application/json'
+                }
+            });
+            // const response = await gapi.client.calendar.events.list({
+            //     'calendarId': 'primary', // 'primary' означает главный календарь вошедшего пользователя
+            //     'timeMin': (new Date()).toISOString(), // Только будущие события
+            //     'showDeleted': false,
+            //     'singleEvents': true,
+            //     'maxResults': 10,
+            //     'orderBy': 'startTime',
+            // });
+            // const events = response.result.items;
+
+            if (!response.ok) {
+                throw new Error(`Сервер вернул статус: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const events = data.items;
             const eventsList = document.getElementById('events_list');
-            eventsList.innerHTML = ''; // Очищаем список
+            eventsList.innerHTML = ''; // Очищаем список перед выводом
 
             if (!events || events.length === 0) {
-                eventsList.innerHTML = '<p>Событий не найдено.</p>';
+                eventsList.innerHTML = '<p>Событий на ближайшее время не найдено.</p>';
             } else {
                 events.forEach(event => {
                     const start = event.start.dateTime || event.start.date;
@@ -3736,18 +3832,10 @@
             }
             document.getElementById('events').style.display = 'block';
         } catch (err) {
-            console.error('Ошибка при получении событий:', err);
-            alert('Не удалось загрузить календарь. Проверьте консоль браузера.');
+            console.error('Ошибка при получении данных календаря:', err);
+            alert('Не удалось загрузить события. Проверьте консоль разработчика.');
         }
     }
-
-    window.addEventListener('load', () => {
-        // Если скрипты Google уже скачались, вызываем их функции ручками
-        if (typeof gapi !== 'undefined') gapiLoaded();
-        if (typeof google !== 'undefined') gisLoaded();
-    });
-
-
 
 
 
