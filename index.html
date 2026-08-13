@@ -3651,6 +3651,62 @@
     // let gisInited = false;
     let accessToken = null;
 
+    // Эта функция вызывается автоматически, когда скрипт Google загрузился (атрибут onload выше)
+    function initOAuthClient() {
+      console.log('INIT AUTH');
+        try {
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: SCOPES,
+                callback: async (tokenResponse) => {
+                    if (tokenResponse.error !== undefined) {
+                        throw (tokenResponse);
+                    }
+
+                    // Сохраняем токен во временную переменную
+                    accessToken = tokenResponse.access_token;
+                    console.log('accessToken', tokenResponse.access_token);
+
+                    // Меняем видимость кнопок
+                    document.getElementById('signout_btn').style.display = 'inline-block';
+                    document.getElementById('auth_btn').innerText = 'Обновить доступ';
+
+                    // Загружаем данные напрямую через Fetch API
+                    await loadCalendarEvents();
+                },
+            });
+
+            // Показываем кнопку входа пользователю
+            document.getElementById('auth_btn').style.display = 'inline-block';
+        } catch (err) {
+            console.error('Ошибка инициализации клиента Google Identity:', err);
+        }
+    }
+
+    // 3. Обработка клика по кнопке "Войти"
+    function handleAuthClick() {
+        // Запрос токена у пользователя (откроется всплывающее окно Google)
+        if (tokenClient) {
+            tokenClient.requestAccessToken({prompt: 'consent'});
+        } else {
+            alert('Библиотека Google еще не загрузилась. Подождите секунду.');
+        }
+    }
+
+    // 4. Обработка клика по кнопке "Выйти"
+    function handleSignoutClick() {
+        // const accessToken = gapi.client.getToken();
+        if (accessToken) {
+            google.accounts.oauth2.revoke(accessToken, () => {
+                accessToken = null;
+                document.getElementById('events').style.display = 'none';
+                document.getElementById('signout_btn').style.display = 'none';
+                document.getElementById('auth_btn').innerText = 'Войти в Google';
+            });
+        }
+    }
+
+
     // 1. Инициализация старой библиотеки GAPI для выполнения запросов к API
     // async function initializeGapiClient() {
     //     await gapi.client.init({
@@ -3689,28 +3745,6 @@
     //     }
     // }
 
-    // 3. Обработка клика по кнопке "Войти"
-    function handleAuthClick() {
-        // Запрос токена у пользователя (откроется всплывающее окно Google)
-        if (tokenClient) {
-            tokenClient.requestAccessToken({prompt: 'consent'});
-        } else {
-            alert('Библиотека Google еще не загрузилась. Подождите секунду.');
-        }
-    }
-
-    // 4. Обработка клика по кнопке "Выйти"
-    function handleSignoutClick() {
-        // const accessToken = gapi.client.getToken();
-        if (accessToken) {
-            google.accounts.oauth2.revoke(accessToken, () => {
-                accessToken = null;
-                document.getElementById('events').style.display = 'none';
-                document.getElementById('signout_btn').style.display = 'none';
-                document.getElementById('auth_btn').innerText = 'Войти в Google';
-            });
-        }
-    }
 
     // 5. Загрузка данных из Google Календаря и вывод на страницу
     // async function loadCalendarEvents() {
@@ -3747,41 +3781,15 @@
     // }
 
     window.addEventListener('load', () => {
+        console.log('LOADED 1');
         // Если скрипты Google уже скачались, вызываем их функции ручками
         // if (typeof gapi !== 'undefined') gapiLoaded();
-        if (typeof google !== 'undefined') initOAuthClient(); //gisLoaded();
+        if (typeof google !== 'undefined') {
+          console.log('LOADED 2');
+          initOAuthClient(); //gisLoaded();
+        }
     });
 
-    // Эта функция вызывается автоматически, когда скрипт Google загрузился (атрибут onload выше)
-    function initOAuthClient() {
-        try {
-            tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: CLIENT_ID,
-                scope: SCOPES,
-                callback: async (tokenResponse) => {
-                    if (tokenResponse.error !== undefined) {
-                        throw (tokenResponse);
-                    }
-
-                    // Сохраняем токен во временную переменную
-                    accessToken = tokenResponse.access_token;
-                    console.log('accessToken', tokenResponse.access_token);
-
-                    // Меняем видимость кнопок
-                    document.getElementById('signout_btn').style.display = 'inline-block';
-                    document.getElementById('auth_btn').innerText = 'Обновить доступ';
-
-                    // Загружаем данные напрямую через Fetch API
-                    await loadCalendarEvents();
-                },
-            });
-
-            // Показываем кнопку входа пользователю
-            document.getElementById('auth_btn').style.display = 'inline-block';
-        } catch (err) {
-            console.error('Ошибка инициализации клиента Google Identity:', err);
-        }
-    }
 
     // Загрузка данных из Google Календаря через обычный HTTP-запрос (без gapi.load)
     async function loadCalendarEvents() {
