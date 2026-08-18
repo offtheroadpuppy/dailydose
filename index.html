@@ -3641,7 +3641,7 @@
 
 
 
-
+    /*
     const CLIENT_ID = '829502451422-i4nsoet8voomtfv4v9b2mnfc20k72u6q.apps.googleusercontent.com';
     const SCOPES = 'https://www.googleapis.com/auth/calendar';
     // const DISCOVERY_DOC = 'https://googleapis.com';
@@ -3705,80 +3705,6 @@
             });
         }
     }
-
-
-    // 1. Инициализация старой библиотеки GAPI для выполнения запросов к API
-    // async function initializeGapiClient() {
-    //     await gapi.client.init({
-    //         discoveryDocs: [DISCOVERY_DOC],
-    //     });
-    //     gapiInited = true;
-    //     maybeEnableButtons();
-    // }
-
-    // function gapiLoaded() {
-    //     gapi.load('client', initializeGapiClient);
-    // }
-
-    // 2. Инициализация новой библиотеки GIS для авторизации (OAuth2)
-    // function gisLoaded() {
-    //     tokenClient = google.accounts.oauth2.initTokenClient({
-    //         client_id: CLIENT_ID,
-    //         scope: SCOPES,
-    //         callback: async (resp) => {
-    //             if (resp.error !== undefined) {
-    //                 throw (resp);
-    //             }
-    //             document.getElementById('signout_btn').style.display = 'inline-block';
-    //             document.getElementById('auth_btn').innerText = 'Обновить токен';
-    //             await loadCalendarEvents();
-    //         },
-    //     });
-    //     gisInited = true;
-    //     maybeEnableButtons();
-    // }
-
-    // Включаем кнопки, когда обе библиотеки загрузились
-    // function maybeEnableButtons() {
-    //     if (gapiInited && gisInited) {
-    //         document.getElementById('auth_btn').style.display = 'inline-block';
-    //     }
-    // }
-
-
-    // 5. Загрузка данных из Google Календаря и вывод на страницу
-    // async function loadCalendarEvents() {
-    //     try {
-    //         const response = await gapi.client.calendar.events.list({
-    //             'calendarId': 'primary', // 'primary' означает главный календарь вошедшего пользователя
-    //             'timeMin': (new Date()).toISOString(), // Только будущие события
-    //             'showDeleted': false,
-    //             'singleEvents': true,
-    //             'maxResults': 10,
-    //             'orderBy': 'startTime',
-    //         });
-    //
-    //         const events = response.result.items;
-    //         const eventsList = document.getElementById('events_list');
-    //         eventsList.innerHTML = ''; // Очищаем список
-    //
-    //         if (!events || events.length === 0) {
-    //             eventsList.innerHTML = '<p>Событий не найдено.</p>';
-    //         } else {
-    //             events.forEach(event => {
-    //                 const start = event.start.dateTime || event.start.date;
-    //                 const div = document.createElement('div');
-    //                 div.className = 'event-item';
-    //                 div.innerHTML = `<strong>${start}</strong> — ${event.summary || 'Без названия'}`;
-    //                 eventsList.appendChild(div);
-    //             });
-    //         }
-    //         document.getElementById('events').style.display = 'block';
-    //     } catch (err) {
-    //         console.error('Ошибка при получении событий:', err);
-    //         alert('Не удалось загрузить календарь. Проверьте консоль браузера.');
-    //     }
-    // }
 
     window.addEventListener('load', () => {
         console.log('LOADED 1');
@@ -3853,11 +3779,12 @@
             alert('Не удалось загрузить события. Проверьте консоль разработчика.');
         }
     }
+    */
 
 
 
-
-
+    /*
+    */
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
     /* ---------------------------------------------------------------------*/
